@@ -50,8 +50,11 @@ module.exports = {
 
 
     vuxLoader.merge(config, {
-      plugins: ["vux-ui", "duplicate-style"]
-    }); {
+      options: {},
+      plugins: ['vux-ui']
+    })
+
+    {
       [
         new UglifyJsPlugin({
           uglifyOptions: {
