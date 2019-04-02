@@ -1,17 +1,21 @@
 <template>
 <section>
-  <Header :route="route" />
-  <transition name="fade">
+  <view-box ref="viewBox">
+    <!-- <x-header slot="header" style="width:100%;position:absolute;left:0;top:0;z-index:100;"></x-header> -->
+    <x-header title="口红机"></x-header>
     <router-view :key="key" />
-  </transition>
-  <Footer />
-<!--   <FixedButton /> -->
+    <Footer :tab="tab"></Footer>
+  </view-box>
 </section>
 </template>
 
 <script>
-// import Header from '#/front/header'
-// import Footer from '#/front/footer'
+import {
+  ViewBox,
+  XHeader
+} from 'vux'
+
+import Footer from "#/footer";
 
 export default {
   data() {
@@ -33,8 +37,9 @@ export default {
     }
   },
   components: {
-    // Header,
-    // Footer
+    ViewBox,
+    XHeader,
+    Footer
   },
   mounted() {
 
@@ -43,6 +48,12 @@ export default {
 </script>
 
 <style lang="less" scoped>
+body,
+html {
+    height: 100%;
+    width: 100%;
+    overflow-x: hidden;
+}
 /* 可以设置不同的进入和离开动画 */
 /* 设置持续时间和动画函数 */
 .slide-fade-enter-active {
