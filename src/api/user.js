@@ -51,3 +51,13 @@ export const Register = (name, tel, password, password_confirm, tel_code) => { /
     method: 'post'
   })
 }
+
+export const SendMessage = (tel) => { //发送手机验证码
+  return axios.request({
+    url: 'send_message',
+    data: {
+      tel: tel,
+    },
+    method: 'post',
+  })
+}

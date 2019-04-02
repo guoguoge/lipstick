@@ -83,7 +83,7 @@ export default {
     .logo {
         width: 6rem;
         height: 6rem;
-        margin: 1rem auto;
+        margin: 1rem auto 2rem;
         border-radius: 1rem;
         overflow: hidden;
     }
@@ -99,7 +99,7 @@ export default {
 
     .loginWay {
 
-        margin-top: 2rem;
+        margin-top: 1rem;
         .flexbox {
             text-align: center;
             img {

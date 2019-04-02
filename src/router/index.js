@@ -41,7 +41,8 @@ export default new Router({
         name: 'register',
         component: register,
         meta: {
-          title: '注册'
+          title: '注册',
+          hiddenTab: true, // true为隐藏tab
         },
       },
       {
@@ -49,7 +50,8 @@ export default new Router({
         name: 'password',
         component: password,
         meta: {
-          title: '找回密码'
+          title: '找回密码',
+          hiddenTab: true, // true为隐藏tab
         },
       }
     ]
