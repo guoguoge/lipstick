@@ -2,9 +2,9 @@
 <section>
   <view-box ref="viewBox">
     <!-- <x-header slot="header" style="width:100%;position:absolute;left:0;top:0;z-index:100;"></x-header> -->
-    <x-header title="口红机"></x-header>
+    <x-header v-if="header" :title="title"></x-header>
     <router-view :key="key" />
-    <Footer :tab="tab"></Footer>
+    <Footer v-if="tabber" :tab="tab"></Footer>
   </view-box>
 </section>
 </template>
@@ -21,16 +21,24 @@ export default {
   data() {
     return {
       route: '',
-      tab: 0
+      tab: 0,
+      title: '口红机',
+      header: true,
+      tabber: true
     }
   },
   watch: {
     $route: {
       handler: function(val, oldVal) {
-        console.log(val);
+        console.log(val.meta);
+        const Meta = val.meta
+        this.title = Meta.title
+        this.header = Meta.hiddenHeader ? false : true
+        this.tabber = Meta.hiddenTab ? false : true
         this.route = val.name
       },
-      deep: true
+      deep: true,
+      immediate: true
     }
   },
   computed: {

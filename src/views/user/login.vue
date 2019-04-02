@@ -3,9 +3,15 @@
   <div class="logo">
     <img :src="logo" width="100%">
   </div>
-  <div class="input">
-    <x-input title="" type="text" v-model="form.tel" placeholder="手机号"></x-input>
-    <x-input title="" type="text" v-model="form.password" placeholder="请输入密码"></x-input>
+  <group>
+  </group>
+  <group class="input">
+    <x-input title="" type="text" v-model="form.tel" placeholder="手机号" @on-click-clear-icon=""></x-input>
+    <x-input title="" type="text" v-model="form.password" placeholder="请输入密码 " @on-click-clear-icon.native="form.password = ''"></x-input>
+  </group>
+
+  <div style="text-align:right;padding:0 1rem;">
+    <p style="color:#FF16A4;" @click="link">忘记密码?</p>
   </div>
 
   <div class="buttonGroup">
@@ -35,6 +41,7 @@
 
 <script>
 import {
+  Group,
   XInput,
   XButton,
   Divider,
@@ -48,6 +55,7 @@ export default {
       logo: require('@/assets/logo.png'),
       alipay: require('@/assets/alipay.png'),
       wechatpay: require('@/assets/wechatpay.png'),
+      value: '',
       form: {
         tel: '',
         password: ''
@@ -55,11 +63,17 @@ export default {
     }
   },
   components: {
+    Group,
     XInput,
     XButton,
     Divider,
     Flexbox,
     FlexboxItem
+  },
+  methods: {
+    link() {
+      this.$router.push('password')
+    }
   }
 }
 </script>

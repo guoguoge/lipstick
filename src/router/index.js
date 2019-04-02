@@ -31,7 +31,9 @@ export default new Router({
         name: 'login',
         component: login,
         meta: {
-          title: '登录'
+          title: '登录',
+          hiddenHeader: true, // true为隐藏header
+          hiddenTab: true, // true为隐藏tab
         },
       }, ,
       {
