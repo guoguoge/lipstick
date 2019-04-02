@@ -6,7 +6,7 @@
     <x-input ref="tel_code" v-model="form.tel_code" placeholder="请输入验证码" :min="6" :max="6" required>
       <x-button @click.native="countDown(60)" :disabled="interval" slot="right" type="primary" mini>{{interval?intervalTime +'秒':'发送验证码'}}</x-button>
     </x-input>
-    <x-input ref="password" v-model="form.password" placeholder="请输入密码" required></x-input>
+    <x-input ref="password" type="password" v-model="form.password" placeholder="请输入密码" required></x-input>
   </group>
 
   <div class="buttonGroup">

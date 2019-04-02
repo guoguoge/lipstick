@@ -16,7 +16,7 @@
       <img slot="icon-active" :src="imgUrl.img6" />
       <!-- <span slot="label"> 个人中心 </span> -->
     </tabbar-item>
-    <tabbar-item>
+    <tabbar-item link="/center">
       <img slot="icon" :src="imgUrl.img7" />
       <img slot="icon-active" :src="imgUrl.img8" />
       <!-- <span slot="label"> 个人中心 </span> -->

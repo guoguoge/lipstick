@@ -3,7 +3,9 @@
   <view-box ref="viewBox">
     <!-- <x-header slot="header" style="width:100%;position:absolute;left:0;top:0;z-index:100;"></x-header> -->
     <x-header v-if="header" :title="title"></x-header>
-    <router-view :key="key" />
+    <transition name="slide-fade" mode="out-in">
+      <router-view :key="key" />
+    </transition>
     <Footer v-if="tabber" :tab="tab"></Footer>
   </view-box>
 </section>
@@ -67,19 +69,5 @@ html {
 
 .vux-header {
     border-bottom: 1px solid #eaeaea;
-}
-
-/* 可以设置不同的进入和离开动画 */
-/* 设置持续时间和动画函数 */
-.slide-fade-enter-active {
-    transition: all 0.3s ease;
-}
-.slide-fade-leave-active {
-    transition: all 0.8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
-}
-/* .slide-fade-leave-active for below version 2.1.8 */
-.slide-fade-enter,
-.slide-fade-leave-to {
-    transform: translateY(100%);
 }
 </style>
