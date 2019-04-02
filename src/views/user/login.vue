@@ -5,8 +5,8 @@
   </div>
 
   <group class="input">
-    <x-input title="" type="text" v-model="form.tel" placeholder="手机号" @on-click-clear-icon=""></x-input>
-    <x-input title="" type="text" v-model="form.password" placeholder="请输入密码 " @on-click-clear-icon.native="form.password = ''"></x-input>
+    <x-input ref="tel" type="text" v-model="form.tel" placeholder="手机号" required></x-input>
+    <x-input ref="password" type="password" v-model="form.password" placeholder="请输入密码" required></x-input>
   </group>
 
   <div style="text-align:right;padding:0 1rem;">
@@ -14,7 +14,7 @@
   </div>
 
   <div class="buttonGroup">
-    <x-button style="border-radius:99px;margin-top:1rem" :gradients="['#FF16A4', '#FF16A4']">登 录</x-button>
+    <x-button style="border-radius:99px;margin-top:1rem" :gradients="['#FF16A4', '#FF16A4']" @click.native="login">登 录</x-button>
     <x-button class="borderButton" style="border-radius:99px;" :link="{path:'register'}">注 册</x-button>
   </div>
 
@@ -35,6 +35,7 @@
       </flexbox-item>
     </flexbox>
   </div>
+  <toast width="20rem" v-model="toast" type="text">{{toastText}}</toast>
 </div>
 </template>
 
@@ -45,8 +46,24 @@ import {
   XButton,
   Divider,
   Flexbox,
-  FlexboxItem
+  FlexboxItem,
+  Toast
 } from 'vux'
+
+import {
+  jsonpReturn, //处理返回的数据
+  checkRequest
+}
+from '@/libs/util'
+
+import {
+  mapGetters
+} from 'vuex'
+
+import {
+  Login, //用户--手机登录
+}
+from '@/api/user'
 
 export default {
   data() {
@@ -58,7 +75,9 @@ export default {
       form: {
         tel: '',
         password: ''
-      }
+      },
+      toastText: '', // 弹出框
+      toast: false
     }
   },
   components: {
@@ -67,11 +86,30 @@ export default {
     XButton,
     Divider,
     Flexbox,
-    FlexboxItem
+    FlexboxItem,
+    Toast
+  },
+  computed: {
+    ...mapGetters([
+      'username',
+      'telphone',
+      'token',
+    ])
   },
   methods: {
     link() {
       this.$router.push('password')
+    },
+    login() {
+      let check = this.$refs.tel.valid && this.$refs.password.valid
+      if (check) {
+        this.$store.dispatch('LoginByUsername', this.form).then((res) => {
+          console.log(this.token);
+        })
+      } else {
+        this.toast = true
+        this.toastText = '请确保表单信息正确'
+      }
     }
   }
 }

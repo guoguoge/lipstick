@@ -1,31 +1,5 @@
 import axios from '@/libs/api.request'
 import qs from 'qs'
-// export const login = ({
-//   tel,
-//   password
-// }) => {
-//   const data = {
-//     tel,
-//     password
-//   }
-//   return axios.request({
-//     url: 'iUserLogin',
-//     data,
-//     method: 'post'
-//   })
-// }
-
-export const Login = (tel, password) => { //用户手机登录
-  let postData = qs.stringify({
-    tel: tel,
-    password: password,
-  })
-  return axios.request({
-    url: 'iUserLogin',
-    data: postData,
-    method: 'post',
-  })
-}
 
 export const Logout = (token) => { //用户退出登录
   let postData = qs.stringify({
@@ -38,15 +12,37 @@ export const Logout = (token) => { //用户退出登录
   })
 }
 
-export const Register = (name, tel, password, password_confirm, tel_code) => { //用户手机注册
+export const Login = (tel, password) => { //用户--手机登录
   return axios.request({
-    url: 'iUserRegist',
+    url: 'login',
+    data: {
+      tel: tel,
+      password: password
+    },
+    method: 'post',
+  })
+}
+
+export const Register = (name, tel, tel_code, password) => { //用户手机注册
+  return axios.request({
+    url: 'regist',
     data: {
       name: name,
       tel: tel,
-      password: password,
-      password_confirm: password_confirm,
       tel_code: tel_code,
+      password: password,
+    },
+    method: 'post'
+  })
+}
+
+export const Reset = (tel, tel_code, password) => { //用户手机注册
+  return axios.request({
+    url: 'reset',
+    data: {
+      tel: tel,
+      tel_code: tel_code,
+      password: password,
     },
     method: 'post'
   })

@@ -41,11 +41,6 @@ export const countDown = (time) => { //倒计时函数
 export const jsonpReturn = (data) => { //处理jsonpReturn格式对象
   if (data.status == 2) {
     Store.dispatch('LogOut').then(res => {
-      Message.error({
-        content: '登录状态过期,请重新登陆',
-        duration: 2,
-        closable: true
-      });
       router.push({
         name: 'login'
       })
@@ -53,38 +48,16 @@ export const jsonpReturn = (data) => { //处理jsonpReturn格式对象
     return
   } else {
     let s = (data).replace('jsonpReturn', '')
-    s = JSON.parse(s.substring(3, s.length - 2))
+    s = JSON.parse(s.substring(1, s.length - 2))
     return s
   }
 }
 
-export const checkRequest = (res, usemsg) => {
+export const checkRequest = (res) => {
   let data = jsonpReturn(res.data)
   let msg = data.msg
-  let status = data.status
-  if (usemsg) {
-    if (status == 1) {
-      Message.success({
-        content: ((typeof msg) != 'string') ? '操作成功' : msg,
-        duration: 2,
-        closable: true
-      });
-      return msg
-    } else {
-      Message.error({
-        content: ((typeof msg) != 'string') ? '操作失败' : msg,
-        duration: 2,
-        closable: true
-      });
-      return false
-    }
-  } else {
-    if (status == 1) {
-      return msg
-    } else {
-      return false
-    }
-  }
+  return msg
+
 }
 
 export const checkEmpty = (object) => { //判断对象是否为空
