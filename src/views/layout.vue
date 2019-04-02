@@ -20,12 +20,14 @@ import Footer from "#/footer";
 export default {
   data() {
     return {
-      route: ''
+      route: '',
+      tab: 0
     }
   },
   watch: {
     $route: {
       handler: function(val, oldVal) {
+        console.log(val);
         this.route = val.name
       },
       deep: true

@@ -4,17 +4,22 @@
     <tabbar-item link="/">
       <img slot="icon" :src="imgUrl.img1" />
       <img slot="icon-active" :src="imgUrl.img2" />
-      <span slot="label"> 智银家 </span>
-    </tabbar-item>
-    <tabbar-item show-dot>
-      <img slot="icon" :src="imgUrl.img3" />
-      <img slot="icon-active" :src="imgUrl.img4" />
-      <span slot="label"> 推广产品 </span>
+      <!-- <span slot="label"> 智银家 </span> -->
     </tabbar-item>
     <tabbar-item>
+      <img slot="icon" :src="imgUrl.img3" />
+      <img slot="icon-active" :src="imgUrl.img4" />
+      <!-- <span slot="label"> 推广产品 </span> -->
+    </tabbar-item>
+    <tabbar-item show-dot>
       <img slot="icon" :src="imgUrl.img5" />
       <img slot="icon-active" :src="imgUrl.img6" />
-      <span slot="label"> 个人中心 </span>
+      <!-- <span slot="label"> 个人中心 </span> -->
+    </tabbar-item>
+    <tabbar-item>
+      <img slot="icon" :src="imgUrl.img7" />
+      <img slot="icon-active" :src="imgUrl.img8" />
+      <!-- <span slot="label"> 个人中心 </span> -->
     </tabbar-item>
   </tabbar>
 </div>
@@ -30,8 +35,6 @@ import {
   TabbarItem
 } from "vux";
 
-import Cookies from "js-cookie";
-import config from "@/config";
 
 export default {
   components: {
@@ -108,11 +111,12 @@ export default {
     .weui-tabbar__item {
         padding: 8px 0 2px;
         /deep/.weui-tabbar__icon {
-            width: 24px;
-            height: 24px;
+            width: 20px;
+            height: 35px;
         }
         /deep/.weui-tabbar__label {
             margin-top: 2px;
+            font-size: 0;
         }
     }
 
