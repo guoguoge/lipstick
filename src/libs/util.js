@@ -1,10 +1,10 @@
 import Vue from 'vue'
 import Cookies from 'js-cookie'
-import Store from '../store/store'
-import router from '../router/router'
-import {
-  Message
-} from 'iview'
+import Store from '../store'
+import router from '../router'
+// import {
+//   Message
+// } from 'iview'
 // cookie保存的天数
 
 

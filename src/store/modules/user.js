@@ -5,11 +5,9 @@ import {
 
 import Cookies from 'js-cookie'
 
-import Config from '../../config'
-
-import {
-  Message
-} from 'iview';
+// import {
+//   Message
+// } from 'iview';
 
 import {
   setUserInfo,
@@ -53,11 +51,11 @@ const user = {
           const data = checkRequest(response, false)
           console.log(data);
           if (checkRequest(response, false)) {
-            Message.success({
-              content: '欢迎回到必势得',
-              duration: 2,
-              closable: true
-            })
+            // Message.success({
+            //   content: '欢迎回到必势得',
+            //   duration: 2,
+            //   closable: true
+            // })
             commit('SET_TOKEN', data.token) // 存入token
             commit('SET_NAME', data.name) // 存入name
             commit('SET_TELPHONE', data.tel) // 存入tel
@@ -75,11 +73,11 @@ const user = {
               }
             }
           } else {
-            Message.error({
-              content: '账号或密码错误',
-              duration: 10,
-              closable: true
-            })
+            // Message.error({
+            //   content: '账号或密码错误',
+            //   duration: 10,
+            //   closable: true
+            // })
             reject(error)
           }
         }).catch(error => {
