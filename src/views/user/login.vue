@@ -3,8 +3,7 @@
   <div class="logo">
     <img :src="logo" width="100%">
   </div>
-  <group>
-  </group>
+
   <group class="input">
     <x-input title="" type="text" v-model="form.tel" placeholder="手机号" @on-click-clear-icon=""></x-input>
     <x-input title="" type="text" v-model="form.password" placeholder="请输入密码 " @on-click-clear-icon.native="form.password = ''"></x-input>
@@ -82,9 +81,9 @@ export default {
 .userBox {
     padding: 1rem;
     .logo {
-        width: 5rem;
-        height: 5rem;
-        margin: 2rem auto;
+        width: 6rem;
+        height: 6rem;
+        margin: 1rem auto;
         border-radius: 1rem;
         overflow: hidden;
     }

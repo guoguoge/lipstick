@@ -67,7 +67,6 @@ html {
 
 .vux-header {
     border-bottom: 1px solid #eaeaea;
-    margin-bottom: 1rem;
 }
 
 /* 可以设置不同的进入和离开动画 */
