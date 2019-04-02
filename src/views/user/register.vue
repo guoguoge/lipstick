@@ -81,7 +81,7 @@ export default {
       if (check) {
         this.interval = true
         SendMessage(this.form.tel).then((res) => {
-          if (checkRequest(res, true)) {
+          if (checkRequest(res, false)) {
             this.countDownInterval() //发送验证码
           }
         })

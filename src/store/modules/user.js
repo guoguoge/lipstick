@@ -23,7 +23,7 @@ const user = {
     telphone: getUserInfo().tel,
     name: getUserInfo().name,
     width: document.body.clientWidth,
-    url: 'http://129.28.67.91/API/public/',
+    url: 'http://129.28.67.91/Hmzk/public/',
   },
 
   mutations: {

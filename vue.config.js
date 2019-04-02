@@ -84,7 +84,7 @@ module.exports = {
     // proxy: 'http://localhost:4000' // 配置跨域处理,只有一个代理
     proxy: {
       '/devApi': { //测试环境API 已经做过跨域处理
-        target: 'http://129.28.67.91/API/public/',
+        target: 'http://129.28.67.91/Hmzk/public/',
         changeOrigin: true,
         ws: true,
         pathRewrite: {
