@@ -27,8 +27,8 @@ export default {
       title: '口红机',
       header: true,
       tabber: true,
-      bodyPaddingTop: '',
-      bodyPaddingBottom: '',
+      bodyPaddingTop: '0px',
+      bodyPaddingBottom: '0px',
 
     }
   },
@@ -41,12 +41,18 @@ export default {
         this.header = Meta.hiddenHeader ? false : true
         this.tabber = Meta.hiddenTab ? false : true
         this.route = val.name
-        if (this.$refs.header) {
-          this.bodyPaddingTop = this.$refs.header.$el.offsetHeight + 'px'
-          console.log(123);
-        } else if (this.$refs.Footer) {
-          this.bodyPaddingBottom = this.$refs.Footer.$el.offsetHeight + 'px'
-        }
+        this.$nextTick(() => {
+          if (this.$refs.header) {
+            this.bodyPaddingTop = this.$refs.header.$el.offsetHeight + 'px'
+          } else {
+            this.bodyPaddingTop = '0px'
+          }
+          if (this.$refs.Footer) {
+            this.bodyPaddingBottom = this.$refs.Footer.$el.offsetHeight + 'px'
+          } else {
+            this.bodyPaddingBottom = '0px'
+          }
+        })
       },
       deep: true,
       immediate: true

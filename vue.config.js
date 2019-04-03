@@ -47,12 +47,12 @@ module.exports = {
   },
 
   configureWebpack: config => {
-
-
     vuxLoader.merge(config, {
-      options: {},
       plugins: [{
           name: 'vux-ui'
+        },
+        {
+          name: 'duplicate-style'
         },
         {
           name: 'less-theme',

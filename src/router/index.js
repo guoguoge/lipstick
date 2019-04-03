@@ -13,6 +13,9 @@ const recordAuction = r => require.ensure([], () => r(require('../views/recordAu
 const recordLipstick = r => require.ensure([], () => r(require('../views/recordLipstick')), 'recordLipstick')
 const recordTreasure = r => require.ensure([], () => r(require('../views/recordTreasure')), 'recordTreasure')
 
+const address = r => require.ensure([], () => r(require('../views/address')), 'address')
+const addAddress = r => require.ensure([], () => r(require('../views/addAddress')), 'addAddress')
+
 
 const binding = r => require.ensure([], () => r(require('../views/binding')), 'binding')
 
@@ -105,6 +108,26 @@ const router = new Router({
         component: recordTreasure,
         meta: {
           title: '夺宝记录',
+          requireAuth: true, // 登陆后查看
+          hiddenTab: true, // true为隐藏tab
+        }
+      },
+      {
+        path: '/address',
+        name: 'address',
+        component: address,
+        meta: {
+          title: '收货地址',
+          requireAuth: true, // 登陆后查看
+          hiddenTab: true, // true为隐藏tab
+        }
+      },
+      {
+        path: '/addAddress',
+        name: 'addAddress',
+        component: addAddress,
+        meta: {
+          title: '新增收货地址',
           requireAuth: true, // 登陆后查看
           hiddenTab: true, // true为隐藏tab
         }

@@ -57,3 +57,48 @@ export const SendMessage = (tel) => { //发送手机验证码
     method: 'post',
   })
 }
+
+export const AddAddress = (token, name, tel, address) => { //添加收货地址
+  return axios.request({
+    url: 'add_address',
+    data: {
+      token: token,
+      name: name,
+      tel: tel,
+      address: address
+    },
+    method: 'post',
+  })
+}
+
+export const AddressList = (token) => { //收货地址列表
+  return axios.request({
+    url: 'list_address',
+    data: {
+      token: token
+    },
+    method: 'post',
+  })
+}
+
+export const SetAddress = (token, address_id) => { //设置默认收货地址
+  return axios.request({
+    url: 'set_address',
+    data: {
+      token: token,
+      address_id: address_id
+    },
+    method: 'post',
+  })
+}
+
+export const DelAddress = (token, address_id) => { //添加收货地址
+  return axios.request({
+    url: 'del_address',
+    data: {
+      token: token,
+      address_id: address_id
+    },
+    method: 'post',
+  })
+}
