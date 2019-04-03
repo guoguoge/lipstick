@@ -4,6 +4,7 @@ import {
 } from '@/api/user'
 
 import Cookies from 'js-cookie'
+import Config from '../../config'
 
 // import {
 //   Message
@@ -45,40 +46,31 @@ const user = {
     }, userInfo) {
       console.log(userInfo);
       const username = userInfo.tel.trim()
-      const autoLogin = userInfo.autoLogin
       return new Promise((resolve, reject) => {
-        Login(username, userInfo.password).then(response => {
-          const data = checkRequest(response, false)
+        Login(username, userInfo.password).then((response) => {
+          const data = checkRequest(response)
           console.log(data);
-          if (checkRequest(response, false)) {
-            // Message.success({
-            //   content: '欢迎回到必势得',
-            //   duration: 2,
-            //   closable: true
-            // })
+          if (checkRequest(response)) {
             commit('SET_TOKEN', data.token) // 存入token
             commit('SET_NAME', data.name) // 存入name
             commit('SET_TELPHONE', data.tel) // 存入tel
-            if (autoLogin) {
-              setUserInfo(data, Config.expirationTime)
-              if (getUserInfo()) {
-                console.log(getUserInfo());
-                resolve(response)
-              }
-            } else {
-              setUserInfo(data)
-              if (getUserInfo()) {
-                console.log(getUserInfo());
-                resolve(response)
-              }
-            }
+            setUserInfo(data, Config.expirationTime)
+            resolve(data)
+            // if (autoLogin) {
+            //   setUserInfo(data, Config.expirationTime)
+            //   if (getUserInfo()) {
+            //     console.log(getUserInfo());
+            //     resolve(response)
+            //   }
+            // } else {
+            //   setUserInfo(data)
+            //   if (getUserInfo()) {
+            //     console.log(getUserInfo());
+            //     resolve(response)
+            //   }
+            // }
           } else {
-            // Message.error({
-            //   content: '账号或密码错误',
-            //   duration: 10,
-            //   closable: true
-            // })
-            reject(error)
+            resolve(data)
           }
         }).catch(error => {
           reject(error)

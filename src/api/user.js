@@ -102,3 +102,16 @@ export const DelAddress = (token, address_id) => { //添加收货地址
     method: 'post',
   })
 }
+
+export const ChangePassword = (tel, old_password, password, confirm_password) => { //修改密码
+  return axios.request({
+    url: 'change_password',
+    data: {
+      tel: tel,
+      old_password: old_password,
+      password: password,
+      confirm_password: confirm_password
+    },
+    method: 'post',
+  })
+}

@@ -15,6 +15,7 @@ const recordTreasure = r => require.ensure([], () => r(require('../views/recordT
 
 const address = r => require.ensure([], () => r(require('../views/address')), 'address')
 const addAddress = r => require.ensure([], () => r(require('../views/addAddress')), 'addAddress')
+const changePassword = r => require.ensure([], () => r(require('../views/changePassword')), 'changePassword')
 
 
 const binding = r => require.ensure([], () => r(require('../views/binding')), 'binding')
@@ -128,6 +129,16 @@ const router = new Router({
         component: addAddress,
         meta: {
           title: '新增收货地址',
+          requireAuth: true, // 登陆后查看
+          hiddenTab: true, // true为隐藏tab
+        }
+      },
+      {
+        path: '/changePassword',
+        name: 'changePassword',
+        component: changePassword,
+        meta: {
+          title: '修改密码',
           requireAuth: true, // 登陆后查看
           hiddenTab: true, // true为隐藏tab
         }

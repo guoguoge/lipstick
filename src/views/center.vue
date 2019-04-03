@@ -32,7 +32,7 @@
     <cell :title="'收货地址'" is-link link="address">
       <img slot="icon" width="20" height="20" :src="imgList[5]" />
     </cell>
-    <cell :title="'更改密码'" is-link>
+    <cell :title="'更改密码'" is-link link="changePassword">
       <img slot="icon" width="20" height="20" :src="imgList[6]" />
     </cell>
   </group>

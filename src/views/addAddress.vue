@@ -8,7 +8,7 @@
   </group>
 
   <div class="buttonGroup">
-    <x-button style="border-radius:99px;margin-top:1rem" :gradients="['#FF16A4', '#FF16A4']" @click.native="submit">登 录</x-button>
+    <x-button style="border-radius:99px;margin-top:1rem" :gradients="['#FF16A4', '#FF16A4']" @click.native="submit">完 成</x-button>
   </div>
   <toast width="20rem" v-model="toast" type="text">{{toastText}}</toast>
 </div>
@@ -40,8 +40,7 @@ import {
 } from 'vuex'
 
 import {
-  SendMessage, //发送短信验证码
-  AddAddress,
+  ChangePassword // 修改密码
 }
 from '@/api/user'
 

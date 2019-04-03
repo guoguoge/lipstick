@@ -56,7 +56,12 @@ export const jsonpReturn = (data) => { //处理jsonpReturn格式对象
 export const checkRequest = (res) => {
   let data = jsonpReturn(res.data)
   let msg = data.msg
-  return msg
+  let status = data.status
+  if (status == 1) {
+    return msg
+  } else {
+    return false
+  }
 }
 
 export const checkEmpty = (object) => { //判断对象是否为空

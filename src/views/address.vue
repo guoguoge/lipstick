@@ -1,12 +1,24 @@
 <template>
 <div class="userBox">
-  <div class="recordBox" v-for="(item,index) in 8">
-    <div class="recordItem">
-      <div class="name">周杰伦</div>
-      <div class="tel">155486261{{index + 10}}</div>
-      <div class="default">默认</div>
-    </div>
-    <p>湖北省 武汉市 洪山区 光谷世贸中心光谷世贸中心</p>
+  <swipeout>
+    <swipeout-item :threshold=".5" underlay-color="#ccc" v-for="(item,index) in addressList">
+      <div slot="right-menu">
+        <swipeout-button background-color="#9C9C9C" @click.native="setAddress(item.id)">设为默认</swipeout-button>
+        <swipeout-button background-color="#E42517" @click.native="delAddress(item.id)">删除</swipeout-button>
+      </div>
+      <div slot="content" class="demo-content vux-1px-tb">
+        <div v-if="addressList.length" class="recordBox">
+          <div class="recordItem">
+            <div class="name">{{item.name}}</div>
+            <div class="tel">{{item.tel}}</div>
+            <div class="default" v-if="item.is_default == 1">默认</div>
+          </div>
+          <p style="textAlign:left">{{item.address}}</p>
+        </div>
+      </div>
+    </swipeout-item>
+  </swipeout>
+  <div v-if="!addressList.length" class="empty">暂无收货地址<br>请尽快添加
   </div>
   <div class="addressButton">
     <x-button class="button" link="addAddress">+ 新 增 地 址</x-button>
@@ -25,6 +37,9 @@ import {
   FlexboxItem,
   Toast,
   Cell,
+  Swipeout,
+  SwipeoutItem,
+  SwipeoutButton,
 } from 'vux'
 
 import {
@@ -51,7 +66,8 @@ export default {
   data() {
     return {
       toastText: '', // 弹出框
-      toast: false
+      toast: false,
+      addressList: []
     }
   },
   components: {
@@ -64,6 +80,9 @@ export default {
     Toast,
     Cell,
     Record,
+    Swipeout,
+    SwipeoutItem,
+    SwipeoutButton,
   },
   computed: {
     ...mapGetters([
@@ -73,7 +92,39 @@ export default {
     ])
   },
   methods: {
+    init() {
+      AddressList(this.token).then((res) => {
+        let data = checkRequest(res)
+        if (data) {
+          this.addressList = data
+          console.log(this.addressList);
+        }
+      })
+    },
+    setAddress(id) {
+      SetAddress(this.token, id).then((res) => {
+        let data = checkRequest(res)
+        if (data) {
+          this.toast = true
+          this.toastText = data
+          this.init()
+        }
+      })
+    },
+    delAddress(id) {
+      DelAddress(this.token, id).then((res) => {
+        let data = checkRequest(res)
+        if (data) {
+          this.toast = true
+          this.toastText = data
+          this.init()
+        }
+      })
+    }
 
+  },
+  mounted() {
+    this.init()
   }
 }
 </script>
@@ -114,6 +165,11 @@ export default {
         .bottom {
             color: #999;
         }
+    }
+
+    .empty {
+        padding: 1rem;
+        background: white;
     }
 
     .addressButton {
