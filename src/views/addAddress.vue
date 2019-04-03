@@ -1,19 +1,14 @@
 <template>
 <div class="userBox">
   <group class="input">
-    <x-input ref="tel" type="text" v-model="form.name" placeholder="姓名" required></x-input>
-    <x-input ref="password" type="password" v-model="form.tel" placeholder="手机号" required></x-input>
-    <group>
-      <group>
-        <x-address title="title" v-model="value"></x-address>
-      </group>
-    </group>
-    <x-input ref="password" type="password" v-model="form.address" placeholder="详细地址" required></x-input>
+    <x-input ref="name" type="text" v-model="form.name" is-type="china-name" placeholder="姓名" required></x-input>
+    <x-input ref="tel" type="text" v-model="form.tel" is-type="china-mobile" placeholder="手机号" required></x-input>
+    <x-address ref="city" :title="'所在地区'" v-model="form.city" :list="addressData" required></x-address>
+    <x-input ref="address" type="text" v-model="form.address" placeholder="详细地址" required></x-input>
   </group>
 
-
   <div class="buttonGroup">
-    <x-button style="border-radius:99px;margin-top:1rem" :gradients="['#FF16A4', '#FF16A4']" @click.native="login">登 录</x-button>
+    <x-button style="border-radius:99px;margin-top:1rem" :gradients="['#FF16A4', '#FF16A4']" @click.native="submit">登 录</x-button>
   </div>
   <toast width="20rem" v-model="toast" type="text">{{toastText}}</toast>
 </div>
@@ -30,7 +25,8 @@ import {
   Toast,
   Cell,
   ChinaAddressV4Data,
-XAddress
+  XAddress,
+  Value2nameFilter as value2name
 } from 'vux'
 
 import {
@@ -45,7 +41,7 @@ import {
 
 import {
   SendMessage, //发送短信验证码
-  Reset
+  AddAddress,
 }
 from '@/api/user'
 
@@ -84,12 +80,33 @@ export default {
     ])
   },
   methods: {
-    // onShadowChange(ids, names) {
-    //   console.log(ids, names)
-    // },
-    // getName(value) {
-    //   return value2name(value, ChinaAddressV4Data)
-    // },
+    getName(value) {
+      return value2name(value, ChinaAddressV4Data)
+    },
+    submit() {
+      let check = this.$refs.name.valid && this.$refs.tel.valid && this.form.city.length && this.$refs.address.valid
+      let address
+      address = (this.getName(this.form.city).toString() + this.form.address).trim()
+      if (check) {
+        AddAddress(
+          this.token,
+          this.form.name,
+          this.form.tel,
+          address,
+        ).then((res) => {
+          this.toast = true
+          this.toastText = checkRequest(res)
+          if (checkRequest(res)) {
+            this.$router.push('address')
+          }
+        })
+      } else {
+        this.toast = true
+        this.toastText = '请确保表单信息正确'
+      }
+      console.log(address);
+      console.log(check);
+    }
   }
 }
 </script>

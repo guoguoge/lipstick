@@ -57,7 +57,6 @@ export const checkRequest = (res) => {
   let data = jsonpReturn(res.data)
   let msg = data.msg
   return msg
-
 }
 
 export const checkEmpty = (object) => { //判断对象是否为空
