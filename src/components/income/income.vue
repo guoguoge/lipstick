@@ -85,7 +85,7 @@ export default {
 }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 /*
 实时收入展示
  */

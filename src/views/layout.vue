@@ -41,6 +41,12 @@ export default {
         this.header = Meta.hiddenHeader ? false : true
         this.tabber = Meta.hiddenTab ? false : true
         this.route = val.name
+        if (this.$refs.header) {
+          this.bodyPaddingTop = this.$refs.header.$el.offsetHeight + 'px'
+          console.log(123);
+        } else if (this.$refs.Footer) {
+          this.bodyPaddingBottom = this.$refs.Footer.$el.offsetHeight + 'px'
+        }
       },
       deep: true,
       immediate: true
@@ -56,11 +62,7 @@ export default {
     XHeader,
     Footer
   },
-  mounted() {
-    this.bodyPaddingTop = this.$refs.header.$el.offsetHeight + 'px'
-    this.bodyPaddingBottom = this.$refs.Footer.$el.offsetHeight + 'px'
-    // this.bodyPaddingTop = this.$refs.header.clientWidth
-  }
+  mounted() {}
 }
 </script>
 

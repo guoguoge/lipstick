@@ -6,7 +6,7 @@ export const Logout = (token) => { //用户退出登录
     token: token,
   })
   return axios.request({
-    url: 'iUserLogout',
+    url: 'logout',
     data: postData,
     method: 'post',
   })

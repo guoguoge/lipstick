@@ -9,8 +9,8 @@
     <x-input ref="password" type="password" v-model="form.password" placeholder="请输入密码" required></x-input>
   </group>
 
-  <div style="text-align:right;padding:0 1rem;">
-    <p style="color:#FF16A4;" @click="link">忘记密码?</p>
+  <div style="text-align:right;padding:1rem;">
+    <p class="lip" style="textAlign:right" @click="link">忘记密码?</p>
   </div>
 
   <div class="buttonGroup">

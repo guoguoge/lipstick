@@ -1,14 +1,6 @@
 <template>
 <div class="userBox">
-
-  <group>
-    <cell :title="'支付宝'" is-link :value="'已绑定'">
-      <img slot="icon" width="20" height="20" :src="imgList[0]" />
-    </cell>
-    <cell :title="'微信'" is-link :value="'已绑定'">
-      <img slot="icon" width="20" height="20" :src="imgList[1]" />
-    </cell>
-  </group>
+  <Record v-for="(item,index)  in  7" />
   <toast width="20rem" v-model="toast" type="text">{{toastText}}</toast>
 </div>
 </template>
@@ -41,6 +33,9 @@ import {
 }
 from '@/api/user'
 
+import Record from "#/record";
+
+
 export default {
   data() {
     return {
@@ -61,7 +56,8 @@ export default {
     Flexbox,
     FlexboxItem,
     Toast,
-    Cell
+    Cell,
+    Record
   },
   computed: {
     ...mapGetters([
@@ -78,35 +74,6 @@ export default {
 
 <style lang="less" scoped>
 .userBox {
-    background: #F7F7F7;
-    .avatar {
-
-        .avatarBox {
-            display: flex;
-            align-items: center;
-            color: #333333;
-        }
-        .weui-cells {
-            margin-top: 0;
-            .weui-cell {
-                padding: 2rem 1rem;
-            }
-        }
-        img {
-            border-radius: 100%;
-            width: 4rem;
-            height: 4rem;
-        }
-    }
-
-    p {
-        margin: 0;
-        text-align: left;
-    }
-
-    img {
-        display: block;
-        margin-right: 1rem;
-    }
+    background: #f7f7f7;
 }
 </style>

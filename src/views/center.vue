@@ -37,10 +37,15 @@
     </cell>
   </group>
   <group>
-    <cell :title="'退出账号'" is-link>
+    <cell :title="'退出账号'" is-link @click.native="show = true">
       <img slot="icon" width="20" height="20" :src="imgList[7]" />
     </cell>
   </group>
+
+  <confirm v-model="show" title="确认退出?" @on-cancel="onCancel" @on-confirm="onConfirm">
+    <p style="text-align:center;"></p>
+  </confirm>
+
   <toast width="20rem" v-model="toast" type="text">{{toastText}}</toast>
 </div>
 </template>
@@ -54,7 +59,8 @@ import {
   Flexbox,
   FlexboxItem,
   Toast,
-  Cell
+  Cell,
+  Confirm
 } from 'vux'
 
 import {
@@ -88,7 +94,8 @@ export default {
         require('@/assets/center8.png')
       ],
       toastText: '', // 弹出框
-      toast: false
+      toast: false,
+      show: false
     }
   },
   components: {
@@ -99,7 +106,8 @@ export default {
     Flexbox,
     FlexboxItem,
     Toast,
-    Cell
+    Cell,
+    Confirm
   },
   computed: {
     ...mapGetters([
@@ -109,7 +117,19 @@ export default {
     ])
   },
   methods: {
-
+    haha() {
+      alert(1)
+    },
+    onCancel() {
+      console.log('on cancel')
+    },
+    onConfirm(msg) {
+      this.$store.dispatch('LogOut').then(() => {
+        this.$router.push({
+          name: 'login'
+        })
+      })
+    },
   }
 }
 </script>
@@ -125,10 +145,10 @@ export default {
             color: #333333;
         }
         .weui-cells {
-          margin-top: 0;
-          .weui-cell {
-              padding: 2rem 1rem;
-          }
+            margin-top: 0;
+            .weui-cell {
+                padding: 2rem 1rem;
+            }
         }
         img {
             border-radius: 100%;
