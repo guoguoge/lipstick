@@ -4,43 +4,11 @@
     <cell :title="''" is-link>
       <div class="avatarBox" slot="icon">
         <img :src="logo" width="100%" />
-        <p>{{username}}</p>
+        <p>余额</p>
       </div>
     </cell>
   </group>
-  <group>
-    <cell :title="'余额'" is-link :link="{path:'balance'}">
-      <img slot="icon" width="20" height="20" :src="imgList[0]" />
-    </cell>
-  </group>
-
-  <group>
-    <cell :title="'夺宝记录'" is-link>
-      <img slot="icon" width="20" height="20" :src="imgList[1]" />
-    </cell>
-    <cell :title="'竞拍记录'" is-link>
-      <img slot="icon" width="20" height="20" :src="imgList[2]" />
-    </cell>
-    <cell :title="'口红机记录'" is-link>
-      <img slot="icon" width="20" height="20" :src="imgList[3]" />
-    </cell>
-  </group>
-  <group>
-    <cell :title="'账号绑定'" is-link>
-      <img slot="icon" width="20" height="20" :src="imgList[4]" />
-    </cell>
-    <cell :title="'收货地址'" is-link>
-      <img slot="icon" width="20" height="20" :src="imgList[5]" />
-    </cell>
-    <cell :title="'更改密码'" is-link>
-      <img slot="icon" width="20" height="20" :src="imgList[6]" />
-    </cell>
-  </group>
-  <group>
-    <cell :title="'退出账号'" is-link>
-      <img slot="icon" width="20" height="20" :src="imgList[7]" />
-    </cell>
-  </group>
+  <Panel v-for="(item,index) in 5" />
   <toast width="20rem" v-model="toast" type="text">{{toastText}}</toast>
 </div>
 </template>
@@ -73,6 +41,8 @@ import {
 }
 from '@/api/user'
 
+import Panel from '#/panel'
+
 export default {
   data() {
     return {
@@ -99,7 +69,8 @@ export default {
     Flexbox,
     FlexboxItem,
     Toast,
-    Cell
+    Cell,
+    Panel
   },
   computed: {
     ...mapGetters([
@@ -125,10 +96,10 @@ export default {
             color: #333333;
         }
         .weui-cells {
-          margin-top: 0;
-          .weui-cell {
-              padding: 2rem 1rem;
-          }
+            margin-top: 0;
+            .weui-cell {
+                padding: 2rem 1rem;
+            }
         }
         img {
             border-radius: 100%;
