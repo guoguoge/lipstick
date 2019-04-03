@@ -5,7 +5,7 @@
     <p class="details">{{time}}</p>
   </div>
   <div class="text">
-    <p class="head">支付成功</p>
+    <p class="head">充值成功</p>
     <p class="number"> +111 元</p>
   </div>
 </div>
@@ -75,7 +75,7 @@ export default {
         }
         .number {
             text-align: inherit;
-            color: #999;
+            color: #E4982B;
         }
     }
 }

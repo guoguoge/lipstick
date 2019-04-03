@@ -1,14 +1,7 @@
 <template>
 <div class="userBox">
-  <group class="avatar">
-    <cell :title="''" is-link>
-      <div class="avatarBox" slot="icon">
-        <img :src="logo" width="100%" />
-        <p>余额</p>
-      </div>
-    </cell>
-  </group>
-  <Panel v-for="(item,index) in 5" />
+
+  <Panel v-for="(item,index) in 11" />
   <toast width="20rem" v-model="toast" type="text">{{toastText}}</toast>
 </div>
 </template>
@@ -88,25 +81,6 @@ export default {
 <style lang="less">
 .userBox {
     background: #F7F7F7;
-    .avatar {
-
-        .avatarBox {
-            display: flex;
-            align-items: center;
-            color: #333333;
-        }
-        .weui-cells {
-            margin-top: 0;
-            .weui-cell {
-                padding: 2rem 1rem;
-            }
-        }
-        img {
-            border-radius: 100%;
-            width: 4rem;
-            height: 4rem;
-        }
-    }
 
     p {
         margin: 0;

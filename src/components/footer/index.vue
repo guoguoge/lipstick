@@ -1,28 +1,26 @@
 <template>
-<div>
-  <tabbar v-model="tabbar">
-    <tabbar-item link="/">
-      <img slot="icon" :src="imgUrl.img1" />
-      <img slot="icon-active" :src="imgUrl.img2" />
-      <!-- <span slot="label"> 智银家 </span> -->
-    </tabbar-item>
-    <tabbar-item>
-      <img slot="icon" :src="imgUrl.img3" />
-      <img slot="icon-active" :src="imgUrl.img4" />
-      <!-- <span slot="label"> 推广产品 </span> -->
-    </tabbar-item>
-    <tabbar-item show-dot>
-      <img slot="icon" :src="imgUrl.img5" />
-      <img slot="icon-active" :src="imgUrl.img6" />
-      <!-- <span slot="label"> 个人中心 </span> -->
-    </tabbar-item>
-    <tabbar-item link="/center">
-      <img slot="icon" :src="imgUrl.img7" />
-      <img slot="icon-active" :src="imgUrl.img8" />
-      <!-- <span slot="label"> 个人中心 </span> -->
-    </tabbar-item>
-  </tabbar>
-</div>
+<tabbar v-model="tabbar">
+  <tabbar-item link="/">
+    <img slot="icon" :src="imgUrl.img1" />
+    <img slot="icon-active" :src="imgUrl.img2" />
+    <!-- <span slot="label"> 智银家 </span> -->
+  </tabbar-item>
+  <tabbar-item>
+    <img slot="icon" :src="imgUrl.img3" />
+    <img slot="icon-active" :src="imgUrl.img4" />
+    <!-- <span slot="label"> 推广产品 </span> -->
+  </tabbar-item>
+  <tabbar-item show-dot>
+    <img slot="icon" :src="imgUrl.img5" />
+    <img slot="icon-active" :src="imgUrl.img6" />
+    <!-- <span slot="label"> 个人中心 </span> -->
+  </tabbar-item>
+  <tabbar-item link="/center">
+    <img slot="icon" :src="imgUrl.img7" />
+    <img slot="icon-active" :src="imgUrl.img8" />
+    <!-- <span slot="label"> 个人中心 </span> -->
+  </tabbar-item>
+</tabbar>
 </template>
 
 <script>
