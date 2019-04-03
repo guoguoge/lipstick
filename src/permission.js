@@ -28,7 +28,7 @@ router.beforeEach((to, from, next) => {
     if (Cookies.get('userinfo')) {
       next();
     } else {
-      next('/user/login')
+      next('/login')
       NProgress.done()
     }
   } else if (to.meta.loginDisabled) { //登录之后通过cookie来判断user底下的页面禁止用户再次进入

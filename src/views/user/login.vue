@@ -104,7 +104,9 @@ export default {
       let check = this.$refs.tel.valid && this.$refs.password.valid
       if (check) {
         this.$store.dispatch('LoginByUsername', this.form).then((res) => {
-          console.log(this.token);
+          if (this.token) {
+            this.$router.push('center')
+          }
         })
       } else {
         this.toast = true

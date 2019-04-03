@@ -35,7 +35,8 @@ const router = new Router({
         name: 'center',
         component: center,
         meta: {
-          title: '我的'
+          title: '我的',
+          requireAuth: true
         }
       },
       {

@@ -93,11 +93,11 @@ export default {
     countDownInterval() { //发送验证码
       const Int = setInterval(() => {
         this.intervalTime--
-          if (this.intervalTime == 0) {
-            clearInterval(Int)
-            this.interval = false
-            this.intervalTime = 60
-          }
+        if (this.intervalTime == 0) {
+          clearInterval(Int)
+          this.interval = false
+          this.intervalTime = 60
+        }
       }, 1000)
     },
     submit() { //手机注册
@@ -112,6 +112,9 @@ export default {
         ).then((res) => {
           this.toast = true
           this.toastText = checkRequest(res)
+          if (checkRequest(res)) {
+            this.$router.push('login')
+          }
         })
       } else {
         this.toast = true

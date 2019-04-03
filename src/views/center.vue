@@ -56,6 +56,9 @@ import {
 }
 from '@/libs/util'
 
+import {
+  mapGetters
+} from 'vuex'
 
 import {
   SendMessage, //发送短信验证码
@@ -81,6 +84,13 @@ export default {
     Toast,
     Cell
   },
+  computed: {
+    ...mapGetters([
+      'username',
+      'telphone',
+      'token',
+    ])
+  },
   methods: {
 
   }
@@ -95,8 +105,8 @@ export default {
     }
 
     img {
-      display: block;
-      margin-right: 1rem;
+        display: block;
+        margin-right: 1rem;
     }
 }
 </style>
