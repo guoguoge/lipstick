@@ -126,7 +126,7 @@ export default {
 }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 .userBox {
     padding: 1rem;
     .buttonGroup {

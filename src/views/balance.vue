@@ -1,6 +1,32 @@
 <template>
 <div class="userBox">
-
+  <div class="balance">
+    <flexbox align="center" justify="center" orient="vertical">
+      <flexbox-item :span="1/4">
+        <flexbox class="top" align="center" justify="center">
+          <flexbox-item>
+            <div class="flexBox">
+              余额 <b>{{100000}}</b> 元
+            </div>
+          </flexbox-item>
+        </flexbox>
+      </flexbox-item>
+      <flexbox-item style="marginTop:2rem">
+        <flexbox class="bottom" align="center" justify="center">
+          <flexbox-item :span="1/4">
+            <div class="flexBox">
+              <x-button class="withdrawal" mini link="withdrawal">提 现</x-button>
+            </div>
+          </flexbox-item>
+          <flexbox-item :span="1/4">
+            <div class="flexBox">
+              <x-button class="recharge" mini link="recharge">充 值</x-button>
+            </div>
+          </flexbox-item>
+        </flexbox>
+      </flexbox-item>
+    </flexbox>
+  </div>
   <Panel v-for="(item,index) in 11" />
   <toast width="20rem" v-model="toast" type="text">{{toastText}}</toast>
 </div>
@@ -78,9 +104,39 @@ export default {
 }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 .userBox {
     background: #F7F7F7;
+    .balance {
+        background: linear-gradient(-90deg,rgba(255,22,164,1) 0%,rgba(255,108,198,1) 100%);
+        padding: 2rem 0;
+        .top {
+            color: white;
+            font-size: 12px;
+            b {
+                font-size: 2rem;
+            }
+        }
+        .bottom {
+            .withdrawal {
+                color: white;
+                background: transparent;
+                border: 2px solid rgba(255,255,255,1);
+            }
+
+            .recharge {
+                color: #FF16A4;
+                border: 2px solid rgba(255,255,255,1);
+            }
+
+            .weui-btn:after {
+              border: 1px solid rgba(0, 0, 0, 0);
+            }
+        }
+        .flexBox {
+            text-align: center;
+        }
+    }
 
     p {
         margin: 0;

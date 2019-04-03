@@ -15,7 +15,7 @@
 
   <div class="buttonGroup">
     <x-button style="border-radius:99px;margin-top:1rem" :gradients="['#FF16A4', '#FF16A4']" @click.native="login">登 录</x-button>
-    <x-button class="borderButton" style="border-radius:99px;" :link="{path:'register'}">注 册</x-button>
+    <x-button class="borderButton" style="border-radius:99px;" link="register">注 册</x-button>
   </div>
 
   <div class="loginWay">
@@ -117,7 +117,7 @@ export default {
 }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 .userBox {
     padding: 1rem;
     .logo {

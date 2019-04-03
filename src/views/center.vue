@@ -114,7 +114,7 @@ export default {
 }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 .userBox {
     background: #F7F7F7;
     .avatar {

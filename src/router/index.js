@@ -6,6 +6,8 @@ const Layout = r => require.ensure([], () => r(require('../views/layout')), 'lay
 const home = r => require.ensure([], () => r(require('../views/home')), 'home')
 const center = r => require.ensure([], () => r(require('../views/center')), 'center')
 const balance = r => require.ensure([], () => r(require('../views/balance')), 'balance')
+const withdrawal = r => require.ensure([], () => r(require('../views/withdrawal')), 'withdrawal')
+const recharge = r => require.ensure([], () => r(require('../views/recharge')), 'recharge')
 
 
 
@@ -28,7 +30,8 @@ const router = new Router({
         name: 'home',
         component: home,
         meta: {
-          title: '首页'
+          title: '首页',
+          hiddenHeader: true, // true为隐藏header
         }
       },
       {
@@ -47,6 +50,26 @@ const router = new Router({
         meta: {
           title: '账户余额',
           requireAuth: true // 登陆后查看
+        }
+      },
+      {
+        path: '/withdrawal',
+        name: 'withdrawal',
+        component: withdrawal,
+        meta: {
+          title: '提现',
+          requireAuth: true, // 登陆后查看
+          hiddenTab: true, // true为隐藏tab
+        }
+      },
+      {
+        path: '/recharge',
+        name: 'recharge',
+        component: recharge,
+        meta: {
+          title: '充值',
+          requireAuth: true, // 登陆后查看
+          hiddenTab: true, // true为隐藏tab
         }
       },
       {
