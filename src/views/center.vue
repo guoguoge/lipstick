@@ -1,7 +1,8 @@
 <template>
 <div class="userBox">
   <group class="avatar">
-    <cell :title="''" is-link>
+    <cell :title="''" is-link @click.native.stop="openFile">
+      <input ref="file" type="file" style="display: none" @change="fileChange()">
       <div class="avatarBox" slot="icon">
         <img :src="logo" width="100%" />
         <p>{{username}}</p>
@@ -75,7 +76,7 @@ import {
 
 import {
   SendMessage, //发送短信验证码
-  Reset
+  SetIcon
 }
 from '@/api/user'
 
@@ -117,8 +118,24 @@ export default {
     ])
   },
   methods: {
-    haha() {
-      alert(1)
+    openFile() {
+      this.$refs.file.click();
+    },
+    fileChange() {
+      console.log(this.$refs.file.files[0]);
+      let file = this.$refs.file.files[0]
+      let FD = new FormData()
+      FD.append('token', this.token)
+      FD.append('image', file)
+      if (file.size > 30740) {
+        this.toast = true
+        this.toastText = '头像图片不能超过3M'
+      } else {
+        SetIcon(FD).then((res) => {
+          this.toast = true
+          this.toastText = checkRequest(res)
+        })
+      }
     },
     onCancel() {
       console.log('on cancel')
@@ -152,8 +169,8 @@ export default {
         }
         img {
             border-radius: 100%;
-            width: 4rem;
-            height: 4rem;
+            width: 5rem;
+            height: 5rem;
         }
     }
 

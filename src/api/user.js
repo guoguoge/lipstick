@@ -103,6 +103,7 @@ export const DelAddress = (token, address_id) => { //添加收货地址
   })
 }
 
+
 export const ChangePassword = (tel, old_password, password, confirm_password) => { //修改密码
   return axios.request({
     url: 'change_password',
@@ -112,6 +113,21 @@ export const ChangePassword = (tel, old_password, password, confirm_password) =>
       password: password,
       confirm_password: confirm_password
     },
+    method: 'post',
+  })
+}
+
+export const SetIcon = (fd) => { //上传头像
+  return axios.request({
+    url: 'set_icon',
+    data: fd,
+    method: 'post',
+  })
+}
+
+export const TreasureCat = () => { //分类列表
+  return axios.request({
+    url: 'del_address',
     method: 'post',
   })
 }

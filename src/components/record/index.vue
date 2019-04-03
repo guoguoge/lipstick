@@ -4,7 +4,7 @@
     <span>订单编号：596546161616546165</span>
     <span class="lip">竞拍中</span>
   </div>
-  <p>123123</p>
+  <p style="textAlign:left">抢电商专属礼包+全屋</p>
   <div class="recordItem bottom">
     <span>竞拍出价: 119.9元</span>
     <span>{{time}}</span>
