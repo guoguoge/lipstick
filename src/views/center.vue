@@ -9,24 +9,24 @@
     </cell>
   </group>
   <group>
-    <cell :title="'余额'" is-link :link="{path:'balance'}">
+    <cell :title="'余额'" is-link link="balance">
       <img slot="icon" width="20" height="20" :src="imgList[0]" />
     </cell>
   </group>
 
   <group>
-    <cell :title="'夺宝记录'" is-link>
+    <cell :title="'夺宝记录'" is-link link="recordTreasure">
       <img slot="icon" width="20" height="20" :src="imgList[1]" />
     </cell>
-    <cell :title="'竞拍记录'" is-link>
+    <cell :title="'竞拍记录'" is-link link="recordAuction">
       <img slot="icon" width="20" height="20" :src="imgList[2]" />
     </cell>
-    <cell :title="'口红机记录'" is-link>
+    <cell :title="'口红机记录'" is-link link="recordLipstick">
       <img slot="icon" width="20" height="20" :src="imgList[3]" />
     </cell>
   </group>
   <group>
-    <cell :title="'账号绑定'" is-link>
+    <cell :title="'账号绑定'" is-link link="binding">
       <img slot="icon" width="20" height="20" :src="imgList[4]" />
     </cell>
     <cell :title="'收货地址'" is-link>

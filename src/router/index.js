@@ -9,6 +9,13 @@ const balance = r => require.ensure([], () => r(require('../views/balance')), 'b
 const withdrawal = r => require.ensure([], () => r(require('../views/withdrawal')), 'withdrawal')
 const recharge = r => require.ensure([], () => r(require('../views/recharge')), 'recharge')
 
+const recordAuction = r => require.ensure([], () => r(require('../views/recordAuction')), 'recordAuction')
+const recordLipstick = r => require.ensure([], () => r(require('../views/recordLipstick')), 'recordLipstick')
+const recordTreasure = r => require.ensure([], () => r(require('../views/recordTreasure')), 'recordTreasure')
+
+
+const binding = r => require.ensure([], () => r(require('../views/binding')), 'binding')
+
 
 
 const login = r => require.ensure([], () => r(require('../views/user/login')), 'login')
@@ -68,6 +75,46 @@ const router = new Router({
         component: recharge,
         meta: {
           title: '充值',
+          requireAuth: true, // 登陆后查看
+          hiddenTab: true, // true为隐藏tab
+        }
+      },
+      {
+        path: '/recordAuction',
+        name: 'recordAuction',
+        component: recordAuction,
+        meta: {
+          title: '竞拍记录',
+          requireAuth: true, // 登陆后查看
+          hiddenTab: true, // true为隐藏tab
+        }
+      },
+      {
+        path: '/recordLipstick',
+        name: 'recordLipstick',
+        component: recordLipstick,
+        meta: {
+          title: '口红机记录',
+          requireAuth: true, // 登陆后查看
+          hiddenTab: true, // true为隐藏tab
+        }
+      },
+      {
+        path: '/recordTreasure',
+        name: 'recordTreasure',
+        component: recordTreasure,
+        meta: {
+          title: '夺宝记录',
+          requireAuth: true, // 登陆后查看
+          hiddenTab: true, // true为隐藏tab
+        }
+      },
+      {
+        path: '/binding',
+        name: 'binding',
+        component: binding,
+        meta: {
+          title: '账号绑定',
           requireAuth: true, // 登陆后查看
           hiddenTab: true, // true为隐藏tab
         }
