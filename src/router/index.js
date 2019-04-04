@@ -54,6 +54,9 @@ const router = new Router({
         component: commodityDetail,
         meta: {
           title: '夺宝详情',
+          hiddenTab: true, // true为隐藏tab
+          hiddenHeader: true, // true为隐藏header
+
         }
       },
       {
