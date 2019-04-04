@@ -33,7 +33,7 @@ const password = r => require.ensure([], () => r(require('../views/user/password
 Vue.use(Router)
 
 const router = new Router({
-  mode: 'history',
+  mode: 'hash',
   base: process.env.BASE_URL,
   routes: [{
     path: '',

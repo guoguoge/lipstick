@@ -6,7 +6,7 @@ import './permission' // permission control
 
 import './index.less'
 
-import './registerServiceWorker'
+// import './registerServiceWorker'
 
 Vue.config.productionTip = false
 

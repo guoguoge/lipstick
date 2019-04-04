@@ -28,22 +28,6 @@ module.exports = {
       .set('#', resolve('src/components'))
       .set('$', resolve('src/assets'))
       .set('~', resolve('src/mixins'))
-
-    config.module
-      .rule('svg')
-      .exclude.add(resolve('src/icons/svg'))
-      .end()
-
-    config.module
-      .rule('icons')
-      .test(/\.svg$/)
-      .include.add(resolve('src/icons/svg'))
-      .end()
-      .use('svg-sprite-loader')
-      .loader('svg-sprite-loader')
-      .options({
-        symbolId: 'icon-[name]'
-      })
   },
 
   configureWebpack: config => {
