@@ -17,6 +17,9 @@ const address = r => require.ensure([], () => r(require('../views/address')), 'a
 const addAddress = r => require.ensure([], () => r(require('../views/addAddress')), 'addAddress')
 const changePassword = r => require.ensure([], () => r(require('../views/changePassword')), 'changePassword')
 
+const commodityDetail = r => require.ensure([], () => r(require('../views/commodityDetail')), 'commodityDetail')
+
+
 
 const binding = r => require.ensure([], () => r(require('../views/binding')), 'binding')
 
@@ -43,6 +46,14 @@ const router = new Router({
         meta: {
           title: '首页',
           hiddenHeader: true, // true为隐藏header
+        }
+      },
+      {
+        path: '/commodityDetail',
+        name: 'commodityDetail',
+        component: commodityDetail,
+        meta: {
+          title: '夺宝详情',
         }
       },
       {

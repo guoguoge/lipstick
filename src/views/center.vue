@@ -129,7 +129,7 @@ export default {
       FD.append('image', file)
       if (file.size > 30740) {
         this.toast = true
-        this.toastText = '头像图片不能超过3M'
+        this.toastText = '头像图片不能超过3M'
       } else {
         SetIcon(FD).then((res) => {
           this.toast = true
