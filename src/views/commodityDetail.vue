@@ -1,21 +1,22 @@
 <template>
 <div class="userBox">
   <x-header ref="header" solt="header" title="夺宝详情"><a slot="right" @click="show3 = true">规则</a></x-header>
-  <div class="panel" @click="link">
+  <div class="panel">
     <div class="">
-      <img :src="img" width="100%">
+      <img :src="url + commodity.cover_img" width="100%">
     </div>
     <div class="countDown">
       <span>距离开始</span>
-      <span><b>00</b> 时 <b>05</b> 分 <b>30</b> 秒</span>
+      <span><b>{{time.a}}</b> 时 <b>{{time.b}}</b> 分 <b>{{time.c}}</b> 秒</span>
     </div>
     <div class="info">
-      <span>MAC笔记本电脑</span>
+      <span>{{commodity.name}}</span>
       <span @click="show = true">分享</span>
     </div>
     <div class="details">
-      <span>参与人数：100000人</span>
-      <span>参与价格：500元</span>
+      <span>参与人数：{{commodity.popular}} 人</span>
+      <span>参与价格：{{commodity.price}} 元</span>
+      <span>状态：{{type}}</span>
     </div>
     <div class="step">
       <step v-model="step" background-color='#fff' gutter="20px">
@@ -29,10 +30,10 @@
     </div>
 
     <div class="img">
-      <img :src="details" width="100%" v-for="n in 3">
+      <img :src="item" width="100%" v-for="(item,index) in imgList">
     </div>
     <div class="buttonGroup">
-      <x-button class="button" :gradients="['#FF16A4', '#FF16A4']" @click.native="show2 = true">立即参与夺宝</x-button>
+      <x-button :disabled="commodity.type_id == 1" class="button" :gradients="['#FF16A4', '#FF16A4']" @click.native="show2 = true">{{commodity.type_id==0?'立即参与夺宝':'已参加'}}</x-button>
     </div>
 
     <popup v-model="show" position="bottom">
@@ -54,11 +55,11 @@
     <popup v-model="show2" position="bottom">
       <div class="pay">
         <div class="">
-          参与价格:<span class="lip">500.0元</span>
+          参与价格:<span class="lip">{{commodity.price}} 元</span>
         </div>
         <div class="flexBox">
-          <x-button class="button">取 消</x-button>
-          <x-button class="button">支 付</x-button>
+          <x-button class="button" @click.native="show2 = false">取 消</x-button>
+          <x-button class="button" @click.native="submit">支 付</x-button>
         </div>
       </div>
     </popup>
@@ -72,6 +73,8 @@
       </div>
     </popup>
   </div>
+  <toast width="20rem" v-model="toast" type="text">{{toastText}}</toast>
+
 </div>
 </template>
 
@@ -88,11 +91,13 @@ import {
   Cell,
   Flexbox,
   FlexboxItem,
+  Toast
 } from 'vux'
 
 import {
   jsonpReturn, //处理返回的数据
-  checkRequest
+  checkRequest,
+  formatDate
 }
 from '@/libs/util'
 
@@ -102,6 +107,8 @@ import {
 
 import {
   ChangePassword, //发送短信验证码
+  TreasureDetail,
+  TreasureJoin
 }
 from '@/api/user'
 
@@ -111,6 +118,7 @@ import Commodity from "#/commodity";
 export default {
   data() {
     return {
+      id: null,
       swiper: 0,
       time: (new Date()).toLocaleDateString(),
       img: require('@/assets/commodity.png'),
@@ -121,7 +129,18 @@ export default {
       show: false,
       show2: false,
       show3: false,
-      num: 1
+      toast: false,
+      toastText: '',
+      num: 1,
+      commodity: {},
+      type: '',
+      imgList: [],
+      time: {
+        a: '',
+        b: '',
+        c: ''
+      },
+      timer: null
     }
   },
   computed: {
@@ -129,6 +148,7 @@ export default {
       'username',
       'telphone',
       'token',
+      'url'
     ])
   },
   components: {
@@ -144,16 +164,75 @@ export default {
     Cell,
     Flexbox,
     FlexboxItem,
+    Toast
   },
   methods: {
+    init(id) {
+      TreasureDetail(this.token, id).then(res => {
+        let data = checkRequest(res, false)
+        this.commodity = data
+        this.commodity.detail_img.forEach(item => {
+          this.imgList.push(this.url + item)
+        })
+        if (data.type_id == 1) {
+          this.type = '未开始'
+        } else if (data.type_id == 2) {
+          this.type = '进行中'
+        } else if (data.type_id == 3) {
+          this.type = '待开奖'
+        } else {
+          this.type = '已结束'
+        }
+        this.timeFun(this.commodity.end)
+      })
+    },
     link() {
       this.$router.push('commodityDetail')
+    },
+    timeFun(tim) {
+      this.timer = setInterval(() => {
+        let now = Date.parse(new Date())
+        let time = (Date.parse(tim) - now)
+        let a = new Date(time).getHours()
+        let b = new Date(time).getMinutes()
+        let c = new Date(time).getSeconds()
+        this.time.a = a
+        this.time.b = b
+        this.time.c = c
+      }, 1000)
     },
     wechatShare() {
       alert("微信")
     },
     circleShare() {
       alert("朋友圈")
+    },
+    submit() {
+      if (this.token) {
+        TreasureJoin(this.token, this.id).then(res => {
+          let data = checkRequest(res, false)
+          if (data) {
+            this.toast = true
+            this.toastText = '参与成功!'
+          } else {
+            this.toast = true
+            this.toastText = '余额不足,请先充值!'
+          }
+          console.log(checkRequest(res, false));
+        })
+      } else {
+        this.$router.push('login')
+      }
+    }
+  },
+  mounted() {
+    console.log(this.$route.query.id);
+    this.id = this.$route.query.id
+    this.init(this.id)
+  },
+  beforeDestroy() {
+    if (this.timer) {
+      clearInterval(this.timer);
     }
   }
 }
@@ -220,7 +299,7 @@ export default {
                 margin-right: 1rem;
             }
 
-            span:last-of-type {
+            span {
                 background: rgba(234,241,251,1);
                 color: #5A95E8;
                 padding: 5px;

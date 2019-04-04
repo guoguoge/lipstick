@@ -2,7 +2,7 @@
 <div class="userBox">
   <x-header :left-options="{showBack: false}">夺宝</x-header>
   <tab>
-    <tab-item v-for="(item,index) in 8" :key="index" :selected="index===0">夺宝奇兵 {{index}}</tab-item>
+    <tab-item v-for="(item,index) in tabList" :key="index" :selected="index===0" @on-item-click="tabClick(index)">{{item.name}}</tab-item>
   </tab>
   <swiper :list="swiperList" loop v-model="swiper" auto :interval="2800" :min-moving-distance="120" dots-position="center" :show-desc-mask="false"></swiper>
   <div class="marquee">
@@ -11,7 +11,7 @@
       <marquee-item v-for="(item,index) in noticeList" :key="index" @click.native="onClick(i)" class="align-middle" v-html="item"></marquee-item>
     </marquee>
   </div>
-  <Commodity v-for="(item,index)  in  4" />
+  <Commodity :item="item" v-for="(item,index)  in  rowList" />
 
 </div>
 </template>
@@ -38,6 +38,9 @@ import {
 
 import {
   ChangePassword, //发送短信验证码
+  TreasureCat,
+  TreasureWin,
+  TreasureList
 }
 from '@/api/user'
 
@@ -74,7 +77,13 @@ export default {
         `公告 : 恭喜张三三获得 <b>荣耀手机</b> 一部  `,
         `公告 : 恭喜张三三获得 <b>小米手机</b> 一部  `,
         `公告 : 恭喜张三三获得 <b>荣耀手机</b> 一部  `,
-      ]
+      ],
+      tabList: [{
+        id: 0,
+        name: '全部商品'
+      }],
+      newList: [],
+      rowList: []
     }
   },
   computed: {
@@ -82,6 +91,7 @@ export default {
       'username',
       'telphone',
       'token',
+      'url',
     ])
   },
   components: {
@@ -94,9 +104,38 @@ export default {
     MarqueeItem
   },
   methods: {
+    init() {
+      TreasureCat(this.token, 4).then(res => {
+        let data = checkRequest(res, false)
+        data.forEach((item) => {
+          this.tabList.push({
+            id: item.id,
+            name: item.cat_name,
+          })
+        })
+        console.log(checkRequest(res, false));
+      })
+      this.getList()
+    },
+    getList(id) {
+      this.rowList = []
+      TreasureList(id).then(res => {
+        let data = checkRequest(res, false)
+        this.rowList = data
+        console.log(checkRequest(res, false));
+      })
+    },
+    tabClick(index) {
+      this.getList(this.tabList[index].id)
+    },
     onClick(i) {
       console.log(i)
     }
+  },
+  created() {},
+  beforeMount() {},
+  mounted() {
+    this.init()
   }
 }
 </script>

@@ -100,7 +100,7 @@ module.exports = {
       // }
     }, // 配置多个代理
   },
-  productionSourceMap: true,
+  // productionSourceMap: true,
 
   baseUrl: BASE_URL,
   lintOnSave: false,
@@ -110,5 +110,5 @@ module.exports = {
 
   },
   runtimeCompiler: true,
-  productionSourceMap: true,
+  // productionSourceMap: true,
 }

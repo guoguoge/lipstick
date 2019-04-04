@@ -1,27 +1,32 @@
 <template>
 <div class="panel" @click="link">
   <div class="">
-    <img :src="img" width="100%">
+    <img :src="url + item.cover_img" width="100%">
   </div>
   <div class="info">
-    <span>MAC笔记本电脑</span>
-    <span>进行中</span>
+    <span>{{item.name}}</span>
+    <span>{{item.type}}</span>
   </div>
   <div class="details">
-    <span>参与人数：100000人</span>
-    <span>参与价格：500元</span>
+    <span>参与人数：{{item.popular}}人</span>
+    <span>参与价格：{{item.price}} 元</span>
   </div>
   <div class="time">
-    <span>开始时间{{time}}</span>
-    <span>结束时间{{time}}</span>
+    <span>开始时间{{item.start}}</span>
+    <span>结束时间{{item.end}}</span>
   </div>
 </div>
 </template>
 
 <script>
 import {
+  mapGetters
+} from 'vuex'
+
+import {
   XButton
 } from 'vux'
+
 export default {
   data() {
     return {
@@ -45,12 +50,25 @@ export default {
       immediate: true
     }
   },
+  computed: {
+    ...mapGetters([
+      'username',
+      'telphone',
+      'token',
+      'url',
+    ])
+  },
   components: {
     XButton,
   },
   methods: {
     link() {
-      this.$router.push('commodityDetail')
+      this.$router.push({
+        path: 'commodityDetail',
+        query: {
+          id: this.item.id
+        }
+      })
     }
   },
   mounted() {},

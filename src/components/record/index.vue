@@ -1,13 +1,13 @@
 <template>
 <div class="recordBox">
   <div class="recordItem">
-    <span>订单编号：596546161616546165</span>
+    <span>订单编号：{{item.order_id}}</span>
     <span class="lip">竞拍中</span>
   </div>
-  <p style="textAlign:left">抢电商专属礼包+全屋</p>
+  <p style="textAlign:left">{{item.name}}</p>
   <div class="recordItem bottom">
-    <span>竞拍出价: 119.9元</span>
-    <span>{{time}}</span>
+    <span>竞拍出价: {{item.price}}元</span>
+    <span>{{item.time}}</span>
   </div>
 </div>
 </template>
@@ -18,7 +18,15 @@ export default {
     return {
       time: (new Date()).toLocaleString()
     }
-  }
+  },
+  props: {
+    item: {
+      type: Object,
+      default: function() {
+        return {}
+      },
+    }
+  },
 }
 </script>
 

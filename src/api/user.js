@@ -127,7 +127,58 @@ export const SetIcon = (fd) => { //上传头像
 
 export const TreasureCat = () => { //分类列表
   return axios.request({
-    url: 'del_address',
+    url: 'treasure_cat',
+    method: 'post',
+  })
+}
+
+export const TreasureWin = () => { //分类列表
+  return axios.request({
+    url: 'treasure_win',
+    method: 'post',
+  })
+}
+
+
+export const TreasureList = (cat_id) => { //分类列表
+  return axios.request({
+    url: 'treasure_list',
+    data: {
+      cat_id: cat_id
+    },
+    method: 'post',
+  })
+}
+
+export const TreasureDetail = (token, goods_id) => { //分类列表
+  return axios.request({
+    url: 'treasure_detail',
+    data: {
+      token: token,
+      goods_id: goods_id
+    },
+    method: 'post',
+  })
+}
+
+
+export const TreasureJoin = (token, goods_id) => { //分类列表
+  return axios.request({
+    url: 'treasure_join',
+    data: {
+      token: token,
+      goods_id: goods_id
+    },
+    method: 'post',
+  })
+}
+
+export const TreasureRecord = (token) => { //分类列表
+  return axios.request({
+    url: 'treasure_record',
+    data: {
+      token: token
+    },
     method: 'post',
   })
 }
