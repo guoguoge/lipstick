@@ -71,6 +71,7 @@ export default {
   methods: {
     init() {
       TreasureRecord(this.token).then(res => {
+        console.log(res);
         let data = checkRequest(res, false)
         this.TreasureList = data
         console.log(checkRequest(res, false));

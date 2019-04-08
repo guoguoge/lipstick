@@ -2,7 +2,7 @@
 <div class="userBox">
   <x-header ref="header" solt="header" title="夺宝详情"><a slot="right" @click="show3 = true">规则</a></x-header>
   <div class="panel">
-    <div class="">
+    <div class="coverImg">
       <img :src="url + commodity.cover_img" width="100%">
     </div>
     <div class="countDown">
@@ -215,7 +215,7 @@ export default {
     join() {
       if (this.commodity.is_join == 1) {
         this.toast = true
-        this.toastText = '您已参与过改活动!'
+        this.toastText = '您已参与过该活动!'
       } else {
         this.show2 = true
       }
@@ -257,6 +257,11 @@ export default {
     .panel {
         padding: 10px 0;
         background: white;
+        .coverImg {
+            img {
+                width: 10rem;
+            }
+        }
         .info {
             padding: 0 1rem;
             span:first-of-type {

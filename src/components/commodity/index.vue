@@ -1,6 +1,6 @@
 <template>
 <div class="panel" @click="link">
-  <div class="">
+  <div class="coverImg">
     <img :src="url + item.cover_img" width="100%">
   </div>
   <div class="info">
@@ -80,6 +80,11 @@ export default {
     margin: 10px;
     padding: 10px 0;
     background: white;
+    .coverImg {
+        img {
+            width: 10rem;
+        }
+    }
     .info {
         padding: 0 1rem;
         span:first-of-type {
