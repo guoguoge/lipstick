@@ -4,11 +4,12 @@
     <cell :title="''" is-link @click.native.stop="openFile">
       <input ref="file" type="file" style="display: none" @change="fileChange()">
       <div class="avatarBox" slot="icon">
-        <img :src="logo" width="100%" />
+        <img :src="avater?avater:defaultAvater" width="100%" />
         <p>{{username}}</p>
       </div>
     </cell>
   </group>
+
   <group>
     <cell :title="'余额'" is-link link="balance">
       <img slot="icon" width="20" height="20" :src="imgList[0]" />
@@ -84,6 +85,7 @@ export default {
   data() {
     return {
       logo: require('@/assets/logo.png'),
+      defaultAvater: require('@/assets/avater.png'),
       imgList: [
         require('@/assets/center1.png'),
         require('@/assets/center2.png'),
@@ -115,6 +117,7 @@ export default {
       'username',
       'telphone',
       'token',
+      'avater'
     ])
   },
   methods: {
@@ -127,13 +130,15 @@ export default {
       let FD = new FormData()
       FD.append('token', this.token)
       FD.append('image', file)
-      if (file.size > 30740) {
+      if (file.size > 10000) {
         this.toast = true
         this.toastText = '头像图片不能超过3M'
       } else {
         SetIcon(FD).then((res) => {
-          this.toast = true
-          this.toastText = checkRequest(res)
+          this.$store.dispatch('SetAvater', checkRequest(res)).then(response => {
+            this.toast = true
+            this.toastText = '头像更新成功!'
+          })
         })
       }
     },
@@ -147,6 +152,9 @@ export default {
         })
       })
     },
+  },
+  mounted() {
+    console.log(this.avater);
   }
 }
 </script>

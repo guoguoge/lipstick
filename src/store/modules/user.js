@@ -14,6 +14,9 @@ import {
   setUserInfo,
   getUserInfo,
   removeUserInfo,
+  setAvater,
+  getAvater,
+  removeAvater,
   jsonpReturn,
   checkRequest
 } from '@/libs/util'
@@ -23,6 +26,7 @@ const user = {
     token: getUserInfo().token,
     telphone: getUserInfo().tel,
     name: getUserInfo().name,
+    avater: getAvater(),
     width: document.body.clientWidth,
     url: 'http://129.28.67.91/Hmzk/public/',
   },
@@ -36,6 +40,9 @@ const user = {
     },
     SET_TELPHONE: (state, telphone) => {
       state.telphone = telphone
+    },
+    SET_AVATER: (state, avater) => {
+      state.avater = avater
     },
   },
 
@@ -54,7 +61,9 @@ const user = {
             commit('SET_TOKEN', data.token) // 存入token
             commit('SET_NAME', data.name) // 存入name
             commit('SET_TELPHONE', data.tel) // 存入tel
+            commit('SET_AVATER', data.icon) // 存入tel
             setUserInfo(data, Config.expirationTime)
+            setAvater(data.icon, Config.expirationTime)
             resolve(data)
             // if (autoLogin) {
             //   setUserInfo(data, Config.expirationTime)
@@ -88,11 +97,26 @@ const user = {
           commit('SET_TOKEN', '') // 存入token
           commit('SET_NAME', '') // 存入name
           commit('SET_TELPHONE', '') // 存入tel
+          commit('SET_AVATER', '') // 存入icon
           removeUserInfo()
+          removeAvater()
           resolve()
         }).catch(error => {
           reject(error)
         })
+      })
+    },
+
+    SetAvater({
+      commit,
+      state
+    }, avater) {
+      return new Promise((resolve, reject) => {
+        console.log(avater);
+        commit('SET_AVATER', avater) // 存入icon
+        setAvater(avater, Config.expirationTime)
+        console.log(getAvater());
+        resolve()
       })
     },
 

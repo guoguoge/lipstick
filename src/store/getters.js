@@ -8,6 +8,7 @@ const getters = {
   token: state => state.user.token,
   telphone: state => state.user.telphone,
   username: state => state.user.name,
+  avater: state => state.user.avater,
   url: state => state.user.url,
   top: state => window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop,
 }

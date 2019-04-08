@@ -6,8 +6,8 @@
       <img :src="url + commodity.cover_img" width="100%">
     </div>
     <div class="countDown">
-      <span>距离开始</span>
-      <span><b>{{time.a}}</b> 时 <b>{{time.b}}</b> 分 <b>{{time.c}}</b> 秒</span>
+      <span>{{commodity.type_id == 1?'距离开始':commodity.type_id == 2?'距离结束':'夺宝已结束,等待结果'}}</span>
+      <span v-if="commodity.type_id == 1 || commodity.type_id == 2"><b>{{time.a}}</b> 天<b>{{time.b}}</b> 时 <b>{{time.c}}</b> 分 <b>{{time.d}}</b> 秒</span>
     </div>
     <div class="info">
       <span>{{commodity.name}}</span>
@@ -33,7 +33,7 @@
       <img :src="item" width="100%" v-for="(item,index) in imgList">
     </div>
     <div class="buttonGroup">
-      <x-button :disabled="commodity.type_id == 1" class="button" :gradients="['#FF16A4', '#FF16A4']" @click.native="show2 = true">{{commodity.type_id==0?'立即参与夺宝':'已参加'}}</x-button>
+      <x-button :disabled="commodity.type_id != 2" class="button" :gradients="['#FF16A4', '#FF16A4']" @click.native="join">{{commodity.type}}</x-button>
     </div>
 
     <popup v-model="show" position="bottom">
@@ -138,7 +138,8 @@ export default {
       time: {
         a: '',
         b: '',
-        c: ''
+        c: '',
+        d: ''
       },
       timer: null
     }
@@ -176,14 +177,16 @@ export default {
         })
         if (data.type_id == 1) {
           this.type = '未开始'
+          this.timeFun(this.commodity.end)
         } else if (data.type_id == 2) {
           this.type = '进行中'
+          this.timeFun(this.commodity.end)
         } else if (data.type_id == 3) {
           this.type = '待开奖'
         } else {
           this.type = '已结束'
         }
-        this.timeFun(this.commodity.end)
+        console.log(this.type);
       })
     },
     link() {
@@ -193,12 +196,14 @@ export default {
       this.timer = setInterval(() => {
         let now = Date.parse(new Date())
         let time = (Date.parse(tim) - now)
-        let a = new Date(time).getHours()
-        let b = new Date(time).getMinutes()
-        let c = new Date(time).getSeconds()
+        let a = new Date(time).getDay()
+        let b = new Date(time).getHours()
+        let c = new Date(time).getMinutes()
+        let d = new Date(time).getSeconds()
         this.time.a = a
         this.time.b = b
         this.time.c = c
+        this.time.d = d
       }, 1000)
     },
     wechatShare() {
@@ -206,6 +211,14 @@ export default {
     },
     circleShare() {
       alert("朋友圈")
+    },
+    join() {
+      if (this.commodity.is_join == 1) {
+        this.toast = true
+        this.toastText = '您已参与过改活动!'
+      } else {
+        this.show2 = true
+      }
     },
     submit() {
       if (this.token) {
@@ -296,6 +309,9 @@ export default {
                 padding: 5px;
                 border-radius: 5px;
                 float: left;
+            }
+
+            span:n {
                 margin-right: 1rem;
             }
 
@@ -305,6 +321,7 @@ export default {
                 padding: 5px;
                 border-radius: 5px;
                 float: left;
+                margin-right: 0.5rem;
             }
         }
 

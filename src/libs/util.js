@@ -16,6 +16,7 @@ import {
 } from '@/libs/tools'
 
 export const USER_INFO = 'userinfo'
+export const HMZKAVATER = 'hmzkavater'
 // 封装的工具函数
 
 export const getRandom = n => { //获取随机数函数
@@ -98,9 +99,26 @@ export const getUserInfo = () => {
   else return false
 }
 
-
 export const removeUserInfo = () => { //移除cookie
   Cookies.remove(USER_INFO);
+  sessionStorage.clear()
+}
+
+export const setAvater = (avater, cookieExpires) => { //token在Cookie中存储的天数，默认1天
+  console.log(avater);
+  return Cookies.set(HMZKAVATER, avater, {
+    expires: cookieExpires || null
+  })
+}
+
+export const getAvater = () => {
+  const avater = Cookies.get(HMZKAVATER) || null
+  if (avater) return avater
+  else return false
+}
+
+export const removeAvater = () => { //移除cookie
+  Cookies.remove(HMZKAVATER);
   sessionStorage.clear()
 }
 
