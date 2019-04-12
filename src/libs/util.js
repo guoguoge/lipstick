@@ -15,7 +15,7 @@ import {
   objEqual
 } from '@/libs/tools'
 
-export const USER_INFO = 'userinfo'
+export const USER_INFO = 'hmzkuserinfo'
 export const HMZKAVATER = 'hmzkavater'
 // 封装的工具函数
 

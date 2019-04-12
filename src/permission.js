@@ -15,7 +15,9 @@ NProgress.configure({
   showSpinner: true
 }) // NProgress Configuration
 
-// import getUserInfo from '@/libs/t'
+import {
+  getUserInfo
+} from '@/libs/util'
 
 
 router.beforeEach((to, from, next) => {
@@ -25,14 +27,14 @@ router.beforeEach((to, from, next) => {
   window.scrollTo(0, 0)
   console.log(to);
   if (to.meta.requireAuth) { //这里的requireAuth为路由中定义的 meta:{requireAuth:true}，意思为：该路由添加该字段，表示进入该路由需要登录的
-    if (Cookies.get('userinfo')) {
+    if (getUserInfo()) {
       next();
     } else {
       next('/login')
       NProgress.done()
     }
   } else if (to.meta.loginDisabled) { //登录之后通过cookie来判断user底下的页面禁止用户再次进入
-    if (Cookies.get('userinfo')) {
+    if (getUserInfo()) {
       next('/')
       NProgress.done()
     } else {
