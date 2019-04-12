@@ -24,6 +24,7 @@ import {
 const user = {
   state: {
     token: getUserInfo().token,
+    id: getUserInfo().id,
     telphone: getUserInfo().tel,
     name: getUserInfo().name,
     avater: getAvater(),
@@ -37,6 +38,9 @@ const user = {
     },
     SET_NAME: (state, name) => {
       state.name = name
+    },
+    SET_ID: (state, id) => {
+      state.id = id
     },
     SET_TELPHONE: (state, telphone) => {
       state.telphone = telphone
@@ -60,10 +64,13 @@ const user = {
           if (checkRequest(response)) {
             commit('SET_TOKEN', data.token) // 存入token
             commit('SET_NAME', data.name) // 存入name
+            commit('SET_NAME', data.name) // 存入name
             commit('SET_TELPHONE', data.tel) // 存入tel
+            commit('SET_ID', data.id) // 存入tel
             commit('SET_AVATER', data.icon) // 存入tel
             setUserInfo(data, Config.expirationTime)
             setAvater(data.icon, Config.expirationTime)
+            console.log(data);
             resolve(data)
             // if (autoLogin) {
             //   setUserInfo(data, Config.expirationTime)

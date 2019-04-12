@@ -3,22 +3,22 @@
   <tabbar-item link="/">
     <img slot="icon" :src="imgUrl.img1" />
     <img slot="icon-active" :src="imgUrl.img2" />
-    <!-- <span slot="label"> 智银家 </span> -->
+    <span slot="label">夺宝</span>
   </tabbar-item>
-  <tabbar-item>
+  <tabbar-item link="/action">
     <img slot="icon" :src="imgUrl.img3" />
     <img slot="icon-active" :src="imgUrl.img4" />
-    <!-- <span slot="label"> 推广产品 </span> -->
+    <span slot="label">竞拍</span>
   </tabbar-item>
-  <tabbar-item show-dot>
+  <tabbar-item show-dot link="/game">
     <img slot="icon" :src="imgUrl.img5" />
     <img slot="icon-active" :src="imgUrl.img6" />
-    <!-- <span slot="label"> 个人中心 </span> -->
+    <span slot="label">口红机</span>
   </tabbar-item>
   <tabbar-item link="/center">
     <img slot="icon" :src="imgUrl.img7" />
     <img slot="icon-active" :src="imgUrl.img8" />
-    <!-- <span slot="label"> 个人中心 </span> -->
+    <span slot="label">我的</span>
   </tabbar-item>
 </tabbar>
 </template>
@@ -81,6 +81,9 @@ export default {
     },
     clickProfile() {
       this.$router.push('profile')
+    },
+    click() {
+
     }
     // click(num) {
     //   this.$store.dispatch('ChangeTab', num)
@@ -109,12 +112,14 @@ export default {
     .weui-tabbar__item {
         padding: 8px 0 2px;
         /deep/.weui-tabbar__icon {
-            width: 20px;
-            height: 35px;
+            width: 18px;
+            height: 20px;
         }
         /deep/.weui-tabbar__label {
             margin-top: 2px;
-            font-size: 0;
+            span {
+                list-style: none;
+            }
         }
     }
 
@@ -127,6 +132,6 @@ export default {
 }
 
 /deep/.weui-tabbar__item.weui-bar__item_on .weui-tabbar__label span {
-    color: #0097e1;
+    color: #E91195;
 }
 </style>

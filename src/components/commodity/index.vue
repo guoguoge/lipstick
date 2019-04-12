@@ -1,15 +1,17 @@
 <template>
 <div class="panel" @click="link">
   <div class="coverImg">
-    <img :src="url + item.cover_img" width="100%">
+    <img v-if="item.popular" :src="url + item.cover_img" width="100%">
+    <img v-else :src="'http://'+ item.cover_img" width="100%">
   </div>
   <div class="info">
-    <span>{{item.name}}</span>
+    <span>{{item.name || item.goods_name}}</span>
     <span>{{item.type}}</span>
   </div>
   <div class="details">
-    <span>参与人数：{{item.popular}}人</span>
-    <span>参与价格：{{item.price}} 元</span>
+    <span>参与人数：{{item.popular || item.hot}}人</span>
+    <span v-if="item.popular">参与价格：{{item.price}} 元</span>
+    <span class="bottomPrice" v-else>最低出价：{{item.bottom_price}} 元</span>
   </div>
   <div class="time">
     <span>开始时间{{item.start}}</span>
@@ -63,10 +65,12 @@ export default {
   },
   methods: {
     link() {
+      let url = this.item.hot ? 'actionCommodityDetail' : 'commodityDetail'
+      let id = this.item.hot ? this.item.goods_id : this.item.id
       this.$router.push({
-        path: 'commodityDetail',
+        path: url,
         query: {
-          id: this.item.id
+          id: id
         }
       })
     }
@@ -132,6 +136,11 @@ export default {
             padding: 5px;
             border-radius: 5px;
             float: left;
+        }
+        span.bottomPrice {
+            color: rgba(247,29,39,1);
+            background: rgba(255,247,252,1);
+            border-radius: 5px;
         }
     }
 

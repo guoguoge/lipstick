@@ -182,3 +182,59 @@ export const TreasureRecord = (token) => { //分类列表
     method: 'post',
   })
 }
+
+export const ACate = (token) => {
+  // 竞拍商品分类
+  return axios.request({
+    url: 'aCate',
+    method: 'post',
+    data: {
+      token: token
+    }
+  })
+}
+
+
+export const AuctionList = (cate_id) => {
+  // 竞拍商品分类
+  return axios.request({
+    url: 'gAuction',
+    method: 'post',
+    data: {
+      cate_id: cate_id
+    }
+  })
+}
+
+export const AuctionDetail = (goods_id) => {
+  // 竞拍商品分类
+  return axios.request({
+    url: 'auction_detail',
+    method: 'post',
+    data: {
+      goods_id: goods_id
+    }
+  })
+}
+
+export const AuctionTop = (goods_id) => {
+  // 竞拍商品分类
+  return axios.request({
+    url: 'getMaximumBid',
+    method: 'post',
+    data: {
+      goods_id: goods_id
+    }
+  })
+}
+
+export const AuctionStatus = (goods_id) => {
+  // 竞拍商品分类
+  return axios.request({
+    url: 'getAuctionStatus',
+    method: 'post',
+    data: {
+      goods_id: goods_id
+    }
+  })
+}

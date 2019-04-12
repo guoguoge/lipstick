@@ -4,6 +4,7 @@ import Router from 'vue-router'
 
 const Layout = r => require.ensure([], () => r(require('../views/layout')), 'layout')
 const home = r => require.ensure([], () => r(require('../views/home')), 'home')
+const action = r => require.ensure([], () => r(require('../views/action')), 'action')
 const center = r => require.ensure([], () => r(require('../views/center')), 'center')
 const balance = r => require.ensure([], () => r(require('../views/balance')), 'balance')
 const withdrawal = r => require.ensure([], () => r(require('../views/withdrawal')), 'withdrawal')
@@ -18,10 +19,14 @@ const addAddress = r => require.ensure([], () => r(require('../views/addAddress'
 const changePassword = r => require.ensure([], () => r(require('../views/changePassword')), 'changePassword')
 
 const commodityDetail = r => require.ensure([], () => r(require('../views/commodityDetail')), 'commodityDetail')
+const actionCommodityDetail = r => require.ensure([], () => r(require('../views/actionCommodityDetail')), 'actionCommodityDetail')
 
 
 
 const binding = r => require.ensure([], () => r(require('../views/binding')), 'binding')
+
+
+const game = r => require.ensure([], () => r(require('../views/game')), 'game')
 
 
 
@@ -49,11 +54,30 @@ const router = new Router({
         }
       },
       {
+        path: '/action',
+        name: 'action',
+        component: action,
+        meta: {
+          title: '竞拍',
+        }
+      },
+      {
         path: '/commodityDetail',
         name: 'commodityDetail',
         component: commodityDetail,
         meta: {
           title: '夺宝详情',
+          hiddenTab: true, // true为隐藏tab
+          hiddenHeader: true, // true为隐藏header
+
+        }
+      },
+      {
+        path: '/actionCommodityDetail',
+        name: 'actionCommodityDetail',
+        component: actionCommodityDetail,
+        meta: {
+          title: '竞拍详情',
           hiddenTab: true, // true为隐藏tab
           hiddenHeader: true, // true为隐藏header
 
@@ -115,6 +139,15 @@ const router = new Router({
           title: '口红机记录',
           requireAuth: true, // 登陆后查看
           hiddenTab: true, // true为隐藏tab
+        }
+      },
+      {
+        path: '/game',
+        name: 'game',
+        component: game,
+        meta: {
+          title: '口红机',
+          requireAuth: true, // 登陆后查看
         }
       },
       {

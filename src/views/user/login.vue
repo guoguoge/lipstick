@@ -92,6 +92,7 @@ export default {
   computed: {
     ...mapGetters([
       'username',
+      'id',
       'telphone',
       'token',
     ])
@@ -107,7 +108,7 @@ export default {
           console.log(res);
           if (res) {
             this.toast = true
-            this.toastText = '欢迎回来'
+            this.toastText = '欢迎回来!'
             this.$router.push('center')
           } else {
             this.toast = true
