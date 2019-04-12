@@ -11,8 +11,13 @@
       <marquee-item v-for="(item,index) in noticeList" :key="index" @click.native="onClick(i)" class="align-middle" v-html="item"></marquee-item>
     </marquee>
   </div>
-  <Commodity :item="item" v-for="(item,index)  in  rowList" />
-
+  <div v-if="rowList.length">
+    <Commodity :item="item" v-for="(item,index)  in  rowList" />
+  </div>
+  <div class="noCommodity" v-else>
+    抱歉,当前分类暂无商品<br>
+    请查看先其他分类
+  </div>
 </div>
 </template>
 
@@ -157,6 +162,10 @@ export default {
             left: 2rem;
 
         }
+    }
+    .noCommodity {
+        padding: 1rem 0;
+        color: #4d4d4d;
     }
 }
 </style>
