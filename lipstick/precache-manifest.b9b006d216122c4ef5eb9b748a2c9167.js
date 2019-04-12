@@ -1,27 +1,39 @@
 self.__precacheManifest = [
   {
-    "revision": "35776d8b6dfe417ad6fe",
-    "url": "assets/js/password.13b04a03.js"
+    "revision": "a072cdc0dec3016d02ff",
+    "url": "assets/js/layout.611a73e0.js"
   },
   {
     "revision": "735ab4f94fbcd57074377afca324c813",
     "url": "robots.txt"
   },
   {
-    "revision": "6036df5c46d81654fa9a",
-    "url": "assets/js/recharge.d2114799.js"
+    "revision": "776b990d0a20b5dc54e6",
+    "url": "assets/js/login.0ee7baec.js"
   },
   {
-    "revision": "641af3a853251ab66616",
-    "url": "assets/js/addAddress.9f0e56d6.js"
+    "revision": "cd6ebae06a2c47d896c1",
+    "url": "assets/js/actionCommodityDetail~addAddress~address~balance~binding~center~changePassword~commodityDetail~login~62e71851.6a0595ae.js"
+  },
+  {
+    "revision": "1de8888a91ed30c68f00",
+    "url": "assets/js/actionCommodityDetail~commodityDetail.2a7acdc9.js"
+  },
+  {
+    "revision": "c5b435ceccb8917b35ea",
+    "url": "assets/js/action~actionCommodityDetail~commodityDetail~home.d427dd7c.js"
+  },
+  {
+    "revision": "4422248e607349b588bf",
+    "url": "assets/js/action~home.d6c4f54c.js"
+  },
+  {
+    "revision": "320db762963732c45a89",
+    "url": "assets/js/addAddress.60ee8649.js"
   },
   {
     "revision": "54a9f4504d2b7fb4fd3e",
     "url": "assets/js/addAddress~address~balance~binding~center~changePassword~login~password~recharge~recordAuction~recor~52f993e1.a4ec1d3c.js"
-  },
-  {
-    "revision": "ae634eafe966c279bfc0",
-    "url": "assets/js/addAddress~commodityDetail.9c0d2d44.js"
   },
   {
     "revision": "7ec91a1bb81c7708cae9",
@@ -32,12 +44,12 @@ self.__precacheManifest = [
     "url": "assets/js/address~recordAuction~recordLipstick~recordTreasure.8288e32e.js"
   },
   {
-    "revision": "dfbdf95463d10350f61e4e1f08cf5f2a",
+    "revision": "06eb077b6102012e12b6a0e3f80a5907",
     "url": "index.html"
   },
   {
-    "revision": "ecd0f2ef723d016ef8a8",
-    "url": "assets/js/app.3d597502.js"
+    "revision": "d00bd3fa6601191d3da6",
+    "url": "assets/js/app.cefa940e.js"
   },
   {
     "revision": "c5502926f28dae500f5c",
@@ -68,8 +80,8 @@ self.__precacheManifest = [
     "url": "assets/js/chunk-vendors.9a9da8f9.js"
   },
   {
-    "revision": "35bbdec6eb23f599b5b7",
-    "url": "assets/js/commodityDetail.a42fef8a.js"
+    "revision": "1ebf8c8a47fb00eff1db",
+    "url": "assets/js/commodityDetail.077a7f66.js"
   },
   {
     "revision": "27a715f662ae1dbce6d0",
@@ -80,20 +92,20 @@ self.__precacheManifest = [
     "url": "assets/js/home.2a7ccd58.js"
   },
   {
-    "revision": "a072cdc0dec3016d02ff",
-    "url": "assets/js/layout.611a73e0.js"
-  },
-  {
-    "revision": "776b990d0a20b5dc54e6",
-    "url": "assets/js/login.0ee7baec.js"
-  },
-  {
     "revision": "e725b977a9a17fc3d5c2",
     "url": "assets/js/register.b2653a19.js"
   },
   {
-    "revision": "8ec1307ddac2e60158e7",
-    "url": "assets/js/addAddress~address~balance~binding~center~changePassword~commodityDetail~login~password~recharge~rec~209abe2d.7ff96fa3.js"
+    "revision": "24d81acc0e3fd45ed1ea",
+    "url": "assets/js/actionCommodityDetail~addAddress~commodityDetail.02b3044d.js"
+  },
+  {
+    "revision": "35776d8b6dfe417ad6fe",
+    "url": "assets/js/password.13b04a03.js"
+  },
+  {
+    "revision": "6036df5c46d81654fa9a",
+    "url": "assets/js/recharge.d2114799.js"
   },
   {
     "revision": "cdb25e0d314d650a466f",
@@ -116,16 +128,16 @@ self.__precacheManifest = [
     "url": "assets/img/tab02active.70fad0bc.png"
   },
   {
-    "revision": "05355fb94ea61fe1ba5d",
-    "url": "assets/js/action~home.8fd0b6d0.js"
+    "revision": "fb268d583a907e9b5128",
+    "url": "assets/js/actionCommodityDetail.71173626.js"
   },
   {
     "revision": "5d73e51ae17cbff2cb6fd6ee30308c25",
     "url": "assets/img/tab01active.5d73e51a.png"
   },
   {
-    "revision": "358fcb702a4ef1533353",
-    "url": "assets/js/action.2bf51854.js"
+    "revision": "201f98d4d560e7703702",
+    "url": "assets/js/action.557bc2ef.js"
   },
   {
     "revision": "0c3e68838da026adc9516d63ed20e3fe",
@@ -172,7 +184,7 @@ self.__precacheManifest = [
     "url": "assets/css/chunk-vendors.b57e4bfb.css"
   },
   {
-    "revision": "ecd0f2ef723d016ef8a8",
+    "revision": "d00bd3fa6601191d3da6",
     "url": "assets/css/app.f1083e28.css"
   }
 ];

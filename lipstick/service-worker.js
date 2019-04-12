@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "precache-manifest.3fbbae6ad590e71a7d2b938be4a5f470.js"
+  "precache-manifest.b9b006d216122c4ef5eb9b748a2c9167.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "lipstick"});
