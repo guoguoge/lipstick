@@ -59,6 +59,7 @@ export default {
         .head {
             font-size: 18px;
             margin-bottom: 10px;
+            text-align: left;
         }
         .details {
             color: #999;

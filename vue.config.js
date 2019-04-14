@@ -1,6 +1,9 @@
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const vuxLoader = require("vux-loader");
 
+const CompressionWebpackPlugin = require('compression-webpack-plugin');
+const productionGzipExtensions = /\.(js|css|json|txt|html|ico|svg)(\?.*)?$/i;
+
 const path = require('path')
 
 const resolve = dir => {
@@ -10,6 +13,8 @@ const resolve = dir => {
 const BASE_URL = process.env.NODE_ENV === 'production' ?
   './' :
   '/'
+
+const IS_PROD = ['production', 'prod'].includes(process.env.NODE_ENV)
 
 
 module.exports = {
@@ -57,6 +62,23 @@ module.exports = {
             }
           }
         })
+      ];
+    }
+
+    if (IS_PROD) {
+      const plugins = [];
+      plugins.push(
+        new CompressionWebpackPlugin({
+          filename: '[path].gz[query]',
+          algorithm: 'gzip',
+          test: productionGzipExtensions,
+          threshold: 10240,
+          minRatio: 0.8
+        })
+      );
+      config.plugins = [
+        ...config.plugins,
+        ...plugins
       ];
     }
   },

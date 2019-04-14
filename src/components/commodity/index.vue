@@ -1,7 +1,7 @@
 <template>
 <div class="panel" @click="link">
   <div class="coverImg">
-    <img v-if="item.popular" :src="url + item.cover_img" width="100%">
+    <img v-if="item.id" :src="url + item.cover_img" width="100%">
     <img v-else :src="'http://'+ item.cover_img" width="100%">
   </div>
   <div class="info">

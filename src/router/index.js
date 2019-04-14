@@ -49,6 +49,7 @@ const router = new Router({
         meta: {
           title: '首页',
           hiddenHeader: true, // true为隐藏header
+          tab: 0,
         }
       },
       {
@@ -57,6 +58,7 @@ const router = new Router({
         component: action,
         meta: {
           title: '竞拍',
+          tab: 1,
         }
       },
       {
@@ -67,7 +69,7 @@ const router = new Router({
           title: '夺宝详情',
           hiddenTab: true, // true为隐藏tab
           hiddenHeader: true, // true为隐藏header
-
+          tab: 0,
         }
       },
       {
@@ -78,6 +80,7 @@ const router = new Router({
           title: '竞拍详情',
           hiddenTab: true, // true为隐藏tab
           hiddenHeader: true, // true为隐藏header
+          tab: 1,
 
         }
       },
@@ -87,7 +90,8 @@ const router = new Router({
         component: center,
         meta: {
           title: '我的',
-          requireAuth: true // 登陆后查看
+          requireAuth: true, // 登陆后查看
+          tab: 3,
         }
       },
       {
@@ -96,7 +100,9 @@ const router = new Router({
         component: balance,
         meta: {
           title: '账户余额',
-          requireAuth: true // 登陆后查看
+          requireAuth: true, // 登陆后查看
+          tab: 3,
+
         }
       },
       {
@@ -107,6 +113,8 @@ const router = new Router({
           title: '提现',
           requireAuth: true, // 登陆后查看
           hiddenTab: true, // true为隐藏tab
+          tab: 3,
+
         }
       },
       {
@@ -117,6 +125,8 @@ const router = new Router({
           title: '充值',
           requireAuth: true, // 登陆后查看
           hiddenTab: true, // true为隐藏tab
+          tab: 3,
+
         }
       },
       {
@@ -127,6 +137,8 @@ const router = new Router({
           title: '竞拍记录',
           requireAuth: true, // 登陆后查看
           hiddenTab: true, // true为隐藏tab
+          tab: 3,
+
         }
       },
       {
@@ -137,6 +149,8 @@ const router = new Router({
           title: '口红机记录',
           requireAuth: true, // 登陆后查看
           hiddenTab: true, // true为隐藏tab
+          tab: 3,
+
         }
       },
       {
@@ -147,6 +161,7 @@ const router = new Router({
           title: '口红机游戏',
           requireAuth: true, // 登陆后查看
           hiddenTab: true, // true为隐藏tab
+          tab: 3,
         }
       },
       {
@@ -157,6 +172,7 @@ const router = new Router({
           title: '夺宝记录',
           requireAuth: true, // 登陆后查看
           hiddenTab: true, // true为隐藏tab
+          tab: 3,
         }
       },
       {
@@ -167,6 +183,8 @@ const router = new Router({
           title: '收货地址',
           requireAuth: true, // 登陆后查看
           hiddenTab: true, // true为隐藏tab
+          tab: 3,
+
         }
       },
       {
@@ -177,6 +195,7 @@ const router = new Router({
           title: '新增收货地址',
           requireAuth: true, // 登陆后查看
           hiddenTab: true, // true为隐藏tab
+          tab: 3,
         }
       },
       {
@@ -187,6 +206,7 @@ const router = new Router({
           title: '修改密码',
           requireAuth: true, // 登陆后查看
           hiddenTab: true, // true为隐藏tab
+          tab: 3,
         }
       },
       {
@@ -197,6 +217,7 @@ const router = new Router({
           title: '账号绑定',
           requireAuth: true, // 登陆后查看
           hiddenTab: true, // true为隐藏tab
+          tab: 3
         }
       },
       {

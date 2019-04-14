@@ -29,13 +29,15 @@ export default {
       tabber: true,
       bodyPaddingTop: '0px',
       bodyPaddingBottom: '0px',
-
     }
   },
   watch: {
     $route: {
       handler: function(val, oldVal) {
         console.log(val.meta);
+        if (val.meta.tab) {
+          this.tab = val.meta.tab
+        }
         const Meta = val.meta
         this.title = Meta.title
         this.header = Meta.hiddenHeader ? false : true

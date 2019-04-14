@@ -15,6 +15,7 @@
   </div>
   <div class="noCommodity" v-else>
     抱歉,当前分类暂无商品<br> 请先查看其他分类
+    <x-button class="button" @click.native="goBack">前 往</x-button>
   </div>
 </div>
 </template>
@@ -26,7 +27,8 @@ import {
   XHeader,
   Swiper,
   Marquee,
-  MarqueeItem
+  MarqueeItem,
+  XButton
 } from 'vux'
 
 import {
@@ -104,7 +106,8 @@ export default {
     Swiper,
     Commodity,
     Marquee,
-    MarqueeItem
+    MarqueeItem,
+    XButton
   },
   methods: {
     init() {
@@ -133,6 +136,9 @@ export default {
     },
     onClick(i) {
       console.log(i)
+    },
+    goBack() {
+      this.getList()
     }
   },
   created() {},
@@ -165,6 +171,12 @@ export default {
     .noCommodity {
         color: #E91195;
         padding: 2rem 0;
+        /deep/.button {
+            margin-top: 1rem;
+            width: 30%;
+            color: #E91195;
+            border: 1px solid #E91195;
+        }
     }
 }
 </style>
