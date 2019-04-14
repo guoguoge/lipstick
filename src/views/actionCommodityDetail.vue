@@ -7,17 +7,17 @@
     </div>
 
     <div class="countDown">
-      <span>{{goodStatus.type}}</span>
-      <span v-if="goodStatus.type == '进行中' "><b>{{time.a}}</b> 天<b>{{time.b}}</b> 时 <b>{{time.c}}</b> 分 <b>{{time.d}}</b> 秒</span>
+      <span>{{goodStatus.type == '进行中'?'距离竞拍结束':(goodStatus.type == '未开始'?'距离竞拍开始':goodStatus.type)}}</span>
+      <span v-if="goodStatus.type == '进行中' || goodStatus.type == '未开始' "><b>{{time.a}}</b> 天<b>{{time.b}}</b> 时 <b>{{time.c}}</b> 分 <b>{{time.d}}</b> 秒</span>
     </div>
     <div v-if="topName" class="top">
-      最高出价:<br><span class="name">姓名: {{topName || '暂无结果'}}</span><br>价格: <span class="price">{{topPrice}}</span>
+      当前最高出价:<br><span class="name">昵称: {{topName || '暂无出价信息'}}</span><br>价格: <span class="price">{{topPrice}} 元</span>
     </div>
     <div v-else class="top">
-      暂无结果
+      暂无出价信息
     </div>
     <div class="info">
-      <span>{{commodity.name}}</span>
+      <span>商品名:{{commodity.name}}</span>
       <span @click="show = true">分享</span>
     </div>
 
@@ -44,7 +44,8 @@
     </div>
     <div class="buttonGroup">
       <!-- <x-button :disabled="commodity.type_id != 2" class="button" :gradients="['#FF16A4', '#FF16A4']" @click.native="join">{{commodity.type}}</x-button> -->
-      <x-button class="button" :gradients="['#FF16A4', '#FF16A4']" @click.native="join">{{goodStatus.type}}</x-button>
+      <x-button v-if="!userInfo.auction" :disabled="goodStatus.type == '竞价结束' || goodStatus.type == '未开始'|| goodStatus.type == '竞拍结束'" class="button" :gradients="['#FF16A4', '#FF16A4']" @click.native="join">{{goodStatus.type == '进行中'?'火热竞拍中 立即参与':goodStatus.type}}</x-button>
+      <x-button v-else class="button" :gradients="['#FF16A4', '#FF16A4']" @click.native="join">继续加价</x-button>
     </div>
 
     <popup v-model="show" position="bottom">
@@ -66,7 +67,7 @@
     <popup v-model="show2" position="bottom">
       <div class="pay">
         <div class="">
-          参与价格:<span class="lip">{{commodity.price}} 元</span>
+          竞拍加价价格:<span class="lip">{{commodity.raise_price}} 元</span>
         </div>
         <div class="flexBox">
           <x-button class="button" @click.native="show2 = false">取 消</x-button>
@@ -121,7 +122,9 @@ import {
   AuctionDetail,
   TreasureJoin,
   AuctionTop,
-  AuctionStatus
+  AuctionStatus,
+  AddAuction,
+  UserInfoByAuctionId
 }
 from '@/api/user'
 
@@ -143,6 +146,7 @@ export default {
       show2: false,
       show3: false,
       toast: false,
+      userInfo: {},
       toastText: '',
       num: 1,
       commodity: {},
@@ -154,10 +158,11 @@ export default {
         c: '',
         d: ''
       },
-      timer: null,
+      timer: null, //时间计时器
+      topTimer: null, // 最高价格计时器
       topPrice: null, // 最高价
       topName: '',
-      goodStatus: ''
+      goodStatus: '',
     }
   },
   computed: {
@@ -192,31 +197,37 @@ export default {
         this.commodity.detail_img.forEach(item => {
           this.imgList.push('http://' + item)
         })
-        this.timeFun(this.commodity.end)
-        // if (data.type_id == 1) {
-        //   this.type = '未开始'
-        //   this.timeFun(this.commodity.end)
-        // } else if (data.type_id == 2) {
-        //   this.type = '进行中'
-        //   this.timeFun(this.commodity.end)
-        // } else if (data.type_id == 3) {
-        //   this.type = '待开奖'
-        // } else {
-        //   this.type = '已结束'
-        // }
       })
-      AuctionTop(id).then(res => {
-        let data = checkRequest(res, false)
-        if (data.maximum_bid) {
-          this.topName = data.username
-          this.topPrice = data.maximum_bid
-        } else {
-          this.topPrice = data
-        }
-      })
+      this.topTimer = setInterval(() => {
+        AuctionTop(id).then(res => {
+          let data = checkRequest(res, false)
+          console.log(data);
+          if (data.maximum_bid) {
+            this.topName = data.username
+            this.topPrice = data.maximum_bid
+          } else {
+            this.topPrice = data
+          }
+        })
+      }, 2000)
       AuctionStatus(id).then(res => {
         let data = checkRequest(res, false)
         this.goodStatus = data
+        if (data.type == '进行中') {
+          this.timeFun(this.commodity.end)
+        } else if (data.type == '未开始') {
+          this.timeFun(this.commodity.end)
+        } else if (data.type == '竞拍结束') {
+          this.toast = true
+          this.toastText = '该商品竞拍已结束!'
+        } else {
+          this.type = '已结束'
+        }
+      })
+      UserInfoByAuctionId(this.token, id).then(res => {
+        let data = checkRequest(res, false)
+        this.userInfo = data
+        console.log(this.userInfo, 'userInfo');
       })
     },
     link() {
@@ -275,8 +286,9 @@ export default {
     this.init(this.id)
   },
   beforeDestroy() {
-    if (this.timer) {
+    if (this.timer || this.topTimer) {
       clearInterval(this.timer);
+      clearInterval(this.topTimer);
     }
   }
 }
@@ -329,7 +341,7 @@ export default {
             b {
                 background: #FF79CB;
                 border-radius: 4px;
-                padding: 4px;
+                padding: 1px;
             }
         }
 
@@ -339,11 +351,11 @@ export default {
             margin: 1rem 3rem;
             border-radius: 10rem;
             .name {
-                font-size: 1.4rem;
+                font-size: 1.2rem;
             }
 
             .price {
-                font-size: 2rem;
+                font-size: 1.4rem;
                 color: #F71D27;
             }
         }
@@ -414,7 +426,7 @@ export default {
         }
 
         .pay {
-            padding: 4rem 0 0;
+            padding: 2rem 0 0;
             .flexBox {
                 display: flex;
                 align-items: center;
@@ -431,7 +443,7 @@ export default {
                 border: 1px solid rgba(0, 0, 0, 0);
             }
             span {
-                font-size: 20px;
+                font-size: 2rem;
             }
         }
 

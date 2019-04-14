@@ -1,6 +1,6 @@
 <template>
 <div class="userBox">
-  <Record v-for="(item,index)  in  7" />
+  <Record :item="item" v-for="(item,index)  in  TreasureList" />
   <toast width="20rem" v-model="toast" type="text">{{toastText}}</toast>
 </div>
 </template>
@@ -29,7 +29,8 @@ import {
 
 import {
   SendMessage, //发送短信验证码
-  Reset
+  Reset,
+  AuctionRecord
 }
 from '@/api/user'
 
@@ -45,7 +46,8 @@ export default {
         require('@/assets/wechatpay.png'),
       ],
       toastText: '', // 弹出框
-      toast: false
+      toast: false,
+      TreasureList: []
     }
   },
   components: {
@@ -67,8 +69,19 @@ export default {
     ])
   },
   methods: {
-
+    init() {
+      AuctionRecord(this.token).then(res => {
+        console.log(res);
+        let data = checkRequest(res, false)
+        this.TreasureList = data
+        console.log(checkRequest(res, false));
+      })
+    }
+  },
+  mounted() {
+    this.init()
   }
+
 }
 </script>
 

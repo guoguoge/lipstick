@@ -238,3 +238,36 @@ export const AuctionStatus = (goods_id) => {
     }
   })
 }
+
+export const AuctionRecord = (token) => { //竞拍记录
+  return axios.request({
+    url: 'getAuctionRecord',
+    data: {
+      token: token
+    },
+    method: 'post',
+  })
+}
+
+export const UserInfoByAuctionId = (token, goods_id) => { //商品详情里获取用户详情
+  return axios.request({
+    url: 'getUserInfoByAuctionId',
+    data: {
+      token: token,
+      goods_id: goods_id
+    },
+    method: 'post',
+  })
+}
+
+export const AddAuction = (token, auction_id, bid_price) => { //商品详情里获取用户详情
+  return axios.request({
+    url: 'addAuction',
+    data: {
+      token: token,
+      auction_id: auction_id,
+      bid_price: bid_price
+    },
+    method: 'post',
+  })
+}

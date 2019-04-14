@@ -6,8 +6,8 @@
   </div>
   <p style="textAlign:left">{{item.name}}</p>
   <div class="recordItem bottom">
-    <span>竞拍出价: {{item.price}}元</span>
-    <span>{{item.time}}</span>
+    <span>竞拍出价: {{item.price || item.bid_price}}元</span>
+    <span>{{item.time || item.auction_time}}</span>
   </div>
 </div>
 </template>
