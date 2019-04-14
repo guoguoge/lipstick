@@ -28,8 +28,6 @@ const binding = r => require.ensure([], () => r(require('../views/binding')), 'b
 
 const game = r => require.ensure([], () => r(require('../views/game')), 'game')
 
-
-
 const login = r => require.ensure([], () => r(require('../views/user/login')), 'login')
 const register = r => require.ensure([], () => r(require('../views/user/register')), 'register')
 const password = r => require.ensure([], () => r(require('../views/user/password')), 'password')

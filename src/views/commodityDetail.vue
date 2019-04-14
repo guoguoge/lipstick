@@ -175,6 +175,8 @@ export default {
         this.commodity.detail_img.forEach(item => {
           this.imgList.push(this.url + item)
         })
+
+        console.log(123123);
         if (data.type_id == 1) {
           this.type = '未开始'
           this.timeFun(this.commodity.end)
@@ -193,6 +195,7 @@ export default {
       this.$router.push('commodityDetail')
     },
     timeFun(tim) {
+      tim = tim.replace(/-/g, '/') //替换所有
       this.timer = setInterval(() => {
         let now = Date.parse(new Date())
         let time = (Date.parse(tim) - now)
