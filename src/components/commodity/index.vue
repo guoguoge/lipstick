@@ -1,8 +1,8 @@
 <template>
 <div class="panel" @click="link">
   <div class="coverImg">
-    <img v-if="item.id" :src="url + item.cover_img" width="100%">
-    <img v-else :src="'http://'+ item.cover_img" width="100%">
+    <img v-if="item.id" :src="url + item.cover_img">
+    <img v-else :src="'http://'+ item.cover_img">
   </div>
   <div class="info">
     <span>商品名: {{item.name || item.goods_name}}</span>
@@ -82,13 +82,14 @@ export default {
 <style lang="less" scoped>
 .panel {
     margin: 15px;
-    padding: 10px 0;
+    padding-bottom: 10px;
     background: white;
     border-radius: 5px;
     box-shadow: 0 1px 8px #e6e6f1;
     .coverImg {
+        background: #fff7fc;
         img {
-            width: 10rem;
+            height: 12rem;
         }
     }
     .info {

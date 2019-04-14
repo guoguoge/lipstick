@@ -30,7 +30,7 @@
     <div class="step">
       <step v-model="step" background-color='#fff' gutter="20px">
         <step-item :title="'开始竞拍'"></step-item>
-        <step-item :title="'待开奖'"></step-item>
+        <step-item :title="'正在竞拍'"></step-item>
         <step-item :title="'开奖'"></step-item>
       </step>
     </div>
@@ -67,7 +67,8 @@
     <popup v-model="show2" position="bottom">
       <div class="pay">
         <div class="">
-          竞拍加价价格:<span class="lip">{{commodity.raise_price}} 元</span>
+          <p>当前最高价格:<span class="lip">{{topPrice || '暂无出价信息'}} 元</span></p>
+          <p>竞拍加价价格:<span class="lip">{{commodity.raise_price}} 元</span></p>
         </div>
         <div class="flexBox">
           <x-button class="button" @click.native="show2 = false">取 消</x-button>
@@ -120,7 +121,6 @@ import {
 import {
   ChangePassword, //发送短信验证码
   AuctionDetail,
-  TreasureJoin,
   AuctionTop,
   AuctionStatus,
   AddAuction,
@@ -189,8 +189,8 @@ export default {
     Toast
   },
   methods: {
-    init(id) {
-      AuctionDetail(id).then(res => {
+    async init(id) { //数据初始化 各种计时器开始计时
+      await AuctionDetail(id).then(res => {
         let data = checkRequest(res, false)
         console.log(data);
         this.commodity = data
@@ -209,32 +209,32 @@ export default {
             this.topPrice = data
           }
         })
-      }, 2000)
-      AuctionStatus(id).then(res => {
+      }, 1000)
+      await AuctionStatus(id).then(res => {
         let data = checkRequest(res, false)
         this.goodStatus = data
         if (data.type == '进行中') {
           this.timeFun(this.commodity.end)
+          this.step = 1
         } else if (data.type == '未开始') {
           this.timeFun(this.commodity.end)
+          this.step = 0
         } else if (data.type == '竞拍结束') {
           this.toast = true
           this.toastText = '该商品竞拍已结束!'
+          this.step = 3
         } else {
           this.type = '已结束'
         }
       })
-      UserInfoByAuctionId(this.token, id).then(res => {
+
+      await UserInfoByAuctionId(this.token, id).then(res => {
         let data = checkRequest(res, false)
         this.userInfo = data
         console.log(this.userInfo, 'userInfo');
       })
     },
-    link() {
-      this.$router.push('commodityDetail')
-    },
-    timeFun(tim) {
-      console.log(123123);
+    timeFun(tim) { //倒计时计时器
       this.timer = setInterval(() => {
         let now = Date.parse(new Date())
         let time = (Date.parse(tim) - now)
@@ -254,20 +254,16 @@ export default {
     circleShare() {
       alert("朋友圈")
     },
-    join() {
-      if (this.commodity.is_join == 1) {
-        this.toast = true
-        this.toastText = '您已参与过该活动!'
-      } else {
-        this.show2 = true
-      }
+    join() { //判断是否参加
+      this.show2 = true
     },
     submit() {
       if (this.token) {
-        TreasureJoin(this.token, this.id).then(res => {
+        AddAuction(this.token, this.commodity.id, Number(this.topPrice) + Number(this.commodity.raise_price)).then(res => {
           let data = checkRequest(res, false)
           if (data) {
             this.toast = true
+            this.show2 = false
             this.toastText = '参与成功!'
           } else {
             this.toast = true

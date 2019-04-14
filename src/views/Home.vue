@@ -166,7 +166,6 @@ export default {
             height: 20px;
             position: absolute;
             left: 2rem;
-
         }
     }
     .noCommodity {

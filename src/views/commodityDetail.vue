@@ -6,22 +6,22 @@
       <img :src="url + commodity.cover_img" width="100%">
     </div>
     <div class="countDown">
-      <span>{{commodity.type_id == 1?'距离开始':commodity.type_id == 2?'距离结束':'夺宝已结束,等待结果'}}</span>
+      <span>{{commodity.type_id == 1?'距离夺宝开始:':commodity.type_id == 2?'距离夺宝结束:':'夺宝已结束,等待结果'}}</span>
       <span v-if="commodity.type_id == 1 || commodity.type_id == 2"><b>{{time.a}}</b> 天<b>{{time.b}}</b> 时 <b>{{time.c}}</b> 分 <b>{{time.d}}</b> 秒</span>
     </div>
     <div class="info">
-      <span>{{commodity.name}}</span>
+      <span>商品名:{{commodity.name}}</span>
       <span @click="show = true">分享</span>
     </div>
     <div class="details">
-      <span>参与人数：{{commodity.popular}} 人</span>
-      <span>参与价格：{{commodity.price}} 元</span>
+      <span>参与人数：{{commodity.popular || 0}} 人</span>
+      <span>参与价格：{{commodity.price || 0}} 元</span>
       <span>状态：{{type}}</span>
     </div>
     <div class="step">
       <step v-model="step" background-color='#fff' gutter="20px">
         <step-item :title="'开始夺宝'"></step-item>
-        <step-item :title="'待开奖'"></step-item>
+        <step-item :title="'正在夺宝'"></step-item>
         <step-item :title="'开奖'"></step-item>
       </step>
     </div>
@@ -33,7 +33,7 @@
       <img :src="item" width="100%" v-for="(item,index) in imgList">
     </div>
     <div class="buttonGroup">
-      <x-button :disabled="commodity.type_id != 2" class="button" :gradients="['#FF16A4', '#FF16A4']" @click.native="join">{{commodity.type}}</x-button>
+      <x-button :disabled="commodity.type_id != 2" class="button" :gradients="['#FF16A4', '#FF16A4']" @click.native="join">{{commodity.is_join == 0?commodity.type:'您已参与夺宝'}}</x-button>
     </div>
 
     <popup v-model="show" position="bottom">
@@ -175,18 +175,22 @@ export default {
         this.commodity.detail_img.forEach(item => {
           this.imgList.push(this.url + item)
         })
-
         console.log(123123);
         if (data.type_id == 1) {
           this.type = '未开始'
+          this.step = 0
           this.timeFun(this.commodity.end)
         } else if (data.type_id == 2) {
           this.type = '进行中'
+          this.step = 1
+
           this.timeFun(this.commodity.end)
         } else if (data.type_id == 3) {
           this.type = '待开奖'
+          this.step = 2
         } else {
           this.type = '已结束'
+          this.step = 3
         }
         console.log(this.type);
       })
@@ -218,7 +222,7 @@ export default {
     join() {
       if (this.commodity.is_join == 1) {
         this.toast = true
-        this.toastText = '您已参与过该活动!'
+        this.toastText = '您已参与过该夺宝!'
       } else {
         this.show2 = true
       }
@@ -230,6 +234,8 @@ export default {
           if (data) {
             this.toast = true
             this.toastText = '参与成功!'
+            this.show2 = false
+            this.init()
           } else {
             this.toast = true
             this.toastText = '余额不足,请先充值!'
