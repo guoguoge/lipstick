@@ -5,7 +5,7 @@
     <img v-else :src="'http://'+ item.cover_img" width="100%">
   </div>
   <div class="info">
-    <span>{{item.name || item.goods_name}}</span>
+    <span>商品名: {{item.name || item.goods_name}}</span>
     <span>{{item.type}}</span>
   </div>
   <div class="details">
@@ -81,9 +81,11 @@ export default {
 
 <style lang="less" scoped>
 .panel {
-    margin: 10px;
+    margin: 15px;
     padding: 10px 0;
     background: white;
+    border-radius: 5px;
+    box-shadow: 0 1px 8px #e6e6f1;
     .coverImg {
         img {
             width: 10rem;
@@ -151,9 +153,10 @@ export default {
     }
 
     .time {
+        display: flex;
+        justify-content: space-between;
         font-size: 12px;
-        color: #999999;
-        text-align: left;
+        color: #666;
         padding: 0 1rem;
         margin-top: 10px;
     }

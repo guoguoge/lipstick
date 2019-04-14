@@ -16,7 +16,7 @@
   </div>
   <div class="noCommodity" v-else>
     抱歉,当前分类暂无商品<br>
-    请查看先其他分类
+    请先查看其他分类
   </div>
 </div>
 </template>
@@ -148,6 +148,7 @@ export default {
 <style lang="less" scoped>
 .userBox {
     background: #f7f7f7;
+    padding-bottom: 0.5rem;
     .marquee {
         background: white;
         padding: 10px;
@@ -164,8 +165,8 @@ export default {
         }
     }
     .noCommodity {
-        padding: 1rem 0;
-        color: #4d4d4d;
+        color: #E91195;
+        padding: 2rem 0;
     }
 }
 </style>

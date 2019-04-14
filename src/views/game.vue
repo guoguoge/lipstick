@@ -1,5 +1,5 @@
 <template>
-  <iframe :src="linkUrl" width="100%" height="650"></iframe>
+<iframe frameborder='0' :src="linkUrl" width="100%" :height="height"></iframe>
 </template>
 
 <script>
@@ -9,7 +9,8 @@ import {
 export default {
   data() {
     return {
-      url: 'http://129.28.67.91/mobile.php?s=/index/index/platid/'
+      url: 'http://129.28.67.91/mobile.php?s=/index/index/platid/',
+      height: '650'
     }
   },
   computed: {
@@ -24,7 +25,11 @@ export default {
     }
   },
   mounted() {
-    console.log(this.linkUrl);
+    let navHeight = document.querySelector('.vux-header').clientHeight
+    console.log(navHeight);
+    // console.log(this.linkUrl);
+    this.height = window.innerHeight - navHeight
+    //   console.log(window.innerHeight);
   }
 }
 </script>

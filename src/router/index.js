@@ -144,8 +144,9 @@ const router = new Router({
         name: 'game',
         component: game,
         meta: {
-          title: '口红机',
+          title: '口红机游戏',
           requireAuth: true, // 登陆后查看
+          hiddenTab: true, // true为隐藏tab
         }
       },
       {

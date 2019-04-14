@@ -10,7 +10,7 @@
     <img slot="icon-active" :src="imgUrl.img4" />
     <span slot="label">竞拍</span>
   </tabbar-item>
-  <tabbar-item show-dot link="/game">
+  <tabbar-item badge="热" link="/game">
     <img slot="icon" :src="imgUrl.img5" />
     <img slot="icon-active" :src="imgUrl.img6" />
     <span slot="label">口红机</span>
@@ -110,15 +110,15 @@ export default {
     position: fixed;
 
     .weui-tabbar__item {
-        padding: 8px 0 2px;
+        padding: 10px 0 5px;
         /deep/.weui-tabbar__icon {
             width: 18px;
-            height: 20px;
+            height: 18px;
         }
         /deep/.weui-tabbar__label {
             margin-top: 2px;
             span {
-                list-style: none;
+              font-size: 14px;
             }
         }
     }
