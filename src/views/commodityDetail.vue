@@ -2,6 +2,7 @@
 <div class="userBox">
   <x-header ref="header" solt="header" title="夺宝详情"><a slot="right" @click="show3 = true">规则</a></x-header>
   <div class="panel">
+    <Bubble :mess="commodity.join_mess"></Bubble>
     <div class="coverImg">
       <img :src="url + commodity.cover_img" width="100%">
     </div>
@@ -113,6 +114,7 @@ import {
 from '@/api/user'
 
 import Commodity from "#/commodity";
+import Bubble from "#/bubble";
 
 
 export default {
@@ -155,6 +157,7 @@ export default {
   components: {
     XHeader,
     Commodity,
+    Bubble,
     Step,
     StepItem,
     XButton,
@@ -264,7 +267,7 @@ export default {
 .userBox {
     background: #f7f7f7;
     .panel {
-        padding: 10px 0;
+        padding-bottom: 10px;
         background: white;
         .coverImg {
             img {

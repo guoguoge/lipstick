@@ -14,8 +14,8 @@
     <span class="bottomPrice" v-else>最低出价：{{item.bottom_price}} 元</span>
   </div>
   <div class="time">
-    <span>开始时间{{item.start}}</span>
-    <span>结束时间{{item.end}}</span>
+    <span>开始时间:{{item.start | timer}}</span>
+    <span>结束时间:{{item.end | timer}}</span>
   </div>
 </div>
 </template>
@@ -46,9 +46,8 @@ export default {
   },
   watch: {
     item: {
-      handler(curVal, oldVal) {
-        console.log(curVal, oldVal)
-      },
+      handler(curVal, oldVal) {},
+      deep: true,
       immediate: true
     }
   },
@@ -59,6 +58,11 @@ export default {
       'token',
       'url',
     ])
+  },
+  filters: {
+    timer: function(value) {
+      return value.substring(5, value.length)
+    }
   },
   components: {
     XButton,
@@ -81,11 +85,12 @@ export default {
 
 <style lang="less" scoped>
 .panel {
-    margin: 15px;
+    margin: 15px 5px;
     padding-bottom: 10px;
     background: white;
     border-radius: 5px;
     box-shadow: 0 1px 8px #e6e6f1;
+    overflow: hidden;
     .coverImg {
         background: #fff7fc;
         img {
@@ -158,8 +163,8 @@ export default {
         justify-content: space-between;
         font-size: 12px;
         color: #666;
-        padding: 0 1rem;
         margin-top: 10px;
+        padding: 0 10px;
     }
 }
 </style>
