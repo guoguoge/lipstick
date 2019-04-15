@@ -4,7 +4,7 @@
   <tab>
     <tab-item v-for="(item,index) in tabList" :key="index" :selected="index===0" @on-item-click="tabClick(index)">{{item.name}}</tab-item>
   </tab>
-  <swiper :list="swiperList" loop v-model="swiper" auto :interval="2800" :min-moving-distance="120" dots-position="center" :show-desc-mask="false"></swiper>
+  <swiper v-show="swiperShow" :list="swiperList" loop v-model="swiper" auto :interval="2800" :min-moving-distance="120" dots-position="center" :show-desc-mask="false"></swiper>
   <div class="marquee">
     <img :src="img" width="100%">
     <marquee>
@@ -89,7 +89,8 @@ export default {
         name: '全部商品'
       }],
       newList: [],
-      rowList: []
+      rowList: [],
+      swiperShow: true
     }
   },
   computed: {
@@ -126,6 +127,7 @@ export default {
     },
     getList(id) {
       this.rowList = []
+      this.swiperShow = id ? false : true
       TreasureList(id).then(res => {
         let data = checkRequest(res, false)
         this.rowList = data
@@ -158,6 +160,9 @@ export default {
         background: white;
         padding: 10px;
         position: relative;
+        .align-middle {
+            font-size: 12px;
+        }
         /deep/b {
             color: #E91195;
         }
@@ -165,6 +170,7 @@ export default {
             width: 20px;
             height: 20px;
             position: absolute;
+            bottom: 25%;
             left: 2rem;
         }
     }
