@@ -2,6 +2,7 @@
 <div class="userBox">
   <x-header ref="header" solt="header" title="竞拍详情"><a slot="right" @click="show3 = true">规则</a></x-header>
   <div class="panel">
+    <ActionBubble :mess="commodity.list"></ActionBubble>
     <div class="coverImg">
       <img :src="'http://'+ commodity.cover_img" width="100%">
     </div>
@@ -129,7 +130,7 @@ import {
 from '@/api/user'
 
 import Commodity from "#/commodity";
-
+import ActionBubble from "#/actionBubble";
 
 export default {
   data() {
@@ -176,6 +177,7 @@ export default {
   components: {
     XHeader,
     Commodity,
+    ActionBubble,
     Step,
     StepItem,
     XButton,
@@ -235,6 +237,7 @@ export default {
       })
     },
     timeFun(tim) { //倒计时计时器
+      tim = tim.replace(/-/g, '/')
       this.timer = setInterval(() => {
         let now = Date.parse(new Date())
         let time = (Date.parse(tim) - now)

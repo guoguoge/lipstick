@@ -1,7 +1,7 @@
 <template>
 <div class="bubble">
-  <span v-if="messList.length">用户【{{messList[bubbleIndex]}}】刚刚参与了该夺宝!</span>
-  <span v-else>暂无用户参与夺宝!快来参加!</span>
+  <span v-if="messList.length">用户【{{messList[bubbleIndex].name}}】出价【{{messList[bubbleIndex].bid_price}}】元!</span>
+  <span v-else>暂无用户参与竞拍!快来参加!</span>
 </div>
 </template>
 
@@ -35,15 +35,13 @@ export default {
       handler(curVal, oldVal) {
         this.messList = curVal
         let num = this.messList.length
-        console.log(num, 'numlength');
         this.timer = setInterval(() => {
-          console.log(this.bubbleIndex);
           if (this.bubbleIndex == (num - 1)) {
             this.bubbleIndex = 0
           } else {
             this.bubbleIndex++
           }
-        }, 3800)
+        }, 4000)
       },
       deep: true
     },
@@ -100,11 +98,9 @@ export default {
 @keyframes move {
     from {
         top: 25%;
-        opacity: 1;
     }
     to {
         top: 8%;
-        opacity: 0;
     }
 }
 </style>

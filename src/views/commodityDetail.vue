@@ -178,7 +178,6 @@ export default {
         this.commodity.detail_img.forEach(item => {
           this.imgList.push(this.url + item)
         })
-        console.log(123123);
         if (data.type_id == 1) {
           this.type = '未开始'
           this.step = 0
