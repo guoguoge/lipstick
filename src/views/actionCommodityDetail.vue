@@ -79,9 +79,8 @@
     </popup>
 
     <popup v-model="show3" position="bottom" should-scroll-top-on-show>
-      <group>
-        <cell v-for="i in 15" :key="i" :title="'竞拍详情规则' + i"></cell>
-      </group>
+      <h4>竞拍规则</h4>
+      <div style="padding: 15px;" v-html="rule"></div>
       <div style="padding: 15px;">
         <x-button @click.native="show3 = false" plain type="primary">关闭</x-button>
       </div>
@@ -125,7 +124,8 @@ import {
   AuctionTop,
   AuctionStatus,
   AddAuction,
-  UserInfoByAuctionId
+  UserInfoByAuctionId,
+  RuleList
 }
 from '@/api/user'
 
@@ -164,6 +164,7 @@ export default {
       topPrice: null, // 最高价
       topName: '',
       goodStatus: '',
+      rule: ''
     }
   },
   computed: {
@@ -234,6 +235,15 @@ export default {
         let data = checkRequest(res, false)
         this.userInfo = data
         console.log(this.userInfo, 'userInfo');
+      })
+      RuleList().then(res => {
+        let data = checkRequest(res, false)
+        for (let i = 0; i < data.length; i++) {
+          if (data[i].type == 2) {
+            this.rule = data[i].rules
+            break;
+          }
+        }
       })
     },
     timeFun(tim) { //倒计时计时器

@@ -271,3 +271,11 @@ export const AddAuction = (token, auction_id, bid_price) => { //商品详情里�
     method: 'post',
   })
 }
+
+
+export const RuleList = () => { //商品详情里获取用户详情
+  return axios.request({
+    url: 'rule_list',
+    method: 'get',
+  })
+}

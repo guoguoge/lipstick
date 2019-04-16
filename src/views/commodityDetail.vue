@@ -66,16 +66,14 @@
     </popup>
 
     <popup v-model="show3" position="bottom" should-scroll-top-on-show>
-      <group>
-        <cell v-for="i in 15" :key="i" :title="'夺宝详情规则' + i"></cell>
-      </group>
+      <h4>夺宝规则</h4>
+      <div style="padding: 15px;" v-html="rule"></div>
       <div style="padding: 15px;">
         <x-button @click.native="show3 = false" plain type="primary">关闭</x-button>
       </div>
     </popup>
   </div>
   <toast width="20rem" v-model="toast" type="text">{{toastText}}</toast>
-
 </div>
 </template>
 
@@ -109,7 +107,8 @@ import {
 import {
   ChangePassword, //发送短信验证码
   TreasureDetail,
-  TreasureJoin
+  TreasureJoin,
+  RuleList
 }
 from '@/api/user'
 
@@ -143,7 +142,8 @@ export default {
         c: '',
         d: ''
       },
-      timer: null
+      timer: null,
+      rule: ''
     }
   },
   computed: {
@@ -195,6 +195,15 @@ export default {
           this.step = 3
         }
         console.log(this.type);
+      })
+      RuleList().then(res => {
+        let data = checkRequest(res, false)
+        for (let i = 0; i < data.length; i++) {
+          if (data[i].type == 1) {
+            this.rule = data[i].rules
+            break;
+          }
+        }
       })
     },
     link() {
