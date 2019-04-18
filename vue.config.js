@@ -16,6 +16,7 @@ const BASE_URL = process.env.NODE_ENV === 'production' ?
 
 const IS_PROD = ['production', 'prod'].includes(process.env.NODE_ENV)
 
+const Version = new Date().getTime();
 
 module.exports = {
 
@@ -69,7 +70,7 @@ module.exports = {
       const plugins = [];
       plugins.push(
         new CompressionWebpackPlugin({
-          filename: '[path].gz[query]',
+          filename: `[path].${Version}.gz[query]`,
           algorithm: 'gzip',
           test: productionGzipExtensions,
           threshold: 10240,
@@ -80,6 +81,22 @@ module.exports = {
         ...config.plugins,
         ...plugins
       ];
+      // config.output = {
+      //   filename: `[path].[chunkhash].${Version}.js`,
+      //   chunkFilename: `[path].[chunkhash].${Version}.js`,
+      // }
+    }
+
+    // config.output = {
+    //   path: path.resolve(__dirname, './assets'),
+    //   filename: `[path].[chunkhash].${Version}.js`,
+    //   publicPath: '../assets',
+    // }
+  },
+  css: {
+    extract: {
+      filename: 'assets/css/[name].[chunkhash].' + Version + '.css',
+      chunkFilename: 'assets/css/[id].[chunkhash].' + Version + '.css'
     }
   },
   devServer: {
@@ -110,11 +127,12 @@ module.exports = {
 
   baseUrl: BASE_URL,
   lintOnSave: false,
+  // outputDir: path.resolve(__dirname, '../lipstick/assets'),
   outputDir: 'lipstick',
-  assetsDir: 'assets',
+  // assetsDir: 'assets',
   pluginOptions: { // 第三方插件配置
 
   },
   runtimeCompiler: true,
-  // productionSourceMap: true,
+  productionSourceMap: false,
 }

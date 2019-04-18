@@ -22,7 +22,7 @@
     <div class="step">
       <step v-model="step" background-color='#fff' gutter="20px">
         <step-item :title="'开始夺宝'"></step-item>
-        <step-item :title="'正在夺宝'"></step-item>
+        <step-item :title="'待开奖'"></step-item>
         <step-item :title="'开奖'"></step-item>
       </step>
     </div>
