@@ -4,7 +4,9 @@
   <tab>
     <tab-item v-for="(item,index) in tabList" :key="index" :selected="index===0" @on-item-click="tabClick(index)">{{item.name}}</tab-item>
   </tab>
-  <swiper v-show="swiperShow" :list="swiperList" loop v-model="swiper" auto :interval="2800" :min-moving-distance="120" dots-position="center" :show-desc-mask="false"></swiper>
+  <swiper v-if="swiperList" v-show="swiperShow" @click.native="click(swiper)" loop v-model="swiper" auto :interval="2800" :min-moving-distance="120" dots-position="center" :show-desc-mask="false">
+    <swiper-item class="swiper-demo-img" v-for="(item, index) in swiperList" :key="index"><img :src="item.img" width="100%"></swiper-item>
+  </swiper>
   <div class="marquee">
     <img :src="img" width="100%">
     <marquee>
@@ -29,7 +31,8 @@ import {
   Swiper,
   Marquee,
   MarqueeItem,
-  XButton
+  XButton,
+  SwiperItem
 } from 'vux'
 
 import {
@@ -46,7 +49,8 @@ import {
   ChangePassword, //发送短信验证码
   TreasureCat,
   TreasureWin,
-  TreasureList
+  TreasureList,
+  CarouselList
 }
 from '@/api/user'
 
@@ -58,22 +62,7 @@ export default {
     return {
       swiper: 0,
       img: require('@/assets/notice.png'),
-      swiperList: [{
-          url: 'javascript:',
-          img: require('@/assets/home.png'),
-          title: ''
-        },
-        {
-          url: 'javascript:',
-          img: require('@/assets/home.png'),
-          title: ''
-        },
-        {
-          url: 'javascript:',
-          img: require('@/assets/home.png'),
-          title: ''
-        }
-      ],
+      swiperList: [],
       noticeList: [
         `公告 : 恭喜张三三获得 <b>荣耀手机</b> 一部  `,
         `公告 : 恭喜林俊杰获得 <b>苹果手机</b> 一部  `,
@@ -109,7 +98,8 @@ export default {
     Commodity,
     Marquee,
     MarqueeItem,
-    XButton
+    XButton,
+    SwiperItem
   },
   methods: {
     init() {
@@ -121,6 +111,21 @@ export default {
             name: item.cat_name,
           })
         })
+        console.log(checkRequest(res, false));
+      })
+      CarouselList(4).then(res => {
+        this.treasureList = []
+        let data = checkRequest(res, false)
+        if (checkRequest(res, false)) {
+          data.forEach(item => {
+            if (item.type == 1) {
+              this.swiperList.push({
+                img: this.url + item.carousel,
+                goods_id: item.goods_id
+              })
+            }
+          })
+        }
         console.log(checkRequest(res, false));
       })
       this.getList()
@@ -142,6 +147,15 @@ export default {
     },
     goBack() {
       this.getList()
+    },
+    click(swiper) {
+      console.log(swiper);
+      this.$router.push({
+        path: 'commodityDetail',
+        query: {
+          id: this.swiperList[swiper].goods_id
+        }
+      })
     }
   },
   created() {},

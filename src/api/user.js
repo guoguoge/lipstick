@@ -279,3 +279,13 @@ export const RuleList = () => { //商品详情里获取用户详情
     method: 'get',
   })
 }
+
+export const CarouselList = (method) => { //竞拍记录
+  return axios.request({
+    url: 'carousel',
+    data: {
+      method: method
+    },
+    method: 'post',
+  })
+}
