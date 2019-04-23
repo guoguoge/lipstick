@@ -61,7 +61,6 @@ from '@/api/user'
 
 import Record from "#/record";
 
-
 export default {
   data() {
     return {

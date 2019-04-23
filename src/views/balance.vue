@@ -6,7 +6,7 @@
         <flexbox class="top" align="center" justify="center">
           <flexbox-item>
             <div class="flexBox">
-              余额 <b>{{100000}}</b> 元
+              余额 <b>{{balance}}</b> 元
             </div>
           </flexbox-item>
         </flexbox>
@@ -55,8 +55,7 @@ import {
 } from 'vuex'
 
 import {
-  SendMessage, //发送短信验证码
-  Reset
+  GetBalance
 }
 from '@/api/user'
 
@@ -77,7 +76,8 @@ export default {
         require('@/assets/center8.png')
       ],
       toastText: '', // 弹出框
-      toast: false
+      toast: false,
+      balance: ''
     }
   },
   components: {
@@ -99,7 +99,18 @@ export default {
     ])
   },
   methods: {
+    init() {
+      GetBalance(this.token).then((res) => {
+        let data = checkRequest(res)
+        if (data) {
+          this.balance = data
 
+        }
+      })
+    },
+  },
+  mounted() {
+    this.init()
   }
 }
 </script>
@@ -130,7 +141,7 @@ export default {
             }
 
             .weui-btn:after {
-              border: 1px solid rgba(0, 0, 0, 0);
+                border: 1px solid rgba(0, 0, 0, 0);
             }
         }
         .flexBox {

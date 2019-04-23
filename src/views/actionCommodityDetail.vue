@@ -272,7 +272,11 @@ export default {
     },
     submit() {
       if (this.token) {
-        AddAuction(this.token, this.commodity.id, Number(this.topPrice) + Number(this.commodity.raise_price)).then(res => {
+        let price = this.topPrice > 0 ? Number(this.topPrice) + Number(this.commodity.raise_price) : Number(this.commodity.bottom_price)
+        console.log(this.topPrice);
+        console.log(price);
+        console.log(this.commodity.bottom_price);
+        AddAuction(this.token, this.commodity.id, price).then(res => {
           let data = checkRequest(res, false)
           if (data) {
             this.toast = true

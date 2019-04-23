@@ -289,3 +289,13 @@ export const CarouselList = (method) => { //竞拍记录
     method: 'post',
   })
 }
+
+export const GetBalance = (token) => { //竞拍记录
+  return axios.request({
+    url: 'get_balance',
+    data: {
+      token: token
+    },
+    method: 'post',
+  })
+}
