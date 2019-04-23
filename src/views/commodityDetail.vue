@@ -8,7 +8,7 @@
     </div>
     <div class="countDown">
       <span>{{commodity.type_id == 1?'距离夺宝开始:':commodity.type_id == 2?'距离夺宝结束:':'夺宝已结束,等待结果'}}</span>
-      <span v-if="commodity.type_id == 1 || commodity.type_id == 2"><b>{{time.a}}</b> 天<b>{{time.b}}</b> 时 <b>{{time.c}}</b> 分 <b>{{time.d}}</b> 秒</span>
+      <span v-if="commodity.type_id == 1 || commodity.type_id == 2"><b>{{time.a || 0}}</b> 天<b>{{time.b || 0}}</b> 时 <b>{{time.c || 0}}</b> 分 <b>{{time.d || 0}}</b> 秒</span>
     </div>
     <div class="info">
       <span>商品名:{{commodity.name}}</span>
@@ -34,7 +34,7 @@
       <img :src="item" width="100%" v-for="(item,index) in imgList">
     </div>
     <div class="buttonGroup">
-      <x-button :disabled="commodity.type_id != 2" class="button" :gradients="['#FF16A4', '#FF16A4']" @click.native="join">{{commodity.is_join == 0?commodity.type:'您已参与夺宝'}}</x-button>
+      <x-button :disabled="commodity.type_id != 2" :class="commodity.type_id == 4?'over':''" class="button" :gradients="['#FF16A4', '#FF16A4']" @click.native="join">{{commodity.is_join == 0?commodity.type:'您已参与夺宝' + (commodity.type_id == 4?'(活动已结束)':'')}}</x-button>
     </div>
 
     <popup v-model="show" position="bottom">
@@ -214,10 +214,12 @@ export default {
       this.timer = setInterval(() => {
         let now = Date.parse(new Date())
         let time = (Date.parse(tim) - now)
-        let a = new Date(time).getDay()
-        let b = new Date(time).getHours()
-        let c = new Date(time).getMinutes()
-        let d = new Date(time).getSeconds()
+        let date = new Date(time)
+        console.log(time, '时间');
+        let a = date.getDate() < 10 ? '0' + date.getDate() - 1 : date.getDate() - 1;
+        let b = date.getHours() < 10 ? '0' + date.getHours() : date.getHours();
+        let c = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
+        let d = date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds();
         this.time.a = a
         this.time.b = b
         this.time.c = c
@@ -384,6 +386,9 @@ export default {
             background: white;
             .button {
                 width: 90%;
+            }
+            .over {
+                background: #ccc!important;
             }
         }
 

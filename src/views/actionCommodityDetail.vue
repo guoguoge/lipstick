@@ -9,7 +9,7 @@
 
     <div class="countDown">
       <span>{{goodStatus.type == '进行中'?'距离竞拍结束':(goodStatus.type == '未开始'?'距离竞拍开始':goodStatus.type)}}</span>
-      <span v-if="goodStatus.type == '进行中' || goodStatus.type == '未开始' "><b>{{time.a}}</b> 天<b>{{time.b}}</b> 时 <b>{{time.c}}</b> 分 <b>{{time.d}}</b> 秒</span>
+      <span v-if="goodStatus.type == '进行中' || goodStatus.type == '未开始' "><b>{{time.a || 0}}</b> 天<b>{{time.b || 0}}</b> 时 <b>{{time.c || 0}}</b> 分 <b>{{time.d || 0}}</b> 秒</span>
     </div>
     <div v-if="topName" class="top">
       当前最高出价:<br><span class="name">昵称: {{topName || '暂无出价信息'}}</span><br>价格: <span class="price">{{topPrice}} 元</span>
@@ -246,15 +246,17 @@ export default {
         }
       })
     },
-    timeFun(tim) { //倒计时计时器
-      tim = tim.replace(/-/g, '/')
+    timeFun(tim) {
+      tim = tim.replace(/-/g, '/') //替换所有
       this.timer = setInterval(() => {
         let now = Date.parse(new Date())
         let time = (Date.parse(tim) - now)
-        let a = new Date(time).getDay()
-        let b = new Date(time).getHours()
-        let c = new Date(time).getMinutes()
-        let d = new Date(time).getSeconds()
+        let date = new Date(time)
+        console.log(time, '时间');
+        let a = date.getDate() < 10 ? '0' + date.getDate() - 1 : date.getDate() - 1;
+        let b = date.getHours() < 10 ? '0' + date.getHours() : date.getHours();
+        let c = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
+        let d = date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds();
         this.time.a = a
         this.time.b = b
         this.time.c = c

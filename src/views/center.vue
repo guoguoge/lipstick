@@ -130,9 +130,9 @@ export default {
       let FD = new FormData()
       FD.append('token', this.token)
       FD.append('image', file)
-      if (file.size > 10000) {
+      if (file.size > 1048576) {
         this.toast = true
-        this.toastText = '头像图片不能超过3M'
+        this.toastText = '头像图片不能超过1M'
       } else {
         SetIcon(FD).then((res) => {
           this.$store.dispatch('SetAvater', checkRequest(res)).then(response => {

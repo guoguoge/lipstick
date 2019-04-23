@@ -73,10 +73,18 @@ export default {
       AuctionRecord(this.token).then(res => {
         console.log(res);
         let data = checkRequest(res, false)
+        for (let i = 0; i < data.length; i++) {
+          data[i].publishTimeNew = this.dateToTime(data[i].auction_time);
+        }
+        data.sort((a, b) => {
+          return b.publishTimeNew > a.publishTimeNew ? 1 : -1;
+        })
         this.TreasureList = data
-        console.log(checkRequest(res, false));
       })
-    }
+    },
+    dateToTime(str) {
+      return (new Date(str.replace(/-/g, '/'))).getTime(); //用/替换日期中的-是为了解决Safari的兼容
+    },
   },
   mounted() {
     this.init()

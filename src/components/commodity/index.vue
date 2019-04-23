@@ -9,8 +9,8 @@
     <span>{{item.type}}</span>
   </div>
   <div class="details">
-    <span>参与人数：{{item.popular || item.hot}}人</span>
-    <span v-if="item.popular">参与价格：{{item.price}} 元</span>
+    <span>参与人数：{{item.popular || item.hot || 0}}人</span>
+    <span v-if="item.popular > 0 ||  item.popular == 0">参与价格：{{item.price}} 元</span>
     <span class="bottomPrice" v-else>最低出价：{{item.bottom_price}} 元</span>
   </div>
   <div class="time">
@@ -92,7 +92,8 @@ export default {
     box-shadow: 0 1px 8px #e6e6f1;
     overflow: hidden;
     .coverImg {
-        background: #fff7fc;
+        background: #fff;
+        padding: 1rem 0;
         img {
             height: 12rem;
         }
@@ -135,7 +136,7 @@ export default {
             padding: 5px;
             border-radius: 5px;
             float: left;
-            margin-right: 1rem;
+            margin-right: 5px;
         }
 
         span:last-of-type {
