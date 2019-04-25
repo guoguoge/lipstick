@@ -250,9 +250,10 @@ export default {
       tim = tim.replace(/-/g, '/') //替换所有
       this.timer = setInterval(() => {
         let now = Date.parse(new Date())
-        let time = (Date.parse(tim) - now)
+        let time = (Date.parse(tim) - now) - (8 * 60 * 60 * 1000)
         let date = new Date(time)
-        console.log(time, '时间');
+        console.log(time, 'time时间');
+        console.log(tim, 'tim时间');
         let a = date.getDate() < 10 ? '0' + date.getDate() - 1 : date.getDate() - 1;
         let b = date.getHours() < 10 ? '0' + date.getHours() : date.getHours();
         let c = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();

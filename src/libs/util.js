@@ -40,13 +40,12 @@ export const countDown = (time) => { //倒计时函数
 // }
 
 export const jsonpReturn = (data) => { //处理jsonpReturn格式对象
-  if (data.status == 2) {
+  if (data.status == 0) {
     Store.dispatch('LogOut').then(res => {
       router.push({
         name: 'login'
       })
     })
-    return
   } else {
     let s = (data).replace('jsonpReturn', '')
     s = JSON.parse(s.substring(1, s.length - 2))

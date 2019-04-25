@@ -40,7 +40,8 @@ import {
 } from 'vuex'
 
 import {
-  ChangePassword // 修改密码
+  ChangePassword, // 修改密码
+  AddAddress
 }
 from '@/api/user'
 
@@ -84,8 +85,7 @@ export default {
     },
     submit() {
       let check = this.$refs.name.valid && this.$refs.tel.valid && this.form.city.length && this.$refs.address.valid
-      let address
-      address = (this.getName(this.form.city).toString() + this.form.address).trim()
+      let address = (this.getName(this.form.city).toString() + this.form.address).trim()
       if (check) {
         AddAddress(
           this.token,
@@ -103,8 +103,6 @@ export default {
         this.toast = true
         this.toastText = '请确保表单信息正确'
       }
-      console.log(address);
-      console.log(check);
     }
   }
 }
