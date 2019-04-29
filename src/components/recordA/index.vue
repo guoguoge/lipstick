@@ -4,7 +4,7 @@
     <span>订单编号：{{item.order_id}}</span>
     <span class="lip">{{item.type}}</span>
   </div>
-  <p class="lip" style="textAlign:right">状态:{{item.award || '未开奖'}} 退款: {{item.refundStatus || '未开奖'  + `(${item.refund})元` }}</p>
+  <p class="lip" style="textAlign:right">状态:{{item.award || '未开奖'}} {{item.type == '竞拍结束' ? '退款:' + item.refundStatus  + `(${item.refund})元` :'' }}</p>
   <div class="recordItem bottom">
     <span>参与价格: {{item.bid_price}}元</span>
     <span>{{item.auction_time}}</span>

@@ -313,12 +313,12 @@ export default {
 <style lang="less" scoped>
 .userBox {
     background: #f7f7f7;
+    padding-bottom: 76px;
     .panel {
-        padding: 10px 0;
         background: white;
         .coverImg {
             img {
-                width: 10rem;
+                width: 100%;
             }
         }
         .info {

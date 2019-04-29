@@ -277,12 +277,12 @@ export default {
 <style lang="less" scoped>
 .userBox {
     background: #f7f7f7;
+    padding-bottom: 76px;
     .panel {
-        padding-bottom: 10px;
         background: white;
         .coverImg {
             img {
-                width: 10rem;
+                width: 100%;
             }
         }
         .info {
