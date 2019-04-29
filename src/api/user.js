@@ -249,6 +249,18 @@ export const AuctionRecord = (token) => { //竞拍记录
   })
 }
 
+
+export const ConsumeList = (token) => { //竞拍记录
+  return axios.request({
+    url: 'consume_list',
+    data: {
+      token: token
+    },
+    method: 'post',
+  })
+}
+
+
 export const UserInfoByAuctionId = (token, goods_id) => { //商品详情里获取用户详情
   return axios.request({
     url: 'getUserInfoByAuctionId',

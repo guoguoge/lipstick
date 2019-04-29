@@ -2,12 +2,12 @@
 <div class="recordBox">
   <div class="recordItem">
     <span>订单编号：{{item.order_id}}</span>
-    <span class="lip">{{item.win == 1?'中奖':'未中奖'}}</span>
+    <span class="lip">{{item.type}}</span>
   </div>
-  <p style="textAlign:left">{{item.name}}</p>
+  <p class="lip" style="textAlign:right">状态:{{item.award || '未开奖'}} 退款: {{item.refundStatus || '未开奖'  + `(${item.refund})元` }}</p>
   <div class="recordItem bottom">
-    <span>竞拍出价: {{item.price}}元</span>
-    <span>{{item.time}}</span>
+    <span>参与价格: {{item.bid_price}}元</span>
+    <span>{{item.auction_time}}</span>
   </div>
 </div>
 </template>
@@ -44,6 +44,9 @@ export default {
     }
     p {
         margin-bottom: 10px;
+    }
+    p.lip {
+        font-size: 12px;
     }
     .bottom {
         color: #999;

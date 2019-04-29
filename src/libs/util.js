@@ -60,7 +60,12 @@ export const checkRequest = (res) => {
   if (status == 1) {
     return msg
   } else {
-    return false
+    alert('登录状态过期!请重新登陆')
+    Store.dispatch('LogOut').then(res => {
+      router.push({
+        name: 'login'
+      })
+    })
   }
 }
 

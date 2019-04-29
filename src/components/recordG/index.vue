@@ -2,12 +2,12 @@
 <div class="recordBox">
   <div class="recordItem">
     <span>订单编号：{{item.order_id}}</span>
-    <span class="lip">{{item.win == 1?'中奖':'未中奖'}}</span>
+    <span class="lip">{{item.results | result}}</span>
   </div>
-  <p style="textAlign:left">{{item.name}}</p>
+  <p style="textAlign:left">商品名:{{item.title}}</p>
   <div class="recordItem bottom">
-    <span>竞拍出价: {{item.price}}元</span>
-    <span>{{item.time}}</span>
+    <span>参与价格: {{item.price}}元</span>
+    <span>{{item.addtime}}</span>
   </div>
 </div>
 </template>
@@ -17,6 +17,19 @@ export default {
   data() {
     return {
       time: (new Date()).toLocaleString()
+    }
+  },
+  filters: {
+    result(val) {
+      if (val == 1 || !val) {
+        return "未中奖"
+      } else if (val == 2) {
+        return "中奖待发放"
+      } else if (val == 3) {
+        return "中奖已发放"
+      } else {
+        return "中奖不发放"
+      }
     }
   },
   props: {
@@ -44,6 +57,9 @@ export default {
     }
     p {
         margin-bottom: 10px;
+    }
+    p.lip {
+        font-size: 12px;
     }
     .bottom {
         color: #999;

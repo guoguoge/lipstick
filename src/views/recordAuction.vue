@@ -34,7 +34,7 @@ import {
 }
 from '@/api/user'
 
-import Record from "#/record";
+import Record from "#/recordA";
 
 
 export default {

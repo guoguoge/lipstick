@@ -1,6 +1,6 @@
 <template>
 <div class="userBox">
-  <Record v-for="(item,index)  in  7" />
+  <Record :item="item" v-for="(item,index)  in  LipstickList" />
   <toast width="20rem" v-model="toast" type="text">{{toastText}}</toast>
 </div>
 </template>
@@ -29,11 +29,12 @@ import {
 
 import {
   SendMessage, //发送短信验证码
-  Reset
+  Reset,
+  ConsumeList
 }
 from '@/api/user'
 
-import Record from "#/record";
+import Record from "#/recordG";
 
 
 export default {
@@ -45,7 +46,8 @@ export default {
         require('@/assets/wechatpay.png'),
       ],
       toastText: '', // 弹出框
-      toast: false
+      toast: false,
+      LipstickList: []
     }
   },
   components: {
@@ -67,8 +69,27 @@ export default {
     ])
   },
   methods: {
-
+    init() {
+      ConsumeList(this.token).then(res => {
+        console.log(res);
+        let data = checkRequest(res, false)
+        for (let i = 0; i < data.length; i++) {
+          data[i].publishTimeNew = this.dateToTime(data[i].addtime);
+        }
+        data.sort((a, b) => {
+          return b.publishTimeNew > a.publishTimeNew ? 1 : -1;
+        })
+        this.LipstickList = data
+      })
+    },
+    dateToTime(str) {
+      return (new Date(str.replace(/-/g, '/'))).getTime(); //用/替换日期中的-是为了解决Safari的兼容
+    },
+  },
+  mounted() {
+    this.init()
   }
+
 }
 </script>
 
