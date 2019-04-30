@@ -183,6 +183,17 @@ export const TreasureRecord = (token) => { //分类列表
   })
 }
 
+export const TreasureFin = (treasure_id) => { //夺宝--获取夺宝中奖人
+  return axios.request({
+    url: 'treasure_fin',
+    data: {
+      treasure_id: treasure_id
+    },
+    method: 'post',
+  })
+}
+
+
 export const ACate = (token) => {
   // 竞拍商品分类
   return axios.request({

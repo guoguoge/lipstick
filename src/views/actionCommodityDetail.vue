@@ -45,7 +45,7 @@
     </div>
     <div class="buttonGroup">
       <!-- <x-button :disabled="commodity.type_id != 2" class="button" :gradients="['#FF16A4', '#FF16A4']" @click.native="join">{{commodity.type}}</x-button> -->
-      <x-button v-if="!userInfo.auction" :disabled="goodStatus.type == '竞价结束' || goodStatus.type == '未开始'|| goodStatus.type == '竞拍结束'" class="button" :gradients="['#FF16A4', '#FF16A4']" @click.native="join">{{goodStatus.type == '进行中'?'火热竞拍中 立即参与':goodStatus.type}}</x-button>
+      <x-button v-if="!userInfo.auction" class="button" :class="goodStatus.type == '竞拍结束'?'over':''" :disabled="goodStatus.type == '竞拍结束' || goodStatus.type == '未开始'|| goodStatus.type == '竞拍结束'" :gradients="['#FF16A4', '#FF16A4']" @click.native="join">{{goodStatus.type == '进行中'?'火热竞拍中 立即参与':goodStatus.type}}</x-button>
       <x-button v-else class="button" :gradients="['#FF16A4', '#FF16A4']" @click.native="join">继续加价</x-button>
     </div>
 
@@ -137,9 +137,6 @@ export default {
     return {
       id: null,
       swiper: 0,
-      time: (new Date()).toLocaleDateString(),
-      img: require('@/assets/commodity.png'),
-      details: require('@/assets/details.png'),
       wechat: require('@/assets/wechat.svg'),
       friend: require('@/assets/friend.svg'),
       step: 0,
@@ -363,7 +360,7 @@ export default {
 
         .top {
             border: 1px solid rgba(255,22,164,1);
-            padding: 1rem;
+            padding: 10px;
             margin: 1rem 3rem;
             border-radius: 10rem;
             .name {
@@ -438,6 +435,9 @@ export default {
             background: white;
             .button {
                 width: 90%;
+            }
+            .over {
+                background: #ccc!important;
             }
         }
 

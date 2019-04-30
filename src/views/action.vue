@@ -6,12 +6,7 @@
   <swiper v-if="swiperList" v-show="swiperShow" @click.native="click(swiper)" loop v-model="swiper" auto :interval="2800" :min-moving-distance="120" dots-position="center" :show-desc-mask="false">
     <swiper-item class="swiper-demo-img" v-for="(item, index) in swiperList" :key="index"><img :src="item.img" width="100%"></swiper-item>
   </swiper>
-  <div class="marquee">
-    <img :src="img" width="100%">
-    <marquee>
-      <marquee-item v-for="(item,index) in noticeList" :key="index" @click.native="onClick(i)" class="align-middle" v-html="item"></marquee-item>
-    </marquee>
-  </div>
+  <Marquee :newList="newList" />
   <div v-if="rowList.length">
     <Commodity :item="item" v-for="(item,index)  in  rowList" />
   </div>
@@ -28,8 +23,6 @@ import {
   TabItem,
   XHeader,
   Swiper,
-  Marquee,
-  MarqueeItem,
   XButton,
   SwiperItem
 } from 'vux'
@@ -55,6 +48,7 @@ import {
 from '@/api/user'
 
 import Commodity from "#/commodity";
+import Marquee from "#/marquee";
 
 
 export default {
@@ -97,7 +91,6 @@ export default {
     Swiper,
     Commodity,
     Marquee,
-    MarqueeItem,
     XButton,
     SwiperItem
   },
@@ -127,6 +120,10 @@ export default {
           })
         }
         console.log(checkRequest(res, false));
+      })
+      TreasureWin().then(res => {
+        let data = checkRequest(res, false)
+        if (data) this.newList = data
       })
       this.getList()
     },

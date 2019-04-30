@@ -7,12 +7,7 @@
   <swiper v-if="swiperList" v-show="swiperShow" @click.native="click(swiper)" loop v-model="swiper" auto :interval="2800" :min-moving-distance="120" dots-position="center" :show-desc-mask="false">
     <swiper-item class="swiper-demo-img" v-for="(item, index) in swiperList" :key="index"><img :src="item.img" width="100%"></swiper-item>
   </swiper>
-  <div class="marquee">
-    <img :src="img" width="100%">
-    <marquee>
-      <marquee-item v-for="(item,index) in noticeList" :key="index" @click.native="onClick(i)" class="align-middle" v-html="item"></marquee-item>
-    </marquee>
-  </div>
+  <Marquee :newList="newList" />
   <div v-if="rowList.length">
     <Commodity :item="item" v-for="(item,index)  in  rowList" />
   </div>
@@ -29,8 +24,6 @@ import {
   TabItem,
   XHeader,
   Swiper,
-  Marquee,
-  MarqueeItem,
   XButton,
   SwiperItem
 } from 'vux'
@@ -51,29 +44,19 @@ import {
   TreasureCat,
   TreasureWin,
   TreasureList,
-  CarouselList
+  CarouselList,
 }
 from '@/api/user'
 
 import Commodity from "#/commodity";
+import Marquee from "#/marquee";
 
 
 export default {
   data() {
     return {
       swiper: 0,
-      img: require('@/assets/notice.png'),
       swiperList: [],
-      noticeList: [
-        `公告 : 恭喜张三三获得 <b>荣耀手机</b> 一部  `,
-        `公告 : 恭喜林俊杰获得 <b>苹果手机</b> 一部  `,
-        `公告 : 恭喜周杰伦获得 <b>苹果手机</b> 一部  `,
-        `公告 : 恭喜张国荣获得 <b>荣耀手机</b> 一部  `,
-        `公告 : 恭喜张三三获得 <b>小米手机</b> 一部  `,
-        `公告 : 恭喜张三三获得 <b>荣耀手机</b> 一部  `,
-        `公告 : 恭喜张三三获得 <b>小米手机</b> 一部  `,
-        `公告 : 恭喜张三三获得 <b>荣耀手机</b> 一部  `,
-      ],
       tabList: [{
         id: 0,
         name: '全部商品'
@@ -97,10 +80,9 @@ export default {
     XHeader,
     Swiper,
     Commodity,
-    Marquee,
-    MarqueeItem,
     XButton,
-    SwiperItem
+    SwiperItem,
+    Marquee
   },
   methods: {
     init() {
@@ -129,6 +111,11 @@ export default {
         }
         console.log(checkRequest(res, false));
       })
+      TreasureWin().then(res => {
+        let data = checkRequest(res, false)
+        if(data) this.newList = data
+      })
+
       this.getList() // 获取夺宝商品列表
     },
     getList(id) { // 获取夺宝商品列表
@@ -180,24 +167,6 @@ export default {
 .userBox {
     background: #f7f7f7;
     padding-bottom: 0.5rem;
-    .marquee {
-        background: white;
-        padding: 10px;
-        position: relative;
-        .align-middle {
-            font-size: 12px;
-        }
-        /deep/b {
-            color: #E91195;
-        }
-        img {
-            width: 20px;
-            height: 20px;
-            position: absolute;
-            bottom: 25%;
-            left: 2rem;
-        }
-    }
     .noCommodity {
         color: #E91195;
         padding: 2rem 0;

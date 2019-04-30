@@ -31,10 +31,7 @@ import {
 
 export default {
   data() {
-    return {
-      time: (new Date()).toLocaleDateString(),
-      img: require('@/assets/commodity.png')
-    }
+    return {}
   },
   props: {
     item: {
@@ -88,20 +85,20 @@ export default {
     margin: 15px 5px;
     padding-bottom: 10px;
     background: white;
-    border-radius: 5px;
+    border-radius: 10px;
     box-shadow: 0 1px 8px #e6e6f1;
     overflow: hidden;
     .coverImg {
         background: #fff;
         padding: 1rem 0;
         img {
-            height: 12rem;
+            width: 70%;
         }
     }
     .info {
-        padding: 0 1rem;
+        padding: 0 10px;
         span:first-of-type {
-            padding: 5px;
+            padding: 5px 0;
             border-radius: 5px;
             float: left;
             margin-right: 1rem;
@@ -112,7 +109,7 @@ export default {
             border: 1px solid rgba(233,17,149,1);
             color: #E91195;
             font-size: 14px;
-            padding: 5px 10px;
+            padding: 5px 15px;
             border-radius: 30px;
             float: right;
         }
@@ -125,7 +122,7 @@ export default {
     }
 
     .details {
-        padding: 0 1rem;
+        padding: 0 10px;
         margin-top: 10px;
         span {
             font-size: 12px;
@@ -133,7 +130,7 @@ export default {
         span:first-of-type {
             background: rgba(251,246,234,1);
             color: #CFA33A;
-            padding: 5px;
+            padding: 4px;
             border-radius: 5px;
             float: left;
             margin-right: 5px;
@@ -142,7 +139,7 @@ export default {
         span:last-of-type {
             background: rgba(234,241,251,1);
             color: #5A95E8;
-            padding: 5px;
+            padding: 4px;
             border-radius: 5px;
             float: left;
         }

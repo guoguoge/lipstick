@@ -4,10 +4,11 @@
   <div class="panel">
     <Bubble :mess="commodity.join_mess"></Bubble>
     <div class="coverImg">
-      <img :src="url + commodity.cover_img" width="100%">
+      <img v-if="commodity.cover_img" :src="url + commodity.cover_img" width="100%">
+      <img v-else :src="img" width="100%">
     </div>
     <div class="countDown">
-      <span>{{commodity.type_id == 1?'距离夺宝开始:':commodity.type_id == 2?'距离夺宝结束:':'夺宝已结束,等待结果'}}</span>
+      <span>{{commodity.type_id == 1?'距离夺宝开始:':commodity.type_id == 2?'距离夺宝结束:': (winer?'夺宝已结束:恭喜用户 '+ winer + ' 夺宝成功':'夺宝已结束:暂无参与者' )}}</span>
       <span v-if="commodity.type_id == 1 || commodity.type_id == 2"><b>{{time.a || 0}}</b> 天<b>{{time.b || 0}}</b> 时 <b>{{time.c || 0}}</b> 分 <b>{{time.d || 0}}</b> 秒</span>
     </div>
     <div class="info">
@@ -108,7 +109,8 @@ import {
   ChangePassword, //发送短信验证码
   TreasureDetail,
   TreasureJoin,
-  RuleList
+  RuleList,
+  TreasureFin
 }
 from '@/api/user'
 
@@ -121,11 +123,9 @@ export default {
     return {
       id: null,
       swiper: 0,
-      time: (new Date()).toLocaleDateString(),
-      img: require('@/assets/commodity.png'),
-      details: require('@/assets/details.png'),
       wechat: require('@/assets/wechat.svg'),
       friend: require('@/assets/friend.svg'),
+      img: require('@/assets/noimg.png'),
       step: 0,
       show: false,
       show2: false,
@@ -143,7 +143,8 @@ export default {
         d: ''
       },
       timer: null,
-      rule: ''
+      rule: '',
+      winer: '' //中奖者
     }
   },
   computed: {
@@ -193,6 +194,16 @@ export default {
         } else {
           this.type = '已结束'
           this.step = 3
+          TreasureFin(this.commodity.id).then(res => {
+            console.log(checkRequest(res, false));
+            let data = checkRequest(res, false)
+            console.log(data);
+            if (data) {
+              this.winer = data.name
+            } else {
+              this.winer = data.name
+            }
+          })
         }
         console.log(this.type);
       })
@@ -317,6 +328,7 @@ export default {
             margin-bottom: 1rem;
             span {
                 margin-right: 1rem;
+                font-size: 14px;
             }
             b {
                 background: #FF79CB;
