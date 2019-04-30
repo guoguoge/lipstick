@@ -158,6 +158,9 @@ export const linkBuy = () => { //判断购买
   }
 }
 
+export const dateToTime = (str) => {
+  return (new Date(str.replace(/-/g, '/'))).getTime(); //用/替换日期中的-是为了解决Safari的兼容
+}
 
 // 封装的工具函数
 

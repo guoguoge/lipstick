@@ -19,7 +19,8 @@ import {
 
 import {
   jsonpReturn, //处理返回的数据
-  checkRequest
+  checkRequest,
+  dateToTime
 }
 from '@/libs/util'
 
@@ -74,7 +75,7 @@ export default {
         console.log(res);
         let data = checkRequest(res, false)
         for (let i = 0; i < data.length; i++) {
-          data[i].publishTimeNew = this.dateToTime(data[i].time);
+          data[i].publishTimeNew = dateToTime(data[i].time);
         }
         data.sort((a, b) => {
           return b.publishTimeNew > a.publishTimeNew ? 1 : -1;

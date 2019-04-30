@@ -4,7 +4,7 @@
     <tab-item v-for="(item,index) in tabList" :key="index" :selected="index===0" @on-item-click="tabClick(index)">{{item.name}}</tab-item>
   </tab>
   <swiper v-if="swiperList" v-show="swiperShow" @click.native="click(swiper)" loop v-model="swiper" auto :interval="2800" :min-moving-distance="120" dots-position="center" :show-desc-mask="false">
-<swiper-item class="swiper-demo-img" v-for="(item, index) in swiperList" :key="index"><img :src="item.img" width="100%"></swiper-item>
+    <swiper-item class="swiper-demo-img" v-for="(item, index) in swiperList" :key="index"><img :src="item.img" width="100%"></swiper-item>
   </swiper>
   <div class="marquee">
     <img :src="img" width="100%">
@@ -36,7 +36,8 @@ import {
 
 import {
   jsonpReturn, //处理返回的数据
-  checkRequest
+  checkRequest,
+  dateToTime
 }
 from '@/libs/util'
 
@@ -134,6 +135,12 @@ export default {
       this.swiperShow = id ? false : true
       AuctionList(id).then(res => {
         let data = checkRequest(res, false)
+        for (let i = 0; i < data.length; i++) {
+          data[i].publishTimeNew = dateToTime(data[i].start);
+        }
+        data.sort((a, b) => {
+          return b.publishTimeNew > a.publishTimeNew ? 1 : -1;
+        })
         this.rowList = data
         console.log(checkRequest(res, false));
       })

@@ -37,7 +37,8 @@ import {
 
 import {
   jsonpReturn, //处理返回的数据
-  checkRequest
+  checkRequest,
+  dateToTime
 }
 from '@/libs/util'
 
@@ -128,13 +129,19 @@ export default {
         }
         console.log(checkRequest(res, false));
       })
-      this.getList()
+      this.getList() // 获取夺宝商品列表
     },
-    getList(id) {
+    getList(id) { // 获取夺宝商品列表
       this.rowList = []
       this.swiperShow = id ? false : true
       TreasureList(id).then(res => {
         let data = checkRequest(res, false)
+        for (let i = 0; i < data.length; i++) {
+          data[i].publishTimeNew = dateToTime(data[i].start);
+        }
+        data.sort((a, b) => {
+          return b.publishTimeNew > a.publishTimeNew ? 1 : -1;
+        })
         this.rowList = data
         console.log(checkRequest(res, false));
       })
@@ -156,7 +163,10 @@ export default {
           id: this.swiperList[swiper].goods_id
         }
       })
-    }
+    },
+    dateToTime(str) {
+      return (new Date(str.replace(/-/g, '/'))).getTime(); //用/替换日期中的-是为了解决Safari的兼容
+    },
   },
   created() {},
   beforeMount() {},
