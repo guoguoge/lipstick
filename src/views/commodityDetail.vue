@@ -8,8 +8,8 @@
       <img v-else :src="img" width="100%">
     </div>
     <div class="countDown">
-      <span>{{commodity.type_id == 1?'距离开始:':commodity.type_id == 2?'距离开奖:': (winer?'已开奖 中奖者 '+ winer + ' 夺宝成功':'夺宝已结束:暂无参与者' )}}</span>
-      <span v-if="commodity.type_id == 1 || commodity.type_id == 2"><b>{{time.a || 0}}</b> 天<b>{{time.b || 0}}</b> 时 <b>{{time.c || 0}}</b> 分 <b>{{time.d || 0}}</b> 秒</span>
+      <span>{{countDownTitle}}</span>
+      <span v-if="step !=3"><b>{{time.a || 0}}</b> 天<b>{{time.b || 0}}</b> 时 <b>{{time.c || 0}}</b> 分 <b>{{time.d || 0}}</b> 秒</span>
     </div>
     <div class="info">
       <span>商品名:{{commodity.name}}</span>
@@ -31,7 +31,7 @@
       <img :src="item" width="100%" v-for="(item,index) in imgList">
     </div>
     <div class="buttonGroup">
-      <x-button :disabled="commodity.type_id != 2" :class="commodity.type_id == 4?'over':''" class="button" :gradients="['#FF16A4', '#FF16A4']" @click.native="join">{{commodity.is_join == 0?commodity.type:'您已参与夺宝' + (commodity.type_id == 4?'(活动已结束)':'')}}</x-button>
+      <x-button :disabled="step !=1 || commodity.is_join == 1" :class="step!=1?'over':''" class="button" :gradients="['#FF16A4', '#FF16A4']" @click.native="join">{{buttonTitle}}</x-button>
     </div>
 
     <popup v-model="show" position="bottom">
@@ -138,7 +138,8 @@ export default {
       },
       timer: null,
       rule: '',
-      winer: '' //中奖者
+      countDownTitle: '', // 倒计时标题
+      buttonTitle: '' // 按钮标题
     }
   },
   computed: {
@@ -174,28 +175,30 @@ export default {
         })
         if (data.type_id == 1) {
           this.type = '未开始'
-          this.step = 0
+          this.checkStatus('距离开始', '未开始', 0)
           this.timeFun(this.commodity.end)
         } else if (data.type_id == 2) {
           this.type = '进行中'
           this.step = 1
-
+          let button = data.is_join == 1 ? '您已参与夺宝' : '立即参加'
           this.timeFun(this.commodity.end)
+          this.checkStatus('距离结束', button, 1)
+
         } else if (data.type_id == 3) {
           this.type = '待开奖'
-          this.step = 2
+          this.checkStatus('距离开奖', '待开奖', 2)
         } else {
-          this.type = '已结束'
-          this.step = 3
           TreasureFin(this.commodity.id).then(res => {
             let data = checkRequest(res, false)
-            console.log(data);
             if (data) {
-              this.winer = data.name
+              this.checkStatus(`已开奖 中奖者:${data.name} ${this.telEncrypt(data.tel)}`, '已结束', 3)
             } else {
-              this.winer = data.name
+              this.checkStatus(`已开奖 中奖者:暂无中奖者信息`, '已结束', 3)
             }
+            this.type = '已结束'
+            console.log(data);
           })
+
         }
         console.log(this.type);
       })
@@ -242,6 +245,21 @@ export default {
         this.show2 = true
       }
     },
+    checkStatus(countDownTitle, buttonTitle, step) {
+      this.countDownTitle = countDownTitle
+      this.buttonTitle = buttonTitle
+      this.step = step
+    },
+    telEncrypt: (tel) => {
+      let arr = []
+      tel.split('').forEach((item, index) => {
+        if (index > 2 && 7 > index) {
+          item = '*'
+        }
+        arr.push(item)
+      })
+      return arr.join('')
+    },
     submit() {
       if (this.token) {
         TreasureJoin(this.token, this.id).then(res => {
@@ -250,7 +268,8 @@ export default {
             this.toast = true
             this.toastText = '参与成功!'
             this.show2 = false
-            this.init()
+            this.buttonTitle = '您已参与夺宝'
+            this.commodity.is_join = 1
           } else {
             this.toast = true
             this.toastText = '余额不足,请先充值!'

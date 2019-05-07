@@ -41,7 +41,7 @@
     </div>
 
     <div class="buttonGroup">
-      <x-button class="button" :class="step!=1?'over':''"  :disabled="step !=1 " :gradients="['#FF16A4', '#FF16A4']" @click.native="join">{{buttonTitle}}</x-button>
+      <x-button class="button" :class="step!=1?'over':''" :disabled="step !=1 " :gradients="['#FF16A4', '#FF16A4']" @click.native="join">{{buttonTitle}}</x-button>
     </div>
 
     <popup v-model="show" position="bottom">
@@ -195,51 +195,41 @@ export default {
         })
       })
 
+      await UserInfoByAuctionId(this.token, id).then(res => {
+        let data = checkRequest(res, false)
+        this.userInfo = data
+        console.log(this.userInfo, 'userInfo');
+      })
+
       await AuctionStatus(id).then(res => {
         let data = checkRequest(res, false)
         this.goodStatus = data.type
         if (data.type == '未开始') {
           this.timeFun(this.commodity.end)
-          this.countDownTitle = '距离竞拍开始'
-          this.buttonTitle = '未开始'
-          this.step = 0
+          this.checkStatus('距离竞拍开始', '未开始', 0)
+
         } else if (data.type == '进行中') {
           this.timeFun(this.commodity.end)
-          this.countDownTitle = '距离结束'
-          if (this.userInfo.auction) {
-            this.buttonTitle = '继续加价'
-          } else {
-            this.buttonTitle = '立即参与竞拍'
-          }
-          this.step = 1
+          let button = this.userInfo.auction ? '继续加价' : '立即参与竞拍'
+
+          this.checkStatus('距离结束', button, 1)
         } else if (data.type == '竞价结束') {
           this.timeFun(this.commodity.end)
-          this.countDownTitle = '竞价结束 距离开奖'
-          this.buttonTitle = '竞价结束'
-          this.step = 2
+          this.checkStatus('竞价结束', '竞价结束', 2)
+
         } else if (data.type == '竞拍结束') {
           this.toast = true
           this.toastText = '该商品竞拍已结束!'
-          this.countDownTitle = '竞拍结束'
-          this.buttonTitle = '竞拍结束'
-          this.step = 3
+          this.checkStatus('竞拍结束', '竞拍结束', 3)
         } else {
           this.type = '已结束'
         }
-
         console.log('当前状态', this.goodStatus);
 
         if (this.goodStatus != '未开始') {
           this.getTop(id) //立即执行一次
           this.topTimer = setInterval(() => this.getTop(id), 5000)
         }
-      })
-
-
-      await UserInfoByAuctionId(this.token, id).then(res => {
-        let data = checkRequest(res, false)
-        this.userInfo = data
-        console.log(this.userInfo, 'userInfo');
       })
 
       await RuleList().then(res => {
@@ -256,7 +246,8 @@ export default {
       tim = tim.replace(/-/g, '/') //替换所有
       this.timer = setInterval(() => {
         let now = Date.parse(new Date())
-        let time = (Date.parse(tim) - now) - (8 * 60 * 60 * 1000)
+        let time = (Date.parse(tim) - now) - 28800000 - (5 * 60 * 1000)
+        if (!((time + 28800000) / 1000)) this.checkStatus('竞价结束', '竞价结束', 2)
         let date = new Date(time)
         let a = date.getDate() < 10 ? '0' + date.getDate() - 1 : date.getDate() - 1;
         let b = date.getHours() < 10 ? '0' + date.getHours() : date.getHours();
@@ -288,6 +279,11 @@ export default {
     },
     join() { //判断是否参加
       this.show2 = true
+    },
+    checkStatus(countDownTitle, buttonTitle, step) {
+      this.countDownTitle = countDownTitle
+      this.buttonTitle = buttonTitle
+      this.step = step
     },
     submit() {
       if (this.token) {
