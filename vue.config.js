@@ -10,6 +10,10 @@ const resolve = dir => {
   return path.join(__dirname, dir)
 }
 
+const assetsDir = 'assets'
+
+const posixJoin = _path => path.posix.join(assetsDir, _path)
+
 const BASE_URL = process.env.NODE_ENV === 'production' ?
   './' :
   '/'
@@ -20,20 +24,15 @@ const Version = new Date().getTime();
 
 module.exports = {
 
-  css: { // 配置css模块
-    loaderOptions: { // 向预处理器 Loader 传递配置选项
-      less: { // 配置less（其他样式解析用法一致）
-        javascriptEnabled: true // 设置为true
-      }
-    }
-  },
-
   chainWebpack: config => {
     config.resolve.alias
       .set('@', resolve('src')) // key,value自行定义，比如.set('@@', resolve('src/components'))
       .set('#', resolve('src/components'))
       .set('$', resolve('src/assets'))
       .set('~', resolve('src/mixins'))
+    config.output //JS版本号
+      .set('filename', posixJoin(`js/${Version}-[name].[hash].js`))
+      .set('chunkFilename', posixJoin(`js/${Version}-[id].[hash].js`))
   },
 
   configureWebpack: config => {
@@ -81,10 +80,6 @@ module.exports = {
         ...config.plugins,
         ...plugins
       ];
-      // config.output = {
-      //   filename: `[path].[chunkhash].${Version}.js`,
-      //   chunkFilename: `[path].[chunkhash].${Version}.js`,
-      // }
     }
 
     // config.output = {
@@ -94,6 +89,11 @@ module.exports = {
     // }
   },
   css: {
+    loaderOptions: { // 向预处理器 Loader 传递配置选项
+      less: { // 配置less（其他样式解析用法一致）
+        javascriptEnabled: true // 设置为true
+      }
+    },
     extract: {
       filename: 'assets/css/[name].[chunkhash].' + Version + '.css',
       chunkFilename: 'assets/css/[id].[chunkhash].' + Version + '.css'

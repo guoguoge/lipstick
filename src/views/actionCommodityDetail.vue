@@ -2,14 +2,14 @@
 <div class="userBox">
   <x-header ref="header" solt="header" title="竞拍详情"><a slot="right" @click="show3 = true">规则</a></x-header>
   <div class="panel">
-    <ActionBubble :mess="commodity.list"></ActionBubble>
+    <ActionBubble v-if="goodStatus != '未开始'" :mess="commodity.list"></ActionBubble>
     <div class="coverImg">
       <img :src="'http://'+ commodity.cover_img" width="100%">
     </div>
 
     <div class="countDown">
-      <span>{{goodStatus.type == '进行中'?'距离竞拍结束':(goodStatus.type == '未开始'?'距离竞拍开始':goodStatus.type)}}</span>
-      <span v-if="goodStatus.type == '进行中' || goodStatus.type == '未开始' "><b>{{time.a || 0}}</b> 天<b>{{time.b || 0}}</b> 时 <b>{{time.c || 0}}</b> 分 <b>{{time.d || 0}}</b> 秒</span>
+      <span>{{countDownTitle}}</span>
+      <span class="count" v-if="goodStatus == '进行中' || goodStatus == '未开始' "><b>{{time.a || 0}}</b> 天<b>{{time.b || 0}}</b> 时 <b>{{time.c || 0}}</b> 分 <b>{{time.d || 0}}</b> 秒</span>
     </div>
     <div v-if="topName" class="top">
       当前最高出价:<br><span class="name">昵称: {{topName || '暂无出价信息'}}</span><br>价格: <span class="price">{{topPrice}} 元</span>
@@ -25,15 +25,11 @@
     <div class="details">
       <span>参与人数：{{commodity.hot}} 人</span>
       <span>最低出价：{{commodity.bottom_price}} 元</span>
-      <span>状态：{{goodStatus.type}}</span>
+      <span>状态：{{goodStatus}}</span>
     </div>
 
     <div class="step">
-      <step v-model="step" background-color='#fff' gutter="20px">
-        <step-item :title="'开始竞拍'"></step-item>
-        <step-item :title="'正在竞拍'"></step-item>
-        <step-item :title="'开奖'"></step-item>
-      </step>
+      <Step :number="step" :status="2"></Step>
     </div>
 
     <div class="rule">
@@ -43,10 +39,9 @@
     <div class="img">
       <img :src="item" width="100%" v-for="(item,index) in imgList">
     </div>
+
     <div class="buttonGroup">
-      <!-- <x-button :disabled="commodity.type_id != 2" class="button" :gradients="['#FF16A4', '#FF16A4']" @click.native="join">{{commodity.type}}</x-button> -->
-      <x-button v-if="!userInfo.auction" class="button" :class="goodStatus.type == '竞拍结束'?'over':''" :disabled="goodStatus.type == '竞拍结束' || goodStatus.type == '未开始'|| goodStatus.type == '竞拍结束'" :gradients="['#FF16A4', '#FF16A4']" @click.native="join">{{goodStatus.type == '进行中'?'火热竞拍中 立即参与':goodStatus.type}}</x-button>
-      <x-button v-else class="button" :gradients="['#FF16A4', '#FF16A4']" @click.native="join">继续加价</x-button>
+      <x-button class="button" :class="step!=1?'over':''"  :disabled="step !=1 " :gradients="['#FF16A4', '#FF16A4']" @click.native="join">{{buttonTitle}}</x-button>
     </div>
 
     <popup v-model="show" position="bottom">
@@ -86,6 +81,7 @@
       </div>
     </popup>
   </div>
+
   <toast width="20rem" v-model="toast" type="text">{{toastText}}</toast>
 
 </div>
@@ -94,8 +90,6 @@
 <script>
 import {
   XHeader,
-  Step,
-  StepItem,
   XButton,
   Actionsheet,
   Popup,
@@ -131,6 +125,7 @@ from '@/api/user'
 
 import Commodity from "#/commodity";
 import ActionBubble from "#/actionBubble";
+import Step from "#/step";
 
 export default {
   data() {
@@ -159,9 +154,11 @@ export default {
       timer: null, //时间计时器
       topTimer: null, // 最高价格计时器
       topPrice: null, // 最高价
-      topName: '',
-      goodStatus: '',
-      rule: ''
+      topName: '', // 最高竞拍者的名字
+      goodStatus: '', //商品的状态
+      rule: '', //后台设置的规则
+      countDownTitle: '', // 倒计时标题
+      buttonTitle: '' // 按钮标题
     }
   },
   computed: {
@@ -177,7 +174,6 @@ export default {
     Commodity,
     ActionBubble,
     Step,
-    StepItem,
     XButton,
     Actionsheet,
     Popup,
@@ -198,42 +194,55 @@ export default {
           this.imgList.push('http://' + item)
         })
       })
-      this.topTimer = setInterval(() => {
-        AuctionTop(id).then(res => {
-          let data = checkRequest(res, false)
-          console.log(data);
-          if (data.maximum_bid) {
-            this.topName = data.username
-            this.topPrice = data.maximum_bid
-          } else {
-            this.topPrice = data
-          }
-        })
-      }, 1000)
+
       await AuctionStatus(id).then(res => {
         let data = checkRequest(res, false)
-        this.goodStatus = data
-        if (data.type == '进行中') {
+        this.goodStatus = data.type
+        if (data.type == '未开始') {
           this.timeFun(this.commodity.end)
-          this.step = 1
-        } else if (data.type == '未开始') {
-          this.timeFun(this.commodity.end)
+          this.countDownTitle = '距离竞拍开始'
+          this.buttonTitle = '未开始'
           this.step = 0
+        } else if (data.type == '进行中') {
+          this.timeFun(this.commodity.end)
+          this.countDownTitle = '距离结束'
+          if (this.userInfo.auction) {
+            this.buttonTitle = '继续加价'
+          } else {
+            this.buttonTitle = '立即参与竞拍'
+          }
+          this.step = 1
+        } else if (data.type == '竞价结束') {
+          this.timeFun(this.commodity.end)
+          this.countDownTitle = '竞价结束 距离开奖'
+          this.buttonTitle = '竞价结束'
+          this.step = 2
         } else if (data.type == '竞拍结束') {
           this.toast = true
           this.toastText = '该商品竞拍已结束!'
+          this.countDownTitle = '竞拍结束'
+          this.buttonTitle = '竞拍结束'
           this.step = 3
         } else {
           this.type = '已结束'
         }
+
+        console.log('当前状态', this.goodStatus);
+
+        if (this.goodStatus != '未开始') {
+          this.getTop(id) //立即执行一次
+          this.topTimer = setInterval(() => this.getTop(id), 5000)
+        }
       })
+
 
       await UserInfoByAuctionId(this.token, id).then(res => {
         let data = checkRequest(res, false)
         this.userInfo = data
         console.log(this.userInfo, 'userInfo');
       })
-      RuleList().then(res => {
+
+      await RuleList().then(res => {
         let data = checkRequest(res, false)
         for (let i = 0; i < data.length; i++) {
           if (data[i].type == 2) {
@@ -249,8 +258,6 @@ export default {
         let now = Date.parse(new Date())
         let time = (Date.parse(tim) - now) - (8 * 60 * 60 * 1000)
         let date = new Date(time)
-        console.log(time, 'time时间');
-        console.log(tim, 'tim时间');
         let a = date.getDate() < 10 ? '0' + date.getDate() - 1 : date.getDate() - 1;
         let b = date.getHours() < 10 ? '0' + date.getHours() : date.getHours();
         let c = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
@@ -260,6 +267,18 @@ export default {
         this.time.c = c
         this.time.d = d
       }, 1000)
+    },
+    getTop(id) { // 获取最高价
+      AuctionTop(id).then(res => {
+        let data = checkRequest(res, false)
+        console.log(data);
+        if (data.maximum_bid) {
+          this.topName = data.username
+          this.topPrice = data.maximum_bid
+        } else {
+          this.topPrice = data
+        }
+      })
     },
     wechatShare() {
       alert("微信")
@@ -281,6 +300,7 @@ export default {
           if (data) {
             this.toast = true
             this.show2 = false
+            this.getTop(this.id)
             this.toastText = '参与成功!'
           } else {
             this.toast = true
@@ -294,7 +314,6 @@ export default {
     }
   },
   mounted() {
-    console.log(this.$route.query.id);
     this.id = this.$route.query.id
     this.init(this.id)
   },
@@ -348,13 +367,15 @@ export default {
             color: white;
             padding: 10px 0;
             margin-bottom: 1rem;
-            span {
-                margin-right: 1rem;
+            .count {
+                margin-left: 1rem;
             }
             b {
                 background: #FF79CB;
-                border-radius: 4px;
-                padding: 1px;
+                border-radius: 2px;
+                padding: 2px;
+                margin: 0 2px;
+                font-weight: lighter;
             }
         }
 
@@ -410,14 +431,6 @@ export default {
         .step {
             margin: 1rem auto;
             text-align: left;
-            width: 90%;
-            .vux-step-item-with-tail {
-                display: flex;
-                align-items: center;
-                /deep/.vux-step-item-main {
-                    margin-left: 5px;
-                }
-            }
         }
 
         .rule {

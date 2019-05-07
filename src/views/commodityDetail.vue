@@ -8,7 +8,7 @@
       <img v-else :src="img" width="100%">
     </div>
     <div class="countDown">
-      <span>{{commodity.type_id == 1?'距离夺宝开始:':commodity.type_id == 2?'距离夺宝结束:': (winer?'夺宝已结束:恭喜用户 '+ winer + ' 夺宝成功':'夺宝已结束:暂无参与者' )}}</span>
+      <span>{{commodity.type_id == 1?'距离开始:':commodity.type_id == 2?'距离开奖:': (winer?'已开奖 中奖者 '+ winer + ' 夺宝成功':'夺宝已结束:暂无参与者' )}}</span>
       <span v-if="commodity.type_id == 1 || commodity.type_id == 2"><b>{{time.a || 0}}</b> 天<b>{{time.b || 0}}</b> 时 <b>{{time.c || 0}}</b> 分 <b>{{time.d || 0}}</b> 秒</span>
     </div>
     <div class="info">
@@ -21,11 +21,7 @@
       <span>状态：{{type}}</span>
     </div>
     <div class="step">
-      <step v-model="step" background-color='#fff' gutter="20px">
-        <step-item :title="'开始夺宝'"></step-item>
-        <step-item :title="'待开奖'"></step-item>
-        <step-item :title="'开奖'"></step-item>
-      </step>
+      <Step :number="step" :status="1"></Step>
     </div>
     <div class="rule">
       夺宝规则<br>1. 所有产品都是随机靠运气抽取，所有产品可支持专柜验货<br>2. 一个星期内可收到货
@@ -81,8 +77,6 @@
 <script>
 import {
   XHeader,
-  Step,
-  StepItem,
   XButton,
   Actionsheet,
   Popup,
@@ -116,7 +110,7 @@ from '@/api/user'
 
 import Commodity from "#/commodity";
 import Bubble from "#/bubble";
-
+import Step from "#/step";
 
 export default {
   data() {
@@ -160,7 +154,6 @@ export default {
     Commodity,
     Bubble,
     Step,
-    StepItem,
     XButton,
     Actionsheet,
     Popup,
@@ -195,7 +188,6 @@ export default {
           this.type = '已结束'
           this.step = 3
           TreasureFin(this.commodity.id).then(res => {
-            console.log(checkRequest(res, false));
             let data = checkRequest(res, false)
             console.log(data);
             if (data) {
@@ -226,8 +218,6 @@ export default {
         let now = Date.parse(new Date())
         let time = (Date.parse(tim) - now) - (8 * 60 * 60 * 1000)
         let date = new Date(time)
-        console.log(time, 'time时间');
-        console.log(tim, 'tim时间');
         let a = date.getDate() < 10 ? '0' + date.getDate() - 1 : date.getDate() - 1;
         let b = date.getHours() < 10 ? '0' + date.getHours() : date.getHours();
         let c = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
@@ -332,8 +322,10 @@ export default {
             }
             b {
                 background: #FF79CB;
-                border-radius: 4px;
-                padding: 4px;
+                border-radius: 2px;
+                padding: 2px;
+                margin: 0 2px;
+                font-weight: lighter;
             }
         }
 
@@ -374,14 +366,6 @@ export default {
         .step {
             margin: 1rem auto;
             text-align: left;
-            width: 90%;
-            .vux-step-item-with-tail {
-                display: flex;
-                align-items: center;
-                /deep/.vux-step-item-main {
-                    margin-left: 5px;
-                }
-            }
         }
 
         .rule {
