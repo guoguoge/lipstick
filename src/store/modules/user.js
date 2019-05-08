@@ -127,7 +127,6 @@ const user = {
       })
     },
 
-    // 获取用户信息 必势得直接忽略这个步骤
     GetUserInfo({
       commit,
       state

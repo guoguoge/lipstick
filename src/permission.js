@@ -23,7 +23,7 @@ import {
 router.beforeEach((to, from, next) => {
   /* 全局前置钩子 */
   NProgress.start() // start progress bar
-  document.title = to.meta.title || '必势得云算力'
+  document.title = to.meta.title || '惠民折扣'
   window.scrollTo(0, 0)
   console.log(to);
   if (to.meta.requireAuth) { //这里的requireAuth为路由中定义的 meta:{requireAuth:true}，意思为：该路由添加该字段，表示进入该路由需要登录的
@@ -44,10 +44,12 @@ router.beforeEach((to, from, next) => {
     next();
   }
 })
+
 router.beforeResolve((to, from, next) => {
   /* 全局解析守卫 */
   next()
 })
+
 router.afterEach((to, from) => {
   /* 全局后置钩子 */
   NProgress.done()

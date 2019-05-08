@@ -147,14 +147,10 @@ export const linkBuy = () => { //判断购买
       name: 'store'
     })
   } else {
-    Message.success({
-      content: '跳转登录',
-      duration: 2,
-      closable: true
-    });
     router.push({
       name: 'login'
     })
+
   }
 }
 
