@@ -29,10 +29,6 @@ import {
   XButton
 } from 'vux'
 
-import {
-  linkBuy
-} from '@/libs/util'
-
 export default {
   data() {
     return {}
@@ -70,7 +66,20 @@ export default {
   },
   methods: {
     link() {
-      linkBuy()
+      let url = this.item.hot ? 'actionCommodityDetail' : 'commodityDetail'
+      let id = this.item.hot ? this.item.goods_id : this.item.id
+      if (this.token) {
+        this.$router.push({
+          path: url,
+          query: {
+            id: id
+          }
+        })
+      } else {
+        this.$router.push({
+          name: 'login'
+        })
+      }
     }
   },
   mounted() {},

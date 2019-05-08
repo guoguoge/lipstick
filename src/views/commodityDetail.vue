@@ -9,7 +9,7 @@
     </div>
     <div class="countDown">
       <span>{{countDownTitle}}</span>
-      <span v-if="step !=3"><b>{{time.a || 0}}</b> 天<b>{{time.b || 0}}</b> 时 <b>{{time.c || 0}}</b> 分 <b>{{time.d || 0}}</b> 秒</span>
+      <span v-show="step !=3"><b>{{time.a || 0}}</b> 天<b>{{time.b || 0}}</b> 时 <b>{{time.c || 0}}</b> 分 <b>{{time.d || 0}}</b> 秒</span>
     </div>
     <div class="info">
       <span>商品名:{{commodity.name}}</span>
@@ -71,6 +71,8 @@
     </popup>
   </div>
   <toast width="20rem" v-model="toast" type="text">{{toastText}}</toast>
+  <loading :show="loading" :text="'参与夺宝'"></loading>
+
 </div>
 </template>
 
@@ -85,7 +87,8 @@ import {
   Cell,
   Flexbox,
   FlexboxItem,
-  Toast
+  Toast,
+  Loading
 } from 'vux'
 
 import {
@@ -125,6 +128,7 @@ export default {
       show2: false,
       show3: false,
       toast: false,
+      loading: false,
       toastText: '',
       num: 1,
       commodity: {},
@@ -163,7 +167,8 @@ export default {
     Cell,
     Flexbox,
     FlexboxItem,
-    Toast
+    Toast,
+    Loading
   },
   methods: {
     init(id) {
@@ -262,14 +267,19 @@ export default {
     },
     submit() {
       if (this.token) {
+        this.loading = true
+
         TreasureJoin(this.token, this.id).then(res => {
           let data = checkRequest(res, false)
-          if (data) {
+          if (data) { //参与 并初始化
+            this.show2 = false
+            if (this.timer) {
+              clearInterval(this.timer);
+            }
             this.toast = true
             this.toastText = '参与成功!'
-            this.show2 = false
-            this.buttonTitle = '您已参与夺宝'
-            this.commodity.is_join = 1
+            this.loading = false
+            this.init(this.id)
           } else {
             this.toast = true
             this.toastText = '余额不足,请先充值!'

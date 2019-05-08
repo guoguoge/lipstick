@@ -150,7 +150,6 @@ export const linkBuy = () => { //判断购买
     router.push({
       name: 'login'
     })
-
   }
 }
 

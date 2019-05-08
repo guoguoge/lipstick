@@ -9,7 +9,7 @@
 
     <div class="countDown">
       <span>{{countDownTitle}}</span>
-      <span class="count" v-if="goodStatus == '进行中' || goodStatus == '未开始' "><b>{{time.a || 0}}</b> 天<b>{{time.b || 0}}</b> 时 <b>{{time.c || 0}}</b> 分 <b>{{time.d || 0}}</b> 秒</span>
+      <span class="count" v-show="step != 3"><b>{{time.a || 0}}</b> 天<b>{{time.b || 0}}</b> 时 <b>{{time.c || 0}}</b> 分 <b>{{time.d || 0}}</b> 秒</span>
     </div>
     <div v-if="topName" class="top">
       当前最高出价:<br><span class="name">昵称: {{topName || '暂无出价信息'}}</span><br>价格: <span class="price">{{topPrice}} 元</span>
@@ -83,7 +83,7 @@
   </div>
 
   <toast width="20rem" v-model="toast" type="text">{{toastText}}</toast>
-
+  <loading :show="loading" :text="'参与竞拍'"></loading>
 </div>
 </template>
 
@@ -98,7 +98,8 @@ import {
   Cell,
   Flexbox,
   FlexboxItem,
-  Toast
+  Toast,
+  Loading
 } from 'vux'
 
 import {
@@ -139,6 +140,7 @@ export default {
       show2: false,
       show3: false,
       toast: false,
+      loading: false,
       userInfo: {},
       toastText: '',
       num: 1,
@@ -158,7 +160,7 @@ export default {
       goodStatus: '', //商品的状态
       rule: '', //后台设置的规则
       countDownTitle: '', // 倒计时标题
-      buttonTitle: '' // 按钮标题
+      buttonTitle: '', // 按钮标题
     }
   },
   computed: {
@@ -182,7 +184,8 @@ export default {
     Cell,
     Flexbox,
     FlexboxItem,
-    Toast
+    Toast,
+    Loading
   },
   methods: {
     async init(id) { //数据初始化 各种计时器开始计时
@@ -245,10 +248,11 @@ export default {
     timeFun(tim) {
       tim = tim.replace(/-/g, '/') //替换所有
       this.timer = setInterval(() => {
-        let now = Date.parse(new Date())
-        let time = (Date.parse(tim) - now) - 28800000 - (5 * 60 * 1000)
-        if (!((time + 28800000) / 1000)) this.checkStatus('竞价结束', '竞价结束', 2)
-        let date = new Date(time)
+        let now = Date.parse(new Date()) / 1000
+        let time = (Date.parse(tim) / 1000 - now) - 28800 - (5 * 60) //获取时间差 规定的结束时间 - 现在的时间 -八小时时间差 - 提前五分钟
+        console.log();
+        if (!(time + 28800)) this.checkStatus('竞价结束', '竞价结束', 2)
+        let date = new Date(time * 1000)
         let a = date.getDate() < 10 ? '0' + date.getDate() - 1 : date.getDate() - 1;
         let b = date.getHours() < 10 ? '0' + date.getHours() : date.getHours();
         let c = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
@@ -257,6 +261,7 @@ export default {
         this.time.b = b
         this.time.c = c
         this.time.d = d
+        console.log(a, b, c, d);
       }, 1000)
     },
     getTop(id) { // 获取最高价
@@ -292,13 +297,18 @@ export default {
         console.log(this.topPrice);
         console.log(price);
         console.log(this.commodity.bottom_price);
-
+        this.loading = true
         AddAuction(this.token, this.commodity.id, price).then(res => {
           let data = checkRequest(res, false)
           if (data) {
             this.toast = true
             this.show2 = false
-            this.getTop(this.id)
+            if (this.timer || this.topTimer) {
+              clearInterval(this.timer);
+              clearInterval(this.topTimer);
+            }
+            this.init(this.id)
+            this.loading = false
             this.toastText = '参与成功!'
           } else {
             this.toast = true
