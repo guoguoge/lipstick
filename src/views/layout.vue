@@ -35,7 +35,7 @@ export default {
     $route: {
       handler: function(val, oldVal) {
         console.log(val.meta);
-        if (val.meta.tab) {
+        if (typeof val.meta.tab === 'number') {
           this.tab = val.meta.tab
         }
         const Meta = val.meta

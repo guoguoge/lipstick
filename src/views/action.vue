@@ -1,5 +1,6 @@
 <template>
 <div class="userBox">
+    <x-header :left-options="{showBack: false}">竞拍</x-header>
   <tab>
     <tab-item v-for="(item,index) in tabList" :key="index" :selected="index===0" @on-item-click="tabClick(index)">{{item.name}}</tab-item>
   </tab>
@@ -123,7 +124,10 @@ export default {
       })
       TreasureWin().then(res => {
         let data = checkRequest(res, false)
-        if (data) this.newList = data
+        if (data.length) this.newList = data
+        else {
+          this.newList = ['暂无用户中奖消息消息']
+        }
       })
       this.getList()
     },
@@ -132,14 +136,16 @@ export default {
       this.swiperShow = id ? false : true
       AuctionList(id).then(res => {
         let data = checkRequest(res, false)
-        for (let i = 0; i < data.length; i++) {
-          data[i].publishTimeNew = dateToTime(data[i].start);
+        if (data.length) {
+          for (let i = 0; i < data.length; i++) {
+            data[i].publishTimeNew = dateToTime(data[i].start);
+          }
+          data.sort((a, b) => {
+            return b.publishTimeNew > a.publishTimeNew ? 1 : -1;
+          })
+          this.rowList = data
+          console.log(checkRequest(res, false));
         }
-        data.sort((a, b) => {
-          return b.publishTimeNew > a.publishTimeNew ? 1 : -1;
-        })
-        this.rowList = data
-        console.log(checkRequest(res, false));
       })
     },
     tabClick(index) {

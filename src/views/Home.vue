@@ -113,7 +113,11 @@ export default {
       })
       TreasureWin().then(res => {
         let data = checkRequest(res, false)
-        if(data) this.newList = data
+        console.log(data, 'data');
+        if (data.length) this.newList = data
+        else {
+          this.newList = ['暂无用户中奖消息消息']
+        }
       })
 
       this.getList() // 获取夺宝商品列表
@@ -123,14 +127,16 @@ export default {
       this.swiperShow = id ? false : true
       TreasureList(id).then(res => {
         let data = checkRequest(res, false)
-        for (let i = 0; i < data.length; i++) {
-          data[i].publishTimeNew = dateToTime(data[i].start);
+        if (data.length) {
+          for (let i = 0; i < data.length; i++) {
+            data[i].publishTimeNew = dateToTime(data[i].start);
+          }
+          data.sort((a, b) => {
+            return b.publishTimeNew > a.publishTimeNew ? 1 : -1;
+          })
+          this.rowList = data
+          console.log(checkRequest(res, false));
         }
-        data.sort((a, b) => {
-          return b.publishTimeNew > a.publishTimeNew ? 1 : -1;
-        })
-        this.rowList = data
-        console.log(checkRequest(res, false));
       })
     },
     tabClick(index) {

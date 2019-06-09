@@ -2,7 +2,7 @@
 <div class="marquee">
   <img :src="img" width="100%">
   <marquee>
-    <marquee-item v-for="(item,index) in newList" :key="index" @click.native="onClick(i)" class="align-middle" v-html="item"></marquee-item>
+    <marquee-item v-for="(item,index) in newList" :key="index" class="align-middle">{{item}}</marquee-item>
   </marquee>
 </div>
 </template>
@@ -31,7 +31,8 @@ export default {
     MarqueeItem
   },
   mounted() {
-
+    console.log(this.newList);
+    console.log(123);
   }
 }
 </script>

@@ -21,17 +21,13 @@ const changePassword = r => require.ensure([], () => r(require('../views/changeP
 const commodityDetail = r => require.ensure([], () => r(require('../views/commodityDetail')), 'commodityDetail')
 const actionCommodityDetail = r => require.ensure([], () => r(require('../views/actionCommodityDetail')), 'actionCommodityDetail')
 
-
-
 const binding = r => require.ensure([], () => r(require('../views/binding')), 'binding')
-
 
 const game = r => require.ensure([], () => r(require('../views/game')), 'game')
 
 const login = r => require.ensure([], () => r(require('../views/user/login')), 'login')
 const register = r => require.ensure([], () => r(require('../views/user/register')), 'register')
 const password = r => require.ensure([], () => r(require('../views/user/password')), 'password')
-
 
 Vue.use(Router)
 
