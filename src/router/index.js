@@ -37,9 +37,9 @@ const router = new Router({
   routes: [{
     path: '',
     component: Layout,
-    redirect: '/',
+    redirect: '/center',
     children: [{
-        path: '/',
+        path: '/home',
         name: 'home',
         component: home,
         meta: {
@@ -77,7 +77,6 @@ const router = new Router({
           hiddenTab: true, // true为隐藏tab
           hiddenHeader: true, // true为隐藏header
           tab: 1,
-
         }
       },
       {
@@ -87,7 +86,7 @@ const router = new Router({
         meta: {
           title: '我的',
           requireAuth: true, // 登陆后查看
-          tab: 3,
+          tab: 1,
         }
       },
       {
@@ -145,8 +144,7 @@ const router = new Router({
           title: '口红机记录',
           requireAuth: true, // 登陆后查看
           hiddenTab: true, // true为隐藏tab
-          tab: 3,
-
+          tab: 3
         }
       },
       {
@@ -157,7 +155,7 @@ const router = new Router({
           title: '口红机游戏',
           requireAuth: true, // 登陆后查看
           hiddenTab: true, // true为隐藏tab
-          tab: 3,
+          tab: 0,
         }
       },
       {
