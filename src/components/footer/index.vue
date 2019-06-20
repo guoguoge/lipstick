@@ -4,8 +4,8 @@
     <img slot="icon" :src="imgUrl.img1" />
     <img slot="icon-active" :src="imgUrl.img2" />
     <span slot="label">夺宝</span>
-  </tabbar-item>
-  <tabbar-item link="/action">
+  </tabbar-item> -->
+  <!-- <tabbar-item link="/action">
     <img slot="icon" :src="imgUrl.img3" />
     <img slot="icon-active" :src="imgUrl.img4" />
     <span slot="label">竞拍</span>

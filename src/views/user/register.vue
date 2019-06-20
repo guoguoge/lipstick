@@ -81,8 +81,12 @@ export default {
       if (check) {
         this.interval = true
         SendMessage(this.form.tel).then((res) => {
-          if (checkRequest(res, false)) {
+          if (checkRequest(res, true)) {
             this.countDownInterval() //发送验证码
+          }else{
+            this.toast = true
+            this.toastText = '发送失败 请重试'
+            this.interval = false
           }
         })
       } else {

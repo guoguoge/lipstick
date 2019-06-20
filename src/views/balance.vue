@@ -27,7 +27,10 @@
       </flexbox-item>
     </flexbox>
   </div>
-  <Panel v-for="(item,index) in 11" />
+  <Panel v-for="(item,index) in list" :item="item" />
+  <div v-if="!list.length" class="padding-1">
+    暂无充值记录
+  </div>
   <toast width="20rem" v-model="toast" type="text">{{toastText}}</toast>
 </div>
 </template>
@@ -77,7 +80,8 @@ export default {
       ],
       toastText: '', // 弹出框
       toast: false,
-      balance: ''
+      balance: '',
+      list: []
     }
   },
   components: {
@@ -104,8 +108,9 @@ export default {
       GetBalance(this.token).then((res) => {
         let data = checkRequest(res)
         if (data) {
-          this.balance = data
-
+          console.log(data);
+          this.balance = data.balance
+          this.list = data.deposit
         }
       })
     },

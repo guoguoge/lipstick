@@ -6,7 +6,7 @@ export default {
 
   baseUrl: {
     dev: '/devApi',
-    pro: 'http://129.28.67.91/Hmzk/public/'
+    pro: 'http://www.lingximan.com/Api/public/'
   },
   /**
    * @description 默认打开的首页的路由name值，默认为home

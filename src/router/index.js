@@ -37,7 +37,7 @@ const router = new Router({
   routes: [{
     path: '',
     component: Layout,
-    redirect: '/center',
+    redirect: '/game',
     children: [{
         path: '/home',
         name: 'home',
@@ -54,7 +54,8 @@ const router = new Router({
         component: action,
         meta: {
           title: '竞拍',
-          tab: 1,
+          hiddenHeader: true, // true为隐藏header
+          tab: 0,
         }
       },
       {
@@ -86,6 +87,7 @@ const router = new Router({
         meta: {
           title: '我的',
           requireAuth: true, // 登陆后查看
+          hiddenHeader: true, // true为隐藏header
           tab: 1,
         }
       },
