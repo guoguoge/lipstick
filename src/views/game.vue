@@ -9,7 +9,7 @@ import {
 export default {
   data() {
     return {
-      url: 'http://129.28.67.91/mobile.php?s=/index/index/platid/',
+      url: 'http://www.lingximan.com/mobile.php?s=/index/index/platid/',
       height: '650'
     }
   },

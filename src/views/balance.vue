@@ -20,7 +20,7 @@
           </flexbox-item>
           <flexbox-item :span="1/4">
             <div class="flexBox">
-              <x-button class="recharge" mini :link="`http://129.28.67.91/Hmzk/public/vendor/alipay/wappay/pay.php?user_id=${id}`">充 值</x-button>
+              <x-button class="recharge" mini :link="`http://www.lingximan.com/Api/public/vendor/alipay/wappay/pay.php?user_id=${id}`">充 值</x-button>
             </div>
           </flexbox-item>
         </flexbox>

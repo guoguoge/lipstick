@@ -29,7 +29,7 @@ const user = {
     name: getUserInfo().name,
     avater: getAvater(),
     width: document.body.clientWidth,
-    url: 'http://129.28.67.91/Hmzk/public/',
+    url: 'http://www.lingximan.com/Api/public/',
   },
 
   mutations: {
