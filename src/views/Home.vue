@@ -15,6 +15,9 @@
     抱歉,当前分类暂无商品<br> 请先查看其他分类
     <x-button class="button" @click.native="goBack">前 往</x-button>
   </div>
+  <div class="">
+    {{}}
+  </div>
 </div>
 </template>
 
@@ -45,6 +48,7 @@ import {
   TreasureWin,
   TreasureList,
   CarouselList,
+  GetOpenId
 }
 from '@/api/user'
 
@@ -63,7 +67,8 @@ export default {
       }],
       newList: [],
       rowList: [],
-      swiperShow: true
+      swiperShow: true,
+      openid:''
     }
   },
   computed: {
@@ -72,6 +77,8 @@ export default {
       'telphone',
       'token',
       'url',
+      'appid',
+      'secret'
     ])
   },
   components: {
@@ -160,6 +167,12 @@ export default {
     dateToTime(str) {
       return (new Date(str.replace(/-/g, '/'))).getTime(); //用/替换日期中的-是为了解决Safari的兼容
     },
+    formatUrl(name) {
+      var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+      var r = window.location.search.substr(1).match(reg); //search,查询？后面的参数，并匹配正则
+      if (r != null) return unescape(r[2]);
+      return null;
+    }
   },
   created() {},
   beforeMount() {},

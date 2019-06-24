@@ -322,3 +322,9 @@ export const GetBalance = (token) => { //竞拍记录
     method: 'post',
   })
 }
+
+export const GetOpenId = (code) => { //竞拍记录
+  return axios.request({
+    url: `getOpenId?code=${code}`
+  })
+}

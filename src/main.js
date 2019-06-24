@@ -4,6 +4,11 @@ import router from './router'
 import store from './store'
 import './permission' // permission control
 
+import axios from 'axios';
+Vue.prototype.$axios = axios;
+import QS from 'qs'
+Vue.prototype.qs = QS;
+
 import './index.less'
 
 // import './registerServiceWorker'

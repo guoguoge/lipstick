@@ -29,8 +29,15 @@
   </div>
   <Panel v-for="(item,index) in list" :item="item" />
   <div v-if="!list.length" class="padding-1">
-    暂无充值记录
+    暂无充值记录1
   </div>
+  <div class="">
+    {{text}}
+  </div>
+  <div class="">
+    openid: {{openid}}
+  </div>
+  <button type="button" name="button" @click="pay">支付</button>
   <toast width="20rem" v-model="toast" type="text">{{toastText}}</toast>
 </div>
 </template>
@@ -58,7 +65,8 @@ import {
 } from 'vuex'
 
 import {
-  GetBalance
+  GetBalance,
+  GetPrepayId
 }
 from '@/api/user'
 
@@ -81,7 +89,8 @@ export default {
       toastText: '', // 弹出框
       toast: false,
       balance: '',
-      list: []
+      list: [],
+      text: ''
     }
   },
   components: {
@@ -100,7 +109,8 @@ export default {
       'username',
       'telphone',
       'token',
-      'id'
+      'id',
+      'openid'
     ])
   },
   methods: {
@@ -114,9 +124,40 @@ export default {
         }
       })
     },
+    pay() {
+      if (typeof WeixinJSBridge == "undefined") {
+        if (document.addEventListener) {
+          document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+        } else if (document.attachEvent) {
+          document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
+          document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+        }
+      } else {
+        WeixinJSBridge.invoke(
+          'getBrandWCPayRequest', {
+            "appId": "wxb45d71fb16bfee05", //公众号名称，由商户传入
+            "timeStamp": Date.parse(new Date()) / 1000, //时间戳，自1970年以来的秒数
+            "nonceStr": "e61463f8efa94090b1f366cccfbbb444", //随机串
+            "package": "prepay_id=wx2420140027884500b8354b7b1219926500",
+            "signType": "MD5", //微信签名方式：
+            "paySign": "70EA570631E4BB79628FBCA90534C63FF7FADD89" //微信签名
+          },
+          function(res) {
+            if (res.err_msg == "get_brand_wcpay_request:ok") {
+              // 使用以上方式判断前端返回,微信团队郑重提示：
+              //res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。
+            }
+          });
+      }
+    }
   },
   mounted() {
+    console.log(this.openid);
+    // window.location.href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxb45d71fb16bfee05&redirect_uri=http://www.lingximan.com/S_aution&response_type=code&scope=snsapi_base&state=123#wechat_redirect";
     this.init()
+    GetPrepayId('1', this.openid).then((res) => {
+      this.text = res
+    })
   }
 }
 </script>

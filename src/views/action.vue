@@ -1,6 +1,6 @@
 <template>
 <div class="userBox">
-    <x-header :left-options="{showBack: false}">竞拍</x-header>
+  <x-header :left-options="{showBack: false}">竞拍</x-header>
   <tab>
     <tab-item v-for="(item,index) in tabList" :key="index" :selected="index===0" @on-item-click="tabClick(index)">{{item.name}}</tab-item>
   </tab>
@@ -44,7 +44,8 @@ import {
   ACate,
   TreasureWin,
   AuctionList,
-  CarouselList
+  CarouselList,
+  GetOpenId
 }
 from '@/api/user'
 
@@ -165,12 +166,26 @@ export default {
           id: this.swiperList[swiper].goods_id
         }
       })
+    },
+    formatUrl(name) {
+      var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+      var r = window.location.search.substr(1).match(reg); //search,查询？后面的参数，并匹配正则
+      if (r != null) return unescape(r[2]);
+      return null;
     }
   },
   created() {},
   beforeMount() {},
   mounted() {
     this.init()
+    GetOpenId(this.formatUrl('code')).then(res => {
+      this.openid = res.data.openid
+      this.$store.dispatch('SetOpenID', this.openid).then(response => {
+          console.log(response);
+      })
+      console.log(res.data.openid);
+    })
+    // window.location.href = `https://api.weixin.qq.com/sns/oauth2/access_token?appid=${this.appid}&secret=${this.secret}&code=${this.formatUrl('code')}&grant_type=authorization_code`
   }
 }
 </script>

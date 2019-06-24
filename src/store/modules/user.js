@@ -16,6 +16,7 @@ import {
   removeUserInfo,
   setAvater,
   getAvater,
+  setOpenid,
   removeAvater,
   jsonpReturn,
   checkRequest
@@ -28,6 +29,9 @@ const user = {
     telphone: getUserInfo().tel,
     name: getUserInfo().name,
     avater: getAvater(),
+    openid:'',
+    appid: 'wxb45d71fb16bfee05',
+    secret: '86020cbc01901be9fa262817deef7d11',
     width: document.body.clientWidth,
     url: 'http://www.lingximan.com/Api/public/',
   },
@@ -44,6 +48,9 @@ const user = {
     },
     SET_TELPHONE: (state, telphone) => {
       state.telphone = telphone
+    },
+    SET_OPENID: (state, openid) => {
+      state.openid = openid
     },
     SET_AVATER: (state, avater) => {
       state.avater = avater
@@ -123,6 +130,18 @@ const user = {
         commit('SET_AVATER', avater) // 存入icon
         setAvater(avater, Config.expirationTime)
         console.log(getAvater());
+        resolve()
+      })
+    },
+
+    SetOpenID({
+      commit,
+      state
+    }, openid) {
+      return new Promise((resolve, reject) => {
+        console.log(openid);
+        commit('SET_OPENID', openid) // 存入icon
+        setOpenid(openid, Config.expirationTime)
         resolve()
       })
     },
