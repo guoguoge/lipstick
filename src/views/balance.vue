@@ -20,7 +20,7 @@
           </flexbox-item>
           <flexbox-item :span="1/4">
             <div class="flexBox">
-              <x-button class="recharge" mini :link="`http://www.lingximan.com/Api/public/vendor/alipay/wappay/pay.php?user_id=${id}`">充 值</x-button>
+              <x-button class="recharge" mini @click.native="link">充 值</x-button>
             </div>
           </flexbox-item>
         </flexbox>
@@ -29,15 +29,8 @@
   </div>
   <Panel v-for="(item,index) in list" :item="item" />
   <div v-if="!list.length" class="padding-1">
-    暂无充值记录1
+    暂无充值记录
   </div>
-  <div class="">
-    {{text}}
-  </div>
-  <div class="">
-    openid: {{openid}}
-  </div>
-  <button type="button" name="button" @click="pay">支付</button>
   <toast width="20rem" v-model="toast" type="text">{{toastText}}</toast>
 </div>
 </template>
@@ -90,7 +83,9 @@ export default {
       toast: false,
       balance: '',
       list: [],
-      text: ''
+      payParmas: '',
+      toast: false,
+      toastText: ''
     }
   },
   components: {
@@ -121,43 +116,21 @@ export default {
           console.log(data);
           this.balance = data.balance
           this.list = data.deposit
+          console.log(this.list);
         }
       })
     },
-    pay() {
+    link() {
       if (typeof WeixinJSBridge == "undefined") {
-        if (document.addEventListener) {
-          document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
-        } else if (document.attachEvent) {
-          document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
-          document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
-        }
+        window.location.href = `http://www.lingximan.com/Api/public/vendor/alipay/wappay/pay.php?user_id=${this.id}`
       } else {
-        WeixinJSBridge.invoke(
-          'getBrandWCPayRequest', {
-            "appId": "wxb45d71fb16bfee05", //公众号名称，由商户传入
-            "timeStamp": Date.parse(new Date()) / 1000, //时间戳，自1970年以来的秒数
-            "nonceStr": "e61463f8efa94090b1f366cccfbbb444", //随机串
-            "package": "prepay_id=wx2420140027884500b8354b7b1219926500",
-            "signType": "MD5", //微信签名方式：
-            "paySign": "70EA570631E4BB79628FBCA90534C63FF7FADD89" //微信签名
-          },
-          function(res) {
-            if (res.err_msg == "get_brand_wcpay_request:ok") {
-              // 使用以上方式判断前端返回,微信团队郑重提示：
-              //res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。
-            }
-          });
+        this.$router.push('recharge')
       }
     }
   },
   mounted() {
-    console.log(this.openid);
     // window.location.href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxb45d71fb16bfee05&redirect_uri=http://www.lingximan.com/S_aution&response_type=code&scope=snsapi_base&state=123#wechat_redirect";
     this.init()
-    GetPrepayId('1', this.openid).then((res) => {
-      this.text = res
-    })
   }
 }
 </script>

@@ -328,3 +328,15 @@ export const GetOpenId = (code) => { //竞拍记录
     url: `getOpenId?code=${code}`
   })
 }
+
+export const GetPrepayId = (total_fee, openid) => { //获取预付款码
+  return axios.request({
+    url: 'wx_pay',
+    data: {
+      total_fee: total_fee,
+      openid: openid
+
+    },
+    method: 'post',
+  })
+}

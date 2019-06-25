@@ -1,11 +1,11 @@
 <template>
-  <div class="panel" v-if="item.status == 2">
+  <div class="panel">
     <div class="text">
       <p class="head">订单号:{{item.out_trade_no}}</p>
       <p class="details">时间:{{item.time}}</p>
     </div>
     <div class="text">
-      <p class="head">{{item.status == 1?'处理中':'成功'}} </p>
+      <p class="head">{{item.status == 1?'失败':'成功'}} </p>
       <p class="number"> +{{item.money}} 元</p>
     </div>
   </div>

@@ -139,7 +139,6 @@ const user = {
       state
     }, openid) {
       return new Promise((resolve, reject) => {
-        console.log(openid);
         commit('SET_OPENID', openid) // 存入icon
         setOpenid(openid, Config.expirationTime)
         resolve()

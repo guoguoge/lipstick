@@ -15,6 +15,7 @@
     抱歉,当前分类暂无商品<br> 请先查看其他分类
     <x-button class="button" @click.native="goBack">前 往</x-button>
   </div>
+    <toast width="18rem" v-model="toast" type="text">{{toastText}}</toast>
 </div>
 </template>
 
@@ -25,7 +26,8 @@ import {
   XHeader,
   Swiper,
   XButton,
-  SwiperItem
+  SwiperItem,
+  Toast
 } from 'vux'
 
 import {
@@ -75,7 +77,9 @@ export default {
       }],
       newList: [],
       rowList: [],
-      swiperShow: true
+      swiperShow: true,
+      toast: false,
+      toastText:''
     }
   },
   computed: {
@@ -84,6 +88,7 @@ export default {
       'telphone',
       'token',
       'url',
+      'openid'
     ])
   },
   components: {
@@ -94,7 +99,8 @@ export default {
     Commodity,
     Marquee,
     XButton,
-    SwiperItem
+    SwiperItem,
+    Toast
   },
   methods: {
     init() {
@@ -179,11 +185,13 @@ export default {
   mounted() {
     this.init()
     GetOpenId(this.formatUrl('code')).then(res => {
-      this.openid = res.data.openid
-      this.$store.dispatch('SetOpenID', this.openid).then(response => {
-          console.log(response);
-      })
+      if (res.data.openid && res.data.openid != this.openid) {
+        this.$store.dispatch('SetOpenID', res.data.openid)
+        this.toast = true
+        this.toastText = '获取openid成功'
+      }
       console.log(res.data.openid);
+      console.log(this.openid);
     })
     // window.location.href = `https://api.weixin.qq.com/sns/oauth2/access_token?appid=${this.appid}&secret=${this.secret}&code=${this.formatUrl('code')}&grant_type=authorization_code`
   }

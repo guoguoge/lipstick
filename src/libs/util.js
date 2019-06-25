@@ -48,6 +48,9 @@ export const jsonpReturn = (data) => { //处理jsonpReturn格式对象
         name: 'login'
       })
     })
+  } else if (!data.toString().includes('jsonpReturn')) { //如果返回的数据不包含 jsonpReturn 就直接返回data
+    console.log(data);
+    return data
   } else {
     let s = (data).replace('jsonpReturn', '')
     s = JSON.parse(s.substring(1, s.length - 2))

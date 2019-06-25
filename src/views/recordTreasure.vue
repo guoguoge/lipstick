@@ -1,8 +1,8 @@
 <template>
 <div class="userBox">
   <Record :item="item" v-for="(item,index)  in  TreasureList" />
-  <div v-show="!TreasureList.length" class="padding-1">
-    暂无夺宝记录
+  <div v-if="!TreasureList.length" class="padding-1">
+    暂无竞拍记录
   </div>
   <toast width="20rem" v-model="toast" type="text">{{toastText}}</toast>
 </div>
@@ -77,7 +77,7 @@ export default {
       TreasureRecord(this.token).then(res => {
         console.log(res);
         let data = checkRequest(res, false)
-        if (data.length) {
+        if (typeof data === 'object') {
           for (let i = 0; i < data.length; i++) {
             data[i].publishTimeNew = dateToTime(data[i].time);
           }

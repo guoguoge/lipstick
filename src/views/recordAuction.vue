@@ -1,6 +1,9 @@
 <template>
 <div class="userBox">
   <Record :item="item" v-for="(item,index)  in  TreasureList" />
+  <div v-if="!TreasureList.length" class="padding-1">
+    暂无竞拍记录
+  </div>
   <toast width="20rem" v-model="toast" type="text">{{toastText}}</toast>
 </div>
 </template>
@@ -74,13 +77,15 @@ export default {
       AuctionRecord(this.token).then(res => {
         console.log(res);
         let data = checkRequest(res, false)
-        for (let i = 0; i < data.length; i++) {
-          data[i].publishTimeNew = dateToTime(data[i].auction_time);
+        if (typeof data === 'object') {
+          for (let i = 0; i < data.length; i++) {
+            data[i].publishTimeNew = dateToTime(data[i].auction_time);
+          }
+          data.sort((a, b) => {
+            return b.publishTimeNew > a.publishTimeNew ? 1 : -1;
+          })
+          this.TreasureList = data
         }
-        data.sort((a, b) => {
-          return b.publishTimeNew > a.publishTimeNew ? 1 : -1;
-        })
-        this.TreasureList = data
       })
     }
   },

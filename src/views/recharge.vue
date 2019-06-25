@@ -6,16 +6,16 @@
         充值金额
       </flexbox-item>
       <flexbox-item :span="2/5">
-        <x-input class="input" title="" placeholder="输入金额" v-model="number"></x-input>
+        <x-input class="input" type="number" placeholder="输入金额" v-model="number"></x-input>
       </flexbox-item>
       <flexbox-item :span="1/5">
         元
       </flexbox-item>
     </flexbox>
   </div>
-  <checklist title="选择提现账号" :max="1" label-position="left" required :options="commonList" v-model="check" @on-change="change"></checklist>
+  <!-- <checklist title="选择提现账号" :max="1" label-position="left" required :options="commonList" v-model="check" @on-change="change"></checklist> -->
   <div class="buttonGroup">
-    <x-button class="button" :gradients="['#FF16A4', '#FF16A4']">确 认 支 付</x-button>
+    <x-button class="button" :disabled="!number" :gradients="number?['#FF16A4', '#FF16A4']:['#d9d9d9', '#d9d9d9']" @click.native="pay">{{number?'确认支付':'请输入充值金额'}}</x-button>
   </div>
   <toast width="20rem" v-model="toast" type="text">{{toastText}}</toast>
 </div>
@@ -46,7 +46,8 @@ import {
 
 import {
   SendMessage, //发送短信验证码
-  Reset
+  Reset,
+  GetPrepayId
 }
 from '@/api/user'
 
@@ -66,7 +67,7 @@ export default {
       check: [1],
       toastText: '', // 弹出框
       toast: false,
-      number: null,
+      number: null
     }
   },
   components: {
@@ -85,15 +86,48 @@ export default {
       'username',
       'telphone',
       'token',
+      'id',
+      'openid'
     ])
   },
   methods: {
-    change(val, label) {
-      console.log('change', val, label)
-      if (!val.length) {
-        this.check = [1]
+    pay() {
+      if (typeof WeixinJSBridge == "undefined") {
+        if (document.addEventListener) {
+          document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+        } else if (document.attachEvent) {
+          document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
+          document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+        }
+      } else {
+        GetPrepayId(Number(this.number) * 100, this.openid).then((res) => {
+          WeixinJSBridge.invoke(
+            'getBrandWCPayRequest', {
+              "appId": res.data.appId, //公众号名称，由商户传入
+              "timeStamp": res.data.timeStamp, //时间戳，自1970年以来的秒数
+              "nonceStr": res.data.nonceStr, //随机串
+              "package": res.data.package,
+              "signType": res.data.signType, //微信签名方式：
+              "paySign": res.data.paySign //微信签名
+            },
+            function(res) {
+              if (res.err_msg == "get_brand_wcpay_request:ok") {
+                // 使用以上方式判断前端返回,微信团队郑重提示：
+                //res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。
+                this.toast = true
+                this.toastText = '支付成功'
+              } else {
+                this.toast = true
+                this.toastText = '支付失败'
+              }
+            });
+        })
       }
     },
+    mounted() {
+      console.log(this.openid);
+      this.init()
+    }
   }
 }
 </script>
