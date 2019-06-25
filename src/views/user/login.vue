@@ -18,7 +18,7 @@
     <x-button class="borderButton" style="border-radius:99px;" link="register">注 册</x-button>
   </div>
 
-  <div class="loginWay">
+  <!-- <div class="loginWay">
     <divider>第三方登录</divider>
     <flexbox justify="center">
       <flexbox-item :span="1/4">
@@ -34,7 +34,7 @@
         </div>
       </flexbox-item>
     </flexbox>
-  </div>
+  </div> -->
   <toast width="20rem" v-model="toast" type="text">{{toastText}}</toast>
 </div>
 </template>
@@ -117,7 +117,7 @@ export default {
         })
       } else {
         this.toast = true
-        this.toastText = '请确保表单信息正确'
+        this.toastText = '请确保表单信息正确完整'
       }
     }
   }

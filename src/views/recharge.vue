@@ -100,7 +100,7 @@ export default {
           document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
         }
       } else {
-        GetPrepayId(Number(this.number) * 100, this.openid).then((res) => {
+        GetPrepayId(Number(this.number) * 100,this.token, this.openid).then((res) => {
           WeixinJSBridge.invoke(
             'getBrandWCPayRequest', {
               "appId": res.data.appId, //公众号名称，由商户传入

@@ -94,7 +94,7 @@ export default {
         })
       } else {
         this.toast = true
-        this.toastText = '请确保表单信息正确'
+        this.toastText = '请确保表单信息正确完整'
       }
     }
   }

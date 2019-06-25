@@ -6,16 +6,18 @@
     <x-input ref="tel_code" v-model="form.tel_code" placeholder="请输入验证码" :min="6" :max="6" required>
       <x-button @click.native="countDown(60)" :disabled="interval" slot="right" type="primary" mini>{{interval?intervalTime +'秒':'发送验证码'}}</x-button>
     </x-input>
-    <x-input ref="name" v-model="form.name" placeholder="请输入昵称(2-7位)" :min="2" required></x-input>
+    <x-input ref="name" v-model="form.name" placeholder="请输入中文昵称(2-7位)" :min="2" required></x-input>
     <x-input ref="password" type="password" v-model="form.password" placeholder="请输入密码(至少6位数)" :min="6" required></x-input>
   </group>
 
   <div class="buttonGroup">
     <x-button style="border-radius:99px;margin-top:1rem" :gradients="['#FF16A4', '#FF16A4']" @click.native="submit">完 成</x-button>
   </div>
+
   <div style="text-align:center;padding:0 1rem;">
     <p style="color:#FF16A4;" @click="link">已有账号登录</p>
   </div>
+
   <toast width="20rem" v-model="toast" type="text">{{toastText}}</toast>
 </div>
 </template>
@@ -83,7 +85,7 @@ export default {
         SendMessage(this.form.tel).then((res) => {
           if (checkRequest(res, true)) {
             this.countDownInterval() //发送验证码
-          }else{
+          } else {
             this.toast = true
             this.toastText = '发送失败 请重试'
             this.interval = false
@@ -105,24 +107,30 @@ export default {
       }, 1000)
     },
     submit() { //手机注册
+      var reg = /^[\u4E00-\u9FA5]+$/;
       let check = this.$refs.name.valid && this.$refs.tel.valid && this.$refs.tel_code.valid && this.$refs.password.valid
-      console.log(check);
-      if (check) {
-        Register(
-          this.form.name,
-          this.form.tel,
-          this.form.tel_code,
-          this.form.password,
-        ).then((res) => {
-          this.toast = true
-          this.toastText = checkRequest(res)
-          if (checkRequest(res)) {
-            this.$router.push('login')
-          }
-        })
-      } else {
+      console.log(reg.test(this.form.name));
+      if(!reg.test(this.form.name)){
         this.toast = true
-        this.toastText = '请确保表单信息正确'
+        this.toastText = '昵称为2-7位中文字符'
+      }else{
+        if (check) {
+          Register(
+            this.form.name,
+            this.form.tel,
+            this.form.tel_code,
+            this.form.password,
+          ).then((res) => {
+            this.toast = true
+            this.toastText = checkRequest(res)
+            if (checkRequest(res)) {
+              this.$router.push('login')
+            }
+          })
+        } else {
+          this.toast = true
+          this.toastText = '请确保表单信息正确完整完整'
+        }
       }
 
     }
