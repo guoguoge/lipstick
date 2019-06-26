@@ -15,7 +15,7 @@
   </div>
   <!-- <checklist title="选择提现账号" :max="1" label-position="left" required :options="commonList" v-model="check" @on-change="change"></checklist> -->
   <div class="buttonGroup">
-    <x-button class="button" :disabled="!number" :gradients="number?['#FF16A4', '#FF16A4']:['#d9d9d9', '#d9d9d9']" @click.native="pay">{{number?'确认支付':'请输入充值金额'}}</x-button>
+    <x-button class="button" :disabled="!number || lock" :gradients="number?['#FF16A4', '#FF16A4']:['#d9d9d9', '#d9d9d9']" @click.native="click">{{number?'确认支付':'请输入充值金额'}}</x-button>
   </div>
   <toast width="20rem" v-model="toast" type="text">{{toastText}}</toast>
 </div>
@@ -51,6 +51,8 @@ import {
 }
 from '@/api/user'
 
+import wx from 'weixin-jsapi'
+
 
 export default {
   data() {
@@ -67,7 +69,8 @@ export default {
       check: [1],
       toastText: '', // 弹出框
       toast: false,
-      number: null
+      number: null,
+      lock: false
     }
   },
   components: {
@@ -100,7 +103,8 @@ export default {
           document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
         }
       } else {
-        GetPrepayId(Number(this.number) * 100,this.token, this.openid).then((res) => {
+        this.lock = true
+        GetPrepayId(Number(this.number) * 100, this.token, this.openid).then((res) => {
           WeixinJSBridge.invoke(
             'getBrandWCPayRequest', {
               "appId": res.data.appId, //公众号名称，由商户传入
@@ -111,12 +115,15 @@ export default {
               "paySign": res.data.paySign //微信签名
             },
             function(res) {
+              this.res = res
               if (res.err_msg == "get_brand_wcpay_request:ok") {
                 // 使用以上方式判断前端返回,微信团队郑重提示：
                 //res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。
+                this.lock = false
                 this.toast = true
                 this.toastText = '支付成功'
               } else {
+                this.lock = false
                 this.toast = true
                 this.toastText = '支付失败'
               }
@@ -124,10 +131,43 @@ export default {
         })
       }
     },
-    mounted() {
-      console.log(this.openid);
-      this.init()
+    click() {
+      GetPrepayId(Number(this.number) * 100, this.token, this.openid).then((res) => {
+        let args = res.data
+        wx.ready(function() {
+          wx.chooseWXPay({
+            timestamp: args.timeStamp, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
+            nonceStr: args.nonceStr, // 支付签名随机串，不长于 32 位
+            package: args.package, // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=***）
+            signType: args.signType, // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
+            paySign: args.paySign, // 支付签名
+            success: function(res) {
+              alert('支付成功');
+            },
+            cancel: function(res) {
+              alert('已取消支付');
+            },
+            fail: function(res) {
+              alert('购买失败，请重新创建订单')
+            }
+          });
+        });
+      })
     }
+  },
+  mounted() {
+    console.log(this.openid);
+    GetPrepayId(1, this.token, this.openid).then((res) => {
+      let args = res.data
+      wx.config({
+        debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        appId: args.appId, // 必填，公众号的唯一标识
+        timestamp: args.timestamp, // 必填，生成签名的时间戳
+        nonceStr: args.nonceStr, // 必填，生成签名的随机串
+        signature: args.signature, // 必填，签名，见附录1
+        jsApiList: ['chooseWXPay']
+      })
+    })
   }
 }
 </script>

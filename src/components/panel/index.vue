@@ -1,5 +1,5 @@
 <template>
-  <div class="panel">
+  <div class="panel" v-show="item.status == 2">
     <div class="text">
       <p class="head">订单号:{{item.out_trade_no}}</p>
       <p class="details">时间:{{item.time}}</p>

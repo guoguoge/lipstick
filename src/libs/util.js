@@ -96,6 +96,22 @@ export const checkEmpty = (object) => { //判断对象是否为空
   }
 }
 
+export const special = str => {
+  var pattern = new RegExp("[`~!@#$^&*()=|{}':;',\\[\\].<>《》/?~！@#￥……&*（）——|{}【】‘；：”“'。，、？+-]");
+  if (pattern.test(str)) {
+    return true;
+  }
+  return false;
+}
+
+export const validateName = (value) => { //验证用户中文姓名
+  var reg = /^[\u4E00-\u9FA5]+$/;
+  if (reg.test(value)) return true
+  else {
+    return false
+  }
+};
+
 export const getSessionStorageVueX = () => { //获取sessionStorage中的数据
   return JSON.parse(sessionStorage.getItem('vuex'))
 }

@@ -129,7 +129,7 @@ export default {
     }
   },
   mounted() {
-    window.location.href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxb45d71fb16bfee05&redirect_uri=http://www.lingximan.com&response_type=code&scope=snsapi_base&state=123#wechat_redirect";
+    // window.location.href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxb45d71fb16bfee05&redirect_uri=http://www.lingximan.com&response_type=code&scope=snsapi_base&state=123#wechat_redirect";
     this.init()
   }
 }

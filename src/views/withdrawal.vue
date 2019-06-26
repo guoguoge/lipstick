@@ -6,16 +6,21 @@
         提现金额
       </flexbox-item>
       <flexbox-item :span="2/5">
-        <x-input class="input" title="" placeholder="输入金额" v-model="number"></x-input>
+        <x-input class="input" type="number" :placeholder="`余额:${balance}元`" v-model="number" @on-blur="inputBlur"></x-input>
       </flexbox-item>
       <flexbox-item :span="1/5">
         元
       </flexbox-item>
     </flexbox>
   </div>
-  <checklist title="选择提现账号" :max="1" label-position="left" required :options="commonList" v-model="check" @on-change="change"></checklist>
+  <group>
+    <cell :title="'支付宝账号'" is-link :value="address?'已绑定':'前往绑定支付宝账号'" @click.native="link">
+    </cell>
+    <cell :title="'提现记录'" is-link :value="'查看'" @click.native="withdraw">
+    </cell>
+  </group>
   <div class="buttonGroup">
-    <x-button class="button" :gradients="['#FF16A4', '#FF16A4']">提 现</x-button>
+    <x-button class="button" :disabled="!number || !address.length" :gradients="['#FF16A4', '#FF16A4']" @click.native="submit">提 现</x-button>
   </div>
   <toast width="20rem" v-model="toast" type="text">{{toastText}}</toast>
 </div>
@@ -46,10 +51,12 @@ import {
 
 import {
   SendMessage, //发送短信验证码
-  Reset
+  Reset,
+  WithdrawAddress,
+  GetBalance,
+  Withdraw
 }
 from '@/api/user'
-
 
 export default {
   data() {
@@ -63,10 +70,23 @@ export default {
           value: '支付宝支付'
         }
       ],
-      check: [1],
+      imgList: [
+        require('@/assets/alipay.png'),
+        require('@/assets/wechatpay.png'),
+      ],
+      balance: 0, //用户余额
       toastText: '', // 弹出框
       toast: false,
       number: null,
+      address: ''
+    }
+  },
+  watch: {
+    number: {
+      handler(val) {
+        console.log(val);
+      },
+      deep: true
     }
   },
   components: {
@@ -94,7 +114,57 @@ export default {
         this.check = [1]
       }
     },
-  }
+    init() {
+      this.balance = []
+      this.number = ''
+      WithdrawAddress(this.token).then((res) => {
+        let result = checkRequest(res, false)
+        if (result) this.address = result.address
+      })
+      GetBalance(this.token).then((res) => {
+        let data = checkRequest(res)
+        if (data) {
+          this.balance = data.balance
+        }
+      })
+    },
+    link() {
+      if (this.address) {
+        this.toast = true
+        this.toastText = '您已绑定支付宝账号'
+      } else {
+        this.$router.push('binding')
+      }
+    },
+    withdraw() {
+      this.$router.push('recordWithdraw')
+    },
+    inputBlur() {
+      console.log(this.number);
+      if (this.number > this.balance) {
+        this.number = 0
+        this.toast = true
+        this.toastText = '提现金额超出余额'
+      }
+    },
+    submit() {
+      Withdraw(this.token, this.number).then((res) => {
+        let result = checkRequest(res, false)
+        if (result) {
+          this.toast = true
+          this.toastText = '成功提现 请等待转账'
+          this.init()
+        } else {
+          this.toast = true
+          this.toastText = '成功失败 请重试'
+        }
+      })
+    }
+  },
+  created() {
+    this.init()
+  },
+  mounted() {}
 }
 </script>
 

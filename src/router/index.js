@@ -13,6 +13,7 @@ const recharge = r => require.ensure([], () => r(require('../views/recharge')), 
 const recordAuction = r => require.ensure([], () => r(require('../views/recordAuction')), 'recordAuction')
 const recordLipstick = r => require.ensure([], () => r(require('../views/recordLipstick')), 'recordLipstick')
 const recordTreasure = r => require.ensure([], () => r(require('../views/recordTreasure')), 'recordTreasure')
+const recordWithdraw = r => require.ensure([], () => r(require('../views/recordWithdraw')), 'recordWithdraw')
 
 const address = r => require.ensure([], () => r(require('../views/address')), 'address')
 const addAddress = r => require.ensure([], () => r(require('../views/addAddress')), 'addAddress')
@@ -166,6 +167,17 @@ const router = new Router({
         component: recordTreasure,
         meta: {
           title: '夺宝记录',
+          requireAuth: true, // 登陆后查看
+          hiddenTab: true, // true为隐藏tab
+          tab: 3,
+        }
+      },
+      {
+        path: '/recordWithdraw',
+        name: 'recordWithdraw',
+        component: recordWithdraw,
+        meta: {
+          title: '提现记录',
           requireAuth: true, // 登陆后查看
           hiddenTab: true, // true为隐藏tab
           tab: 3,

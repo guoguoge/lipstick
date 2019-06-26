@@ -29,9 +29,9 @@
     </cell> -->
   </group>
   <group>
-    <!-- <cell :title="'账号绑定'" is-link link="binding">
+    <cell :title="'账号绑定'" is-link link="binding">
       <img slot="icon" width="20" height="20" :src="imgList[4]" />
-    </cell> -->
+    </cell>
     <cell :title="'收货地址'" is-link link="address">
       <img slot="icon" width="20" height="20" :src="imgList[5]" />
     </cell>

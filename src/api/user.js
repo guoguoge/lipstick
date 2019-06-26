@@ -323,20 +323,52 @@ export const GetBalance = (token) => { //竞拍记录
   })
 }
 
-export const GetOpenId = (code) => { //竞拍记录
+export const GetOpenId = (code) => { //获取用户openid
   return axios.request({
     url: `getOpenId?code=${code}`
   })
 }
 
-export const GetPrepayId = (total_fee,token, openid) => { //获取预付款码
+export const GetPrepayId = (total_fee, token, openid) => { //获取预付款码
   return axios.request({
     url: 'wx_pay',
     data: {
       total_fee: total_fee,
-      token:token,
+      token: token,
       openid: openid
 
+    },
+    method: 'post',
+  })
+}
+
+export const WithdrawAddress = (token) => { //获取提现信息支付宝地址等等
+  return axios.request({
+    url: 'withdraw_address',
+    data: {
+      token: token
+    },
+    method: 'post',
+  })
+}
+
+export const WithdrawBind = (token, address) => { //绑定支付宝地址
+  return axios.request({
+    url: 'withdraw_bind',
+    data: {
+      token: token,
+      address: address
+    },
+    method: 'post',
+  })
+}
+
+export const Withdraw = (token, num) => { //用户提现
+  return axios.request({
+    url: 'add_withdraw',
+    data: {
+      token: token,
+      num: num
     },
     method: 'post',
   })
