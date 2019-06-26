@@ -132,6 +132,7 @@ export default {
       }
     },
     click() {
+      this.lock = true
       GetPrepayId(Number(this.number) * 100, this.token, this.openid).then((res) => {
         let args = res.data
         wx.ready(function() {
@@ -142,13 +143,19 @@ export default {
             signType: args.signType, // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
             paySign: args.paySign, // 支付签名
             success: function(res) {
-              alert('支付成功');
+              this.lock = false
+              this.toast = true
+              this.toastText = '支付成功'
             },
             cancel: function(res) {
-              alert('已取消支付');
+              this.lock = false
+              this.toast = true
+              this.toastText = '已取消支付'
             },
             fail: function(res) {
-              alert('购买失败，请重新创建订单')
+              this.lock = false
+              this.toast = true
+              this.toastText = '购买失败，请重新创建订单'
             }
           });
         });

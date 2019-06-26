@@ -38,9 +38,9 @@ const router = new Router({
   routes: [{
     path: '',
     component: Layout,
-    redirect: '/action',
+    redirect: '/',
     children: [{
-        path: '/home',
+        path: '/',
         name: 'home',
         component: home,
         meta: {

@@ -15,9 +15,6 @@
     抱歉,当前分类暂无商品<br> 请先查看其他分类
     <x-button class="button" @click.native="goBack">前 往</x-button>
   </div>
-  <div class="">
-    {{}}
-  </div>
 </div>
 </template>
 
@@ -68,7 +65,7 @@ export default {
       newList: [],
       rowList: [],
       swiperShow: true,
-      openid:''
+      openid: ''
     }
   },
   computed: {
@@ -78,7 +75,8 @@ export default {
       'token',
       'url',
       'appid',
-      'secret'
+      'secret',
+      'openid'
     ])
   },
   components: {
@@ -178,6 +176,15 @@ export default {
   beforeMount() {},
   mounted() {
     this.init()
+    GetOpenId(this.formatUrl('code')).then(res => {
+      if (res.data.openid && res.data.openid != this.openid) {
+        this.$store.dispatch('SetOpenID', res.data.openid)
+        this.toast = true
+        this.toastText = '获取openid成功'
+      }
+      console.log(res.data.openid);
+      console.log(this.openid);
+    })
   }
 }
 </script>
