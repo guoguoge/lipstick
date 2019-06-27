@@ -85,6 +85,8 @@ export default {
         SendMessage(this.form.tel).then((res) => {
           if (checkRequest(res, true)) {
             this.countDownInterval() //发送验证码
+            this.toast = true
+            this.toastText = '验证码已发送'
           } else {
             this.toast = true
             this.toastText = '发送失败 请重试'
@@ -110,10 +112,10 @@ export default {
       var reg = /^[\u4E00-\u9FA5]+$/;
       let check = this.$refs.name.valid && this.$refs.tel.valid && this.$refs.tel_code.valid && this.$refs.password.valid
       console.log(reg.test(this.form.name));
-      if(!reg.test(this.form.name)){
+      if (!reg.test(this.form.name)) {
         this.toast = true
         this.toastText = '昵称为2-7位中文字符'
-      }else{
+      } else {
         if (check) {
           Register(
             this.form.name,
@@ -124,12 +126,14 @@ export default {
             this.toast = true
             this.toastText = checkRequest(res)
             if (checkRequest(res)) {
-              this.$router.push('login')
+              setTimeout(() => {
+                this.$router.push('login')
+              }, 1000)
             }
           })
         } else {
           this.toast = true
-          this.toastText = '请确保表单信息正确完整完整'
+          this.toastText = '请确保表单信息正确完整'
         }
       }
 

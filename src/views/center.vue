@@ -18,15 +18,15 @@
   </group>
 
   <group>
-    <cell :title="'夺宝记录'" is-link link="recordTreasure">
+    <!-- <cell :title="'夺宝记录'" is-link link="recordTreasure">
       <img slot="icon" width="20" height="20" :src="imgList[1]" />
-    </cell>
+    </cell> -->
     <!-- <cell :title="'竞拍记录'" is-link link="recordAuction">
       <img slot="icon" width="20" height="20" :src="imgList[2]" />
     </cell> -->
-    <!-- <cell :title="'口红机记录'" is-link link="recordLipstick">
+    <cell :title="'口红机记录'" is-link link="recordLipstick">
       <img slot="icon" width="20" height="20" :src="imgList[3]" />
-    </cell> -->
+    </cell>
   </group>
   <group>
     <cell :title="'账号绑定'" is-link link="binding">
@@ -166,13 +166,13 @@ export default {
   },
   mounted() {
     console.log(this.avater);
-    // GetOpenId(this.formatUrl('code')).then(res => {
-    //   if (res.data.openid && res.data.openid != this.openid) {
-    //     this.$store.dispatch('SetOpenID', res.data.openid)
-    //     this.toast = true
-    //     this.toastText = '获取openid成功'
-    //   }
-    // })
+    GetOpenId(this.formatUrl('code')).then(res => {
+      if (res.data.openid && res.data.openid != this.openid) {
+        this.$store.dispatch('SetOpenID', res.data.openid)
+        this.toast = true
+        this.toastText = '获取openid成功'
+      }
+    })
   }
 }
 </script>

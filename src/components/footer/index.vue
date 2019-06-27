@@ -1,20 +1,20 @@
 <template>
 <tabbar v-model="tabbar">
-  <tabbar-item link="/">
+  <!-- <tabbar-item link="/">
     <img slot="icon" :src="imgUrl.img1" />
     <img slot="icon-active" :src="imgUrl.img2" />
     <span slot="label">夺宝</span>
-  </tabbar-item>
+  </tabbar-item> -->
   <!-- <tabbar-item link="/action">
     <img slot="icon" :src="imgUrl.img3" />
     <img slot="icon-active" :src="imgUrl.img4" />
     <span slot="label">竞拍</span>
   </tabbar-item> -->
-  <!-- <tabbar-item badge="热" link="/game">
+  <tabbar-item badge="热" link="/game">
     <img slot="icon" :src="imgUrl.img5" />
     <img slot="icon-active" :src="imgUrl.img6" />
     <span slot="label">口红机</span>
-  </tabbar-item> -->
+  </tabbar-item>
   <tabbar-item link="/center">
     <img slot="icon" :src="imgUrl.img7" />
     <img slot="icon-active" :src="imgUrl.img8" />
