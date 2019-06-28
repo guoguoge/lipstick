@@ -1,6 +1,6 @@
 <template>
 <section>
-  <view-box :bodyPaddingTop="bodyPaddingTop" :bodyPaddingBottom="bodyPaddingBottom" ref="viewBox">
+  <view-box class="viewbox" :bodyPaddingTop="bodyPaddingTop" :bodyPaddingBottom="bodyPaddingBottom" ref="viewBox">
     <!-- <x-header slot="header" style="width:100%;position:absolute;left:0;top:0;z-index:100;"></x-header> -->
     <x-header ref="header" solt="header" v-if="header" :title="title"></x-header>
     <transition name="slide-fade" mode="out-in">
@@ -75,11 +75,8 @@ export default {
 </script>
 
 <style lang="less" scoped>
-body,
-html {
-    height: 100%;
-    width: 100%;
-    overflow-x: hidden;
+.viewbox {
+  height: 100vh
 }
 
 .vux-header {
@@ -88,5 +85,14 @@ html {
     z-index: 1000;
     position: fixed;
     top: 0;
+}
+</style>
+
+<style media="screen">
+body,
+html {
+    height: 100vh;
+    width: 100%;
+    overflow-x: hidden;
 }
 </style>

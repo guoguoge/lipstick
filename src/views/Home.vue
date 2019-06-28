@@ -179,8 +179,6 @@ export default {
     GetOpenId(this.formatUrl('code')).then(res => {
       if (res.data.openid && res.data.openid != this.openid) {
         this.$store.dispatch('SetOpenID', res.data.openid)
-        this.toast = true
-        this.toastText = '获取openid成功'
       }
       console.log(res.data.openid);
       console.log(this.openid);

@@ -106,8 +106,9 @@ export default {
     /* Safari 和 Chrome */
     -o-transition: all 0.3s;
     /* Opera */
-    boottom: 0;
+    bottom: 0;
     position: fixed;
+    z-index: 100;
 
     .weui-tabbar__item {
         padding: 10px 0 5px;
