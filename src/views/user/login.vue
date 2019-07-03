@@ -18,23 +18,30 @@
     <x-button class="borderButton" style="border-radius:99px;" link="register">注 册</x-button>
   </div>
 
-  <!-- <div class="loginWay">
+  <div class="loginWay">
     <divider>第三方登录</divider>
     <flexbox justify="center">
-      <flexbox-item :span="1/4">
+      <flexbox-item :span="1/4" v-if="type" @click.native="alipayLogin">
         <div class="flexbox">
           <img :src="alipay" width="100%">
-          <p class="explain">微信</p>
-        </div>
-      </flexbox-item>
-      <flexbox-item :span="1/4">
-        <div class="flexbox">
-          <img :src="wechatpay" width="100%">
           <p class="explain">支付宝</p>
         </div>
       </flexbox-item>
+      <flexbox-item :span="1/4" v-else @click.native="weChatLogin">
+        <div class="flexbox">
+          <img :src="wechatpay" width="100%">
+          <p class="explain">微信</p>
+        </div>
+      </flexbox-item>
     </flexbox>
-  </div> -->
+  </div>
+  <div class="">
+    {{userInfo.token}}
+    {{userInfo.id}}
+    {{userInfo.tel}}
+    {{userInfo.name}}
+    {{userInfo.icon}}
+  </div>
   <toast width="20rem" v-model="toast" type="text">{{toastText}}</toast>
 </div>
 </template>
@@ -62,6 +69,7 @@ import {
 
 import {
   Login, //用户--手机登录
+  GetSign
 }
 from '@/api/user'
 
@@ -77,7 +85,8 @@ export default {
         password: ''
       },
       toastText: '', // 弹出框
-      toast: false
+      toast: false,
+      userInfo: {}
     }
   },
   components: {
@@ -95,9 +104,19 @@ export default {
       'id',
       'telphone',
       'token',
-    ])
+    ]),
+    type() {
+      return typeof WeixinJSBridge == "undefined" //为true是其他平台 false是微信平台
+    }
   },
   methods: {
+    formatUrl(name) {
+      var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+      console.log(window.location.href);
+      var r = window.location.href.substr(1).match(reg); //search,查询？后面的参数，并匹配正则
+      if (r != null) return unescape(r[2]);
+      return null;
+    },
     link() {
       this.$router.push('password')
     },
@@ -119,6 +138,47 @@ export default {
         this.toast = true
         this.toastText = '请确保表单信息正确完整'
       }
+    },
+    alipayLogin() {
+      let search = window.location.href
+      const url_1 = 'alipays://platformapi/startapp?appId=20000067&url='
+      const url_2 = 'https://openauth.alipay.com/oauth2/publicAppAuthorize.htm?app_id=2019060665506054&scope=auth_user&redirect_uri=http://www.lingximan.com/Api/public/vendor/ali_login/ali_login.php'
+      const url_3 = search.includes('S_rouge') ? '&status=S_rouge' : (search.includes('&status=S_aution') ? '&status=S_aution' : '&status=S_treasure')
+      let url = url_1 + encodeURIComponent(url_2 + url_3);
+      console.log(url);
+      window.location.href = url
+    },
+    weChatLogin() {
+      // window.location.href = 'http://www.lingximan.com/Api/public/wxLogin/name/weixin'
+      GetSign(0, this.token, this.openid, 1).then(res => {
+        console.log(res);
+      })
+    }
+  },
+  mounted() {
+    console.log(this.$route.query);
+    let query = this.$route.query
+    if (query.token) {
+      let userInfo = {
+        token: query.token,
+        id: query.id,
+        tel: query.tel,
+        name: query.name,
+        icon: query.icon,
+      }
+      this.$store.dispatch('LoginByAliPay', userInfo).then((res) => {
+        console.log(res);
+        if (res) {
+          this.toast = true
+          this.toastText = '支付宝登录成功!'
+          this.$router.push('center')
+        } else {
+          this.toast = true
+          this.toastText = '支付宝登录失败请重试'
+        }
+      })
+      console.log(userInfo);
+      this.userInfo = userInfo
     }
   }
 }
@@ -149,6 +209,7 @@ export default {
         margin-top: 1rem;
         .flexbox {
             text-align: center;
+            margin: 1rem;
             img {
                 width: 2rem;
                 height: 2rem;
@@ -156,7 +217,7 @@ export default {
             .explain {
                 color: #999999;
                 font-size: 14px;
-                margin: 0;
+                margin-top: 0.5rem;
             }
         }
     }

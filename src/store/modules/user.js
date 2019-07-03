@@ -29,7 +29,7 @@ const user = {
     telphone: getUserInfo().tel,
     name: getUserInfo().name,
     avater: getAvater(),
-    openid:'',
+    openid: '',
     appid: 'wxb45d71fb16bfee05',
     secret: '86020cbc01901be9fa262817deef7d11',
     width: document.body.clientWidth,
@@ -71,7 +71,6 @@ const user = {
           if (checkRequest(response)) {
             commit('SET_TOKEN', data.token) // 存入token
             commit('SET_NAME', data.name) // 存入name
-            commit('SET_NAME', data.name) // 存入name
             commit('SET_TELPHONE', data.tel) // 存入tel
             commit('SET_ID', data.id) // 存入tel
             commit('SET_AVATER', data.icon) // 存入tel
@@ -98,6 +97,24 @@ const user = {
         }).catch(error => {
           reject(error)
         })
+      })
+    },
+
+    // 支付宝直接录入信息登录
+    LoginByAliPay({
+      commit
+    }, userInfo) {
+      console.log(userInfo);
+      return new Promise((resolve, reject) => {
+        commit('SET_TOKEN', userInfo.token) // 存入token
+        commit('SET_NAME', userInfo.name) // 存入name
+        commit('SET_TELPHONE', userInfo.tel) // 存入tel
+        commit('SET_ID', userInfo.id) // 存入tel
+        commit('SET_AVATER', userInfo.icon) // 存入tel
+        setUserInfo(userInfo, Config.expirationTime)
+        setAvater(userInfo.icon, Config.expirationTime)
+        console.log(userInfo);
+        resolve(userInfo)
       })
     },
 

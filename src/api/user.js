@@ -336,7 +336,19 @@ export const GetPrepayId = (total_fee, token, openid) => { //获取预付款码
       total_fee: total_fee,
       token: token,
       openid: openid
+    },
+    method: 'post',
+  })
+}
 
+export const GetSign = ({total_fee, token, openid, action}) => { //获取预付款码
+  return axios.request({
+    url: 'wx_pay',
+    data: {
+      total_fee: total_fee,
+      token: token,
+      openid: openid,
+      action: action
     },
     method: 'post',
   })
