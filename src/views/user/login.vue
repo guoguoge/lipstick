@@ -35,13 +35,7 @@
       </flexbox-item>
     </flexbox>
   </div>
-  <div class="">
-    {{userInfo.token}}
-    {{userInfo.id}}
-    {{userInfo.tel}}
-    {{userInfo.name}}
-    {{userInfo.icon}}
-  </div>
+
   <toast width="20rem" v-model="toast" type="text">{{toastText}}</toast>
 </div>
 </template>

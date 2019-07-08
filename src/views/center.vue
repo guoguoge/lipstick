@@ -18,7 +18,7 @@
   </group>
 
   <group>
-     <!-- <cell :title="'夺宝记录'" is-link link="recordTreasure">
+    <!-- <cell :title="'夺宝记录'" is-link link="recordTreasure">
       <img slot="icon" width="20" height="20" :src="imgList[1]" />
     </cell>
     <cell :title="'竞拍记录'" is-link link="recordAuction">
@@ -29,7 +29,10 @@
     </cell>
   </group>
   <group>
-    <cell :title="'账号绑定'" is-link link="binding">
+    <cell :title="'提现账号'" is-link link="binding">
+      <img slot="icon" width="20" height="20" :src="imgList[4]" />
+    </cell>
+    <cell :title="'账号绑定'" is-link link="bindLogin">
       <img slot="icon" width="20" height="20" :src="imgList[4]" />
     </cell>
     <cell :title="'收货地址'" is-link link="address">

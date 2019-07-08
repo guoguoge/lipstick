@@ -23,6 +23,7 @@ const commodityDetail = r => require.ensure([], () => r(require('../views/commod
 const actionCommodityDetail = r => require.ensure([], () => r(require('../views/actionCommodityDetail')), 'actionCommodityDetail')
 
 const binding = r => require.ensure([], () => r(require('../views/binding')), 'binding')
+const bindLogin = r => require.ensure([], () => r(require('../views/bindLogin')), 'bindLogin')
 
 const game = r => require.ensure([], () => r(require('../views/game')), 'game')
 
@@ -221,6 +222,17 @@ const router = new Router({
         path: '/binding',
         name: 'binding',
         component: binding,
+        meta: {
+          title: '提现账号',
+          requireAuth: true, // 登陆后查看
+          hiddenTab: true, // true为隐藏tab
+          tab: 3
+        }
+      },
+      {
+        path: '/bindLogin',
+        name: 'bindLogin',
+        component: bindLogin,
         meta: {
           title: '账号绑定',
           requireAuth: true, // 登陆后查看

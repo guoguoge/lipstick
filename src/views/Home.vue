@@ -180,8 +180,6 @@ export default {
       if (res.data.openid && res.data.openid != this.openid) {
         this.$store.dispatch('SetOpenID', res.data.openid)
       }
-      console.log(res.data.openid);
-      console.log(this.openid);
     })
   }
 }
