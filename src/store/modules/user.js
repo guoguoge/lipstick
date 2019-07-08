@@ -17,6 +17,7 @@ import {
   setAvater,
   getAvater,
   setOpenid,
+  getOpenid,
   removeAvater,
   jsonpReturn,
   checkRequest
@@ -29,7 +30,7 @@ const user = {
     telphone: getUserInfo().tel,
     name: getUserInfo().name,
     avater: getAvater(),
-    openid: '',
+    openid: getOpenid(),
     appid: 'wxb45d71fb16bfee05',
     secret: '86020cbc01901be9fa262817deef7d11',
     width: document.body.clientWidth,

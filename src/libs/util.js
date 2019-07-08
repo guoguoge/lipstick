@@ -140,6 +140,12 @@ export const setAvater = (avater, cookieExpires) => { //token在Cookie中存储�
   })
 }
 
+export const getAvater = () => {
+  const avater = Cookies.get(HMZKAVATER) || null
+  if (avater) return avater
+  else return false
+}
+
 export const setOpenid = (openid, cookieExpires) => { //token在Cookie中存储的天数，默认1天
   console.log(openid);
   return Cookies.set(HMZKOPENID, openid, {
@@ -147,9 +153,9 @@ export const setOpenid = (openid, cookieExpires) => { //token在Cookie中存储�
   })
 }
 
-export const getAvater = () => {
-  const avater = Cookies.get(HMZKAVATER) || null
-  if (avater) return avater
+export const getOpenid = () => {
+  const openid = Cookies.get(HMZKOPENID) || null
+  if (openid) return openid
   else return false
 }
 

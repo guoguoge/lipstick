@@ -143,16 +143,15 @@ export default {
       let search = window.location.href
       const url_1 = 'alipays://platformapi/startapp?appId=20000067&url='
       const url_2 = 'https://openauth.alipay.com/oauth2/publicAppAuthorize.htm?app_id=2019060665506054&scope=auth_user&redirect_uri=http://www.lingximan.com/Api/public/vendor/ali_login/ali_login.php'
-      const url_3 = search.includes('S_rouge') ? '&status=S_rouge' : (search.includes('&status=S_aution') ? '&status=S_aution' : '&status=S_treasure')
+      const url_3 = search.includes('S_rouge') ? '&status=S_rouge' : (search.includes('S_aution') ? '&status=S_aution' : '&status=S_treasure')
       let url = url_1 + encodeURIComponent(url_2 + url_3);
       console.log(url);
       window.location.href = url
     },
     weChatLogin() {
-      // window.location.href = 'http://www.lingximan.com/Api/public/wxLogin/name/weixin'
-      GetSign(0, this.token, this.openid, 1).then(res => {
-        console.log(res);
-      })
+      let search = window.location.href
+      const status = search.includes('S_rouge') ? 'S_rouge' : (search.includes('S_aution') ? 'S_aution' : 'S_treasure')
+      window.location.href = 'http://www.lingximan.com/Api/public/wxLogin/name/' + status
     }
   },
   mounted() {
