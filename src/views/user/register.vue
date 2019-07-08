@@ -57,6 +57,8 @@ export default {
         tel: '',
         password: '',
         tel_code: '', //验证码
+        wechat_token: null,
+        alipay_token: null,
       },
       intervalTime: 60, //计时器倒计时时间
       interval: false, //计时器开启
@@ -122,9 +124,12 @@ export default {
             this.form.tel,
             this.form.tel_code,
             this.form.password,
+            this.$route.query.wechat_token || null,
+            this.$route.query.alipay_token || null
           ).then((res) => {
+            console.log(jsonpReturn(res));
             this.toast = true
-            this.toastText = checkRequest(res)
+            this.toastText = jsonpReturn(res.data).msg
             if (checkRequest(res)) {
               setTimeout(() => {
                 this.$router.push('login')
@@ -136,8 +141,11 @@ export default {
           this.toastText = '请确保表单信息正确完整'
         }
       }
-
     }
+  },
+  mounted() {
+    console.log(this.$route.query);
+    console.log(this.$route.query.alipay_token);
   }
 }
 </script>

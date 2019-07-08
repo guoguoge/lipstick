@@ -21,7 +21,7 @@
   <div class="loginWay">
     <divider>第三方登录</divider>
     <flexbox justify="center">
-      <flexbox-item :span="1/4" v-if="type" @click.native="alipayLogin">
+      <flexbox-item :span="1/4" v-if="!type" @click.native="alipayLogin">
         <div class="flexbox">
           <img :src="alipay" width="100%">
           <p class="explain">支付宝</p>
@@ -100,7 +100,13 @@ export default {
       'token',
     ]),
     type() {
-      return typeof WeixinJSBridge == "undefined" //为true是其他平台 false是微信平台
+      var ua = navigator.userAgent.toLowerCase();
+      var isWeixin = ua.indexOf('micromessenger') != -1;
+      if (isWeixin) {
+        return true;
+      } else {
+        return false;
+      }
     }
   },
   methods: {

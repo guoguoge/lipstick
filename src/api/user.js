@@ -23,7 +23,7 @@ export const Login = (tel, password) => { //用户--手机登录
   })
 }
 
-export const Register = (name, tel, tel_code, password) => { //用户手机注册
+export const Register = (name, tel, tel_code, password, wechat_token, alipay_token) => { //用户手机注册
   return axios.request({
     url: 'regist',
     data: {
@@ -31,6 +31,8 @@ export const Register = (name, tel, tel_code, password) => { //用户手机注�
       tel: tel,
       tel_code: tel_code,
       password: password,
+      wechat_token: wechat_token,
+      alipay_token: alipay_token
     },
     method: 'post'
   })
@@ -341,7 +343,12 @@ export const GetPrepayId = (total_fee, token, openid) => { //获取预付款码
   })
 }
 
-export const GetSign = ({total_fee, token, openid, action}) => { //获取预付款码
+export const GetSign = ({
+  total_fee,
+  token,
+  openid,
+  action
+}) => { //获取预付款码
   return axios.request({
     url: 'wx_pay',
     data: {
