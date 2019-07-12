@@ -26,14 +26,9 @@ export default {
   },
   mounted() {
     let navHeight = document.querySelector('.vux-header').clientHeight
-    console.log(navHeight);
-    // console.log(this.linkUrl);
     this.height = window.innerHeight - navHeight
-    //   console.log(window.innerHeight);
   }
 }
 </script>
 
-<style lang="less" scoped>
-
-</style>
+<style lang="less" scoped></style>

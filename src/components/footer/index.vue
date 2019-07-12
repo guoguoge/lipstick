@@ -5,16 +5,16 @@
     <img slot="icon-active" :src="imgUrl.img2" />
     <span slot="label">夺宝</span>
   </tabbar-item> -->
-  <tabbar-item link="/action">
+  <!-- <tabbar-item link="/action">
     <img slot="icon" :src="imgUrl.img3" />
     <img slot="icon-active" :src="imgUrl.img4" />
     <span slot="label">竞拍</span>
-  </tabbar-item>
-  <!-- <tabbar-item badge="热" link="/game">
+  </tabbar-item> -->
+  <tabbar-item badge="热" :link="linkUrl">
     <img slot="icon" :src="imgUrl.img5" />
     <img slot="icon-active" :src="imgUrl.img6" />
     <span slot="label">口红机</span>
-  </tabbar-item> -->
+  </tabbar-item>
   <tabbar-item link="/center">
     <img slot="icon" :src="imgUrl.img7" />
     <img slot="icon-active" :src="imgUrl.img8" />
@@ -42,6 +42,7 @@ export default {
   data() {
     return {
       tabbar: 2,
+      url: 'http://www.lingximan.com/mobile.php?s=/index/index/platid/',
       imgUrl: {
         img1: require("../../assets/tab01.png"),
         img2: require("../../assets/tab01active.png"),
@@ -73,6 +74,17 @@ export default {
       },
       deep: true,
       immediate: true
+    }
+  },
+  computed: {
+    ...mapGetters([
+      'username',
+      'id',
+      'telphone',
+      'token',
+    ]),
+    linkUrl() {
+      return this.url + this.id + '.html'
     }
   },
   methods: {
@@ -119,7 +131,7 @@ export default {
         /deep/.weui-tabbar__label {
             margin-top: 2px;
             span {
-              font-size: 14px;
+                font-size: 14px;
             }
         }
     }
