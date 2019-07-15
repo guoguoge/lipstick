@@ -5,16 +5,16 @@
     <img slot="icon-active" :src="imgUrl.img2" />
     <span slot="label">夺宝</span>
   </tabbar-item> -->
-  <!-- <tabbar-item link="/action">
+  <tabbar-item link="/action">
     <img slot="icon" :src="imgUrl.img3" />
     <img slot="icon-active" :src="imgUrl.img4" />
     <span slot="label">竞拍</span>
-  </tabbar-item> -->
-  <tabbar-item badge="热" :link="linkUrl">
+  </tabbar-item>
+  <!-- <tabbar-item badge="热" :link="linkUrl">
     <img slot="icon" :src="imgUrl.img5" />
     <img slot="icon-active" :src="imgUrl.img6" />
     <span slot="label">口红机</span>
-  </tabbar-item>
+  </tabbar-item> -->
   <tabbar-item link="/center">
     <img slot="icon" :src="imgUrl.img7" />
     <img slot="icon-active" :src="imgUrl.img8" />

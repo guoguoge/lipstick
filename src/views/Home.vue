@@ -15,6 +15,7 @@
     抱歉,当前分类暂无商品<br> 请先查看其他分类
     <x-button class="button" @click.native="goBack">前 往</x-button>
   </div>
+  <audio id="music" src="http://47.106.116.138/music.mp3" autoplay loop></audio>
 </div>
 </template>
 
@@ -64,8 +65,7 @@ export default {
       }],
       newList: [],
       rowList: [],
-      swiperShow: true,
-      openid: ''
+      swiperShow: true
     }
   },
   computed: {
@@ -176,11 +176,13 @@ export default {
   beforeMount() {},
   mounted() {
     this.init()
-    GetOpenId(this.formatUrl('code')).then(res => {
-      if (res.data.openid && res.data.openid != this.openid) {
-        this.$store.dispatch('SetOpenID', res.data.openid)
-      }
-    })
+    if (this.formatUrl('code')) {
+      GetOpenId(this.formatUrl('code')).then(res => {
+        if (res.data.openid && res.data.openid != this.openid) {
+          this.$store.dispatch('SetOpenID', res.data.openid)
+        }
+      })
+    }
   }
 }
 </script>
